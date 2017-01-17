@@ -1,2 +1,2 @@
-# Enjopongine
-The EnJoPo's Engine
+# EquinoxEngine
+The Equinox Engine
