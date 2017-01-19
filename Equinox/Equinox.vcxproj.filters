@@ -88,6 +88,9 @@
     <ClInclude Include="ModuleFonts.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
+    <ClInclude Include="parson.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="ModuleFonts.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="parson.c">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
