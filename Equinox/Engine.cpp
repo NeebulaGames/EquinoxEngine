@@ -10,6 +10,7 @@
 #include "ModuleParticles.h"
 #include "ModuleTimer.h"
 #include "ModuleFonts.h"
+#include "ComplexTimer.h"
 
 using namespace std;
 
@@ -36,6 +37,8 @@ Engine::Engine()
 	modules.push_back(timer = new ModuleTimer());
 	modules.push_back(fonts = new ModuleFonts());
 	//modules.push_back(fade = new ModuleFadeToBlack());
+
+	ComplexTimer::PerformanceFrequency = SDL_GetPerformanceFrequency();
 
 	App = this;
 }
