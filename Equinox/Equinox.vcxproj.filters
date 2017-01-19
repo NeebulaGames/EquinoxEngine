@@ -91,6 +91,9 @@
     <ClInclude Include="parson.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
     <ClInclude Include="ComplexTimer.h">
       <Filter>Utils</Filter>
     </ClInclude>
