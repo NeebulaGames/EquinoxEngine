@@ -4,6 +4,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include "ComplexTimer.h"
 
 #include "SDL/include/SDL.h"
 
@@ -65,6 +66,9 @@ private:
 	State state;
 
 	std::list<Module*> modules;
+
+	Uint64 _total_frames;
+	ComplexTimer _total_time;
 };
 
 extern Engine* App;
