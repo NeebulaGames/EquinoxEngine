@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL/include/SDL.h>
 
+const Uint64 PerformanceFrequency = SDL_GetPerformanceFrequency();
+
 class ComplexTimer
 {
 public:
@@ -25,9 +27,6 @@ public:
 		started = false;
 		return ticks;
 	}
-
-public:
-	static Uint64 PerformanceFrequency;
 
 private:
 	bool started;

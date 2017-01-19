@@ -38,8 +38,6 @@ Engine::Engine()
 	modules.push_back(fonts = new ModuleFonts());
 	//modules.push_back(fade = new ModuleFadeToBlack());
 
-	ComplexTimer::PerformanceFrequency = SDL_GetPerformanceFrequency();
-
 	App = this;
 }
 
