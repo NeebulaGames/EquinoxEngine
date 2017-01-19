@@ -94,6 +94,9 @@
     <ClInclude Include="SimpleTimer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ComplexTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
