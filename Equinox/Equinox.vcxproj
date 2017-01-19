@@ -92,6 +92,7 @@
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Notifiable.h" />
+    <ClInclude Include="parson.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="ModuleSceneManager.h" />
     <ClInclude Include="Point3.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="ModuleSceneManager.cpp" />
     <ClCompile Include="ModuleTimer.cpp" />
+    <ClCompile Include="parson.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
