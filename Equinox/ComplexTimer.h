@@ -21,7 +21,7 @@ public:
 
 	Uint64 Stop()
 	{
-		ticks = (ticks - SDL_GetPerformanceCounter()) / PerformanceFrequency;
+		ticks = (SDL_GetPerformanceCounter() - ticks) / PerformanceFrequency;
 		started = false;
 		return ticks;
 	}
