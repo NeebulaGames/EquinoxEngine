@@ -18,13 +18,14 @@ public:
 		runTicks = SDL_GetTicks();
 	}
 
-	void Stop()
+	int Stop()
 	{
 		if(running)
 		{
 			running = false;
-			pausedTicks = SDL_GetTicks() - runTicks;
+			return pausedTicks = SDL_GetTicks() - runTicks;
 		}
+		return 0;
 	}
 
 	void Resume()
@@ -44,10 +45,17 @@ public:
 		pausedTicks = 0;
 	}
 
-	int GetTimerTicks() const
+	unsigned int GetTimerTicks() const
 	{
 		if (running)
 			return SDL_GetTicks() - runTicks;
+		return 0;
+	}
+
+	unsigned int GetPausedTicks() const
+	{
+		if (!running)
+			return pausedTicks;
 		return 0;
 	}
 
@@ -57,7 +65,7 @@ public:
 	}
 
 private:
-	int pausedTicks, runTicks;
+	unsigned int pausedTicks, runTicks;
 	bool running;
 };
 
