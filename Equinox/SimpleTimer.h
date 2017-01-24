@@ -18,7 +18,7 @@ public:
 		runTicks = SDL_GetTicks();
 	}
 
-	int Stop()
+	unsigned int Stop()
 	{
 		if(running)
 		{
@@ -45,17 +45,10 @@ public:
 		pausedTicks = 0;
 	}
 
-	unsigned int GetTimerTicks() const
+	unsigned int Read() const
 	{
 		if (running)
 			return SDL_GetTicks() - runTicks;
-		return 0;
-	}
-
-	unsigned int GetPausedTicks() const
-	{
-		if (!running)
-			return pausedTicks;
 		return 0;
 	}
 
