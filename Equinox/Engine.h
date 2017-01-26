@@ -75,6 +75,7 @@ private:
 	SimpleTimer _total_simple_time;
 
 	double current_avg = 0;
+	int _fps = 60;
 };
 
 extern Engine* App;
