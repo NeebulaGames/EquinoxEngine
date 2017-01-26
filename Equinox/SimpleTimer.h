@@ -25,7 +25,7 @@ public:
 			running = false;
 			return pausedTicks = SDL_GetTicks() - runTicks;
 		}
-		return 0;
+		return pausedTicks;
 	}
 
 	void Resume()
@@ -49,7 +49,7 @@ public:
 	{
 		if (running)
 			return SDL_GetTicks() - runTicks;
-		return 0;
+		return pausedTicks;
 	}
 
 	bool IsRunning() const
