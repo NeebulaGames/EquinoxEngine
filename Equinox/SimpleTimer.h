@@ -1,5 +1,5 @@
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef __SIMPLETIMER_H__
+#define __SIMPLETIMER_H__
 
 #include "SDL/include/SDL.h"
 
@@ -63,4 +63,4 @@ private:
 };
 
 
-#endif // __TIMER_H__
+#endif // __SIMPLETIMER_H__
