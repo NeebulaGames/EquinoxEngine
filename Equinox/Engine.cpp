@@ -154,8 +154,8 @@ update_status Engine::Update()
 	current_avg = current_avg ? (current_avg + current_fps) / 2 : current_fps;
 
 
-	Uint32 timeToDelay = (1E3 - (FPS_CAP*1E3 / _fps)) / FPS_CAP;
-	LOG("Time to delay: %d", timeToDelay);
+	int aSecond = 1E3;
+	Uint32 timeToDelay = (aSecond - (FPS_CAP*aSecond / _fps)) / FPS_CAP;
 	SDL_Delay(timeToDelay);
 
 	return ret;
