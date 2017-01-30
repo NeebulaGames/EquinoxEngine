@@ -6,6 +6,7 @@
 #include "Module.h"
 
 #include "SDL/include/SDL.h"
+#include "MathGeoLib/include/MathGeoLib.h"
 
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
