@@ -4,6 +4,10 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
+#include <windows.h>
+#include "GL/glew.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 ModuleRender::ModuleRender()
 {
@@ -28,21 +32,61 @@ bool ModuleRender::Init()
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 	}
 
-	renderer = SDL_CreateRenderer(App->window->window, -1, flags);
+	context = SDL_GL_CreateContext(App->window->window);
 	
-	if(renderer == nullptr)
+	if(context == nullptr)
 	{
 		LOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
+	}
+	else
+	{
+		GLenum err = glewInit();
+
+		if (err != GLEW_OK)
+		{
+			LOG("Error initialising GLEW: %s", glewGetErrorString(err));
+			return false;
+		}
+
+		LOG("Using Glew %s", glewGetString(GLEW_VERSION));
+		LOG("Vendor: %s", glGetString(GL_VENDOR));
+		LOG("Renderer: %s", glGetString(GL_RENDERER));
+		LOG("OpenGL version supported %s", glGetString(GL_VERSION));
+		LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		glClearDepth(1.0f);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_TEXTURE_2D);
 	}
 
 	return ret;
 }
 
 update_status ModuleRender::PreUpdate()
-{
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-	SDL_RenderClear(renderer);
+{	
+	//Color c = cam->background;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+	glFrustum(-1, 1, -1, 1, 1, 100);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glLoadMatrixf(cam->GetOpenGLViewMatrix());
+
 	return UPDATE_CONTINUE;
 }
 
@@ -66,76 +110,82 @@ update_status ModuleRender::Update()
 
 	bool ret = true;
 
-	while (!_background.empty() && ret)
-	{
-		RenderData* data = _background.front();
-		if (SDL_RenderCopy(renderer, data->texture, data->section, data->rect) != 0)
-		{
-			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-			ret = false;
-		}
+	glColor3f(255.f, 0.f, 0.f);
 
-		RELEASE(data->rect);
-		RELEASE(data);
-		_background.pop();
-	}
+	glTranslatef(0, 0, -5.f);
+	glRotatef(45.f, 1, 1, 1);
 
-	while (!_foreground.empty() && ret)
-	{
-		RenderData* data = _foreground.top().second;
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0, 0, 0);
+	glVertex3f(1, 0, 0);
+	glVertex3f(1, 1, 0);
 
-		SDL_RendererFlip flags = data->flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-		SDL_Point center = { 0, 0 };
-		if (SDL_RenderCopyEx(renderer, data->texture, data->section, data->rect, 0, &center, flags) != 0)
-		{
-			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-			ret = false;
-		}
+	//a,d,c
+	glVertex3f(0, 0, 0);
+	glVertex3f(1, 1, 0);
+	glVertex3f(0, 1, 0);
 
-		RELEASE(data->rect);
-		RELEASE(data);
-		_foreground.pop();
-	}
+	//b,f,h
+	glVertex3f(1, 0, 0);
+	glVertex3f(1, 0, 1);
+	glVertex3f(1, 1, 1);
 
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	//b,h,d
+	glVertex3f(1, 0, 0);
+	glVertex3f(1, 1, 1);
+	glVertex3f(1, 1, 0);
 
-	while (!_quads.empty() && ret)
-	{
-		QuadData* data = _quads.front();
-		SDL_SetRenderDrawColor(renderer, data->color->r, data->color->g, data->color->b, data->color->a);
+	//f,e,g
+	glVertex3f(1, 0, 1);
+	glVertex3f(0, 0, 1);
+	glVertex3f(0, 1, 1);
 
-		if (SDL_RenderFillRect(renderer, data->rect) != 0)
-		{
-			LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
-			ret = false;
-		}
+	//f,g,h
+	glVertex3f(1, 0, 1);
+	glVertex3f(0, 1, 1);
+	glVertex3f(1, 1, 1);
 
-		RELEASE(data->rect);
-		RELEASE(data->color);
-		RELEASE(data);
-		_quads.pop();
-	}
+	//e,a,c
+	glVertex3f(0, 0, 1);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 1, 0);
 
-	while (!_ui.empty() && ret)
-	{
-		RenderData* data = _ui.front();
-		if (SDL_RenderCopy(renderer, data->texture, data->section, data->rect) != 0)
-		{
-			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-			ret = false;
-		}
+	//e,c,g
+	glVertex3f(0, 0, 1);
+	glVertex3f(0, 1, 0);
+	glVertex3f(0, 1, 1);
 
-		RELEASE(data->rect);
-		RELEASE(data);
-		_ui.pop();
-	}
+	//b,a,e
+	glVertex3f(1, 0, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 0, 1);
+
+	//b,e,f
+	glVertex3f(1, 0, 0);
+	glVertex3f(0, 0, 1);
+	glVertex3f(1, 0, 1);
+
+	//d,h,g
+	glVertex3f(1, 1, 0);
+	glVertex3f(1, 1, 1);
+	glVertex3f(0, 1, 1);
+
+	//d,g,c
+	glVertex3f(1, 1, 0);
+	glVertex3f(0, 1, 1);
+	glVertex3f(0, 1, 0);
+
+	glEnd();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }
 
 update_status ModuleRender::PostUpdate()
 {
-	SDL_RenderPresent(renderer);
+	//glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	SDL_GL_SwapWindow(App->window->window);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -178,9 +228,9 @@ bool ModuleRender::CleanUp()
 	}
 
 	//Destroy window
-	if(renderer != nullptr)
+	if (context != nullptr)
 	{
-		SDL_DestroyRenderer(renderer);
+		SDL_GL_DeleteContext(context);
 	}
 
 	return true;

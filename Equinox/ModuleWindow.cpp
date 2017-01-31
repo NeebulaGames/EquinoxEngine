@@ -2,6 +2,10 @@
 #include "Engine.h"
 #include "ModuleWindow.h"
 #include "SDL/include/SDL.h"
+#include "GL/glew.h"
+#include "SDL/include/SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 ModuleWindow::ModuleWindow()
 {
@@ -28,7 +32,7 @@ bool ModuleWindow::Init()
 		//Create window
 		int width = SCREEN_WIDTH * SCREEN_SIZE;
 		int height = SCREEN_HEIGHT * SCREEN_SIZE;
-		Uint32 flags = SDL_WINDOW_SHOWN;
+		Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 
 		if(FULLSCREEN == true)
 		{
@@ -46,6 +50,13 @@ bool ModuleWindow::Init()
 		{
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
+
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+			SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+			SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 		}
 	}
 
