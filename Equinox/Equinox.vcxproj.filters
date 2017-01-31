@@ -14,6 +14,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{ad89cf24-f35e-4d0c-90e5-820c054c274d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Primitives">
+      <UniqueIdentifier>{0ec5c406-2f61-43ea-af01-a467e365bead}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleRender.h">
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="ComplexTimer.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
