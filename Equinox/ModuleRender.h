@@ -60,6 +60,9 @@ private:
 	std::priority_queue<PIRD, std::vector<PIRD>, std::greater<PIRD>> _foreground;
 	std::queue<QuadData*> _quads;
 
+	uint my_buffer;
+	uint my_index_buffer;
+
 	int _background_height = 0;
 };
 
