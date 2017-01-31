@@ -47,7 +47,8 @@ public:
 	bool DirectBlit(SDL_Texture* texture, int x, int y, SDL_Rect* section);
 
 public:
-	SDL_Renderer* renderer = nullptr;
+	SDL_GLContext context = nullptr;
+	SDL_Renderer* renderer = nullptr; // TODO: Remove
 	SDL_Rect camera;
 
 	int RenderingAngle = 0;
