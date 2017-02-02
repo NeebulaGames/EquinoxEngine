@@ -106,6 +106,9 @@
     <ClInclude Include="Cube.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -151,6 +154,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
       <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
