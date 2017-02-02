@@ -113,7 +113,7 @@ update_status ModuleRender::Update()
 
 	glColor3f(255.f, 0.f, 0.f);
 
-	Quat rotation = Quat::FromEulerXYZ(45.f, 45.f, 45.f);
+	Quat rotation = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(45.f), DEG2RAD(45.f));
 	Cube cube(fPoint3(0, 0, -5.f), rotation, fPoint3(0, 0, 0));
 
 	cube.Draw();
