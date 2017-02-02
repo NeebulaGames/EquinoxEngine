@@ -20,7 +20,7 @@ void Cube::Draw()
 	float3 axis = Rotation.Axis();
  	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
-	glColor3f(0, 1.f, 0); //TODO:Remove, take by param
+	glColor3f(0, 25.f, 0); //TODO:Remove, take by param
 
 	glBegin(GL_TRIANGLES);
 	glVertex3f(0, 0, 0);

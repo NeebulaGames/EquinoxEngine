@@ -5,12 +5,12 @@
 class Plane : public Primitive
 {
 public:
-	Plane(const fPoint3& position, Quat& rotation, const fPoint3& normals);
+	Plane(const fPoint3& position, Quat& rotation, const fPoint3& normals, int plane_size);
 	~Plane() {};
 
 	void Draw() override;
 
-	int Height, Width;
+	int PlaneSize;
 };
 
 #endif

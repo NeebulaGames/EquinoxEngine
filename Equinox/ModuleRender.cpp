@@ -64,7 +64,7 @@ bool ModuleRender::Init()
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClearColor(.192f, .192f, .192f, 1.f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
@@ -84,7 +84,7 @@ update_status ModuleRender::PreUpdate()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glClearColor(0.f, 0.f, 0.f, 1.f);
+	glClearColor(.192f, .192f, .192f, 1.f);
 	glFrustum(-1, 1, -1, 1, 1, 100);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glLoadMatrixf(cam->GetOpenGLViewMatrix());
@@ -116,7 +116,7 @@ update_status ModuleRender::Update()
 	Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(45.f), DEG2RAD(45.f));
 
 	Cube cube(fPoint3(0, 0, -5.f), rotation_cube, fPoint3(0, 0, 0));
-	::Plane plane(fPoint3(0, 0, -5.f), rotation_plane, fPoint3(0, 0, 0));
+	::Plane plane(fPoint3(0, 0, -5.f), rotation_plane, fPoint3(0, 0, 0), 120);
 
 	plane.Draw();
 	cube.Draw();
