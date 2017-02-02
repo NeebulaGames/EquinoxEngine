@@ -13,7 +13,9 @@ void ::Plane::Draw()
 	glTranslatef(Position.x, Position.y, Position.z);
 	float3 axis = Rotation.Axis();
 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
-	glColor3f(255, 0, 0);
+
+	glColor3f(1.f, 0, 0); //TODO:Remove, take by param
+
 	glBegin(GL_QUADS);
 	glVertex3f(-5, -0.001, -5);
 	glVertex3f(-5, -0.001, 5);
