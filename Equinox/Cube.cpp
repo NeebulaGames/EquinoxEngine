@@ -1,6 +1,7 @@
 #include "Cube.h"
 #include <GL/glew.h>
 #include <MathGeoLib/include/Math/float3.h>
+#include <MathGeoLib/include/Math/MathFunc.h>
 
 
 Cube::Cube(const fPoint3& position, Quat& rotation, const fPoint3& normals) : Primitive(position, rotation, normals)
@@ -17,7 +18,7 @@ void Cube::Draw()
 	glPushMatrix();
 	glTranslatef(Position.x, Position.y, Position.z);
 	float3 axis = Rotation.Axis();
- 	glRotatef(Rotation.Angle(), axis.x, axis.y, axis.z);
+ 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
 	glBegin(GL_TRIANGLES);
 	glVertex3f(0, 0, 0);
