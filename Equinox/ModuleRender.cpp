@@ -8,6 +8,7 @@
 #include "GL/glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include "Cube.h"
 
 ModuleRender::ModuleRender()
 {
@@ -112,70 +113,10 @@ update_status ModuleRender::Update()
 
 	glColor3f(255.f, 0.f, 0.f);
 
-	glTranslatef(0, 0, -5.f);
-	glRotatef(45.f, 1, 1, 1);
+	Quat rotation = Quat::FromEulerXYZ(45.f, 45.f, 45.f);
+	Cube cube(fPoint3(0, 0, -5.f), rotation, fPoint3(0, 0, 0));
 
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0, 0, 0);
-	glVertex3f(1, 0, 0);
-	glVertex3f(1, 1, 0);
-
-	//a,d,c
-	glVertex3f(0, 0, 0);
-	glVertex3f(1, 1, 0);
-	glVertex3f(0, 1, 0);
-
-	//b,f,h
-	glVertex3f(1, 0, 0);
-	glVertex3f(1, 0, 1);
-	glVertex3f(1, 1, 1);
-
-	//b,h,d
-	glVertex3f(1, 0, 0);
-	glVertex3f(1, 1, 1);
-	glVertex3f(1, 1, 0);
-
-	//f,e,g
-	glVertex3f(1, 0, 1);
-	glVertex3f(0, 0, 1);
-	glVertex3f(0, 1, 1);
-
-	//f,g,h
-	glVertex3f(1, 0, 1);
-	glVertex3f(0, 1, 1);
-	glVertex3f(1, 1, 1);
-
-	//e,a,c
-	glVertex3f(0, 0, 1);
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 1, 0);
-
-	//e,c,g
-	glVertex3f(0, 0, 1);
-	glVertex3f(0, 1, 0);
-	glVertex3f(0, 1, 1);
-
-	//b,a,e
-	glVertex3f(1, 0, 0);
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 0, 1);
-
-	//b,e,f
-	glVertex3f(1, 0, 0);
-	glVertex3f(0, 0, 1);
-	glVertex3f(1, 0, 1);
-
-	//d,h,g
-	glVertex3f(1, 1, 0);
-	glVertex3f(1, 1, 1);
-	glVertex3f(0, 1, 1);
-
-	//d,g,c
-	glVertex3f(1, 1, 0);
-	glVertex3f(0, 1, 1);
-	glVertex3f(0, 1, 0);
-
-	glEnd();
+	cube.Draw();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }
