@@ -103,6 +103,9 @@
     <ClInclude Include="Primitive.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="parson.c">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
