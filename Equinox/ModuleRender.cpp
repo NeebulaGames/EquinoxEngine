@@ -9,6 +9,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Cube.h"
+#include "Plane.h"
 
 ModuleRender::ModuleRender()
 {
@@ -111,10 +112,12 @@ update_status ModuleRender::Update()
 
 	bool ret = true;
 
-	glColor3f(255.f, 0.f, 0.f);
+	Quat rotation = Quat::FromEulerXYZ(DEG2RAD(30), DEG2RAD(20), DEG2RAD(0));
 
 	Quat rotation = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(45.f), DEG2RAD(45.f));
 	Cube cube(fPoint3(0, 0, -5.f), rotation, fPoint3(0, 0, 0));
+	::Plane plane(fPoint3(0, 0, -5), rotation, fPoint3(0, 0, 0));
+	plane.Draw();
 
 	cube.Draw();
 
