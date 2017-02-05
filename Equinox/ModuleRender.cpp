@@ -9,6 +9,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Cube.h"
+#include "Sphere.h"
 #include "Plane.h"
 
 ModuleRender::ModuleRender()
@@ -114,12 +115,15 @@ update_status ModuleRender::Update()
 
 	Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(30.f), DEG2RAD(20.f), DEG2RAD(0.f));
 	Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(45.f), DEG2RAD(45.f));
+	Quat rotation_sphere = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 
 	Cube cube(fPoint3(0, 0, -5.f), rotation_cube, fPoint3(0, 0, 0));
 	::Plane plane(fPoint3(0, 0, -5.f), rotation_plane, fPoint3(0, 0, 0), 120);
+	::Sphere sphere(fPoint3(2, 2, -5.f), rotation_sphere, fPoint3(0, 0, 0), 1, 12, 24);
 
 	plane.Draw();
 	cube.Draw();
+	sphere.Draw();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }
