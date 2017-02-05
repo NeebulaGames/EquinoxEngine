@@ -6,37 +6,31 @@
 class SimpleTimer
 {
 public:
-	SimpleTimer()
+	SimpleTimer() : started(false), ticks(0)
 	{
-		pausedTicks = 0, runTicks = 0;
-		running = false;
 	}
 
 	void Start()
 	{
-		running = true;
-		runTicks = SDL_GetTicks();
-	}
-
-	unsigned int Stop()
-	{
-		if(running)
-		{
-			running = false;
-			return pausedTicks = SDL_GetTicks() - runTicks;
-		}
-		return pausedTicks;
+		ticks = SDL_GetTicks();
+		started = true;
 	}
 
 	unsigned int Read() const
 	{
-		return pausedTicks;
+		return started ? ticks - SDL_GetTicks() : ticks;
+	}
+
+	unsigned int Stop()
+	{
+		ticks = ticks - SDL_GetTicks();
+		started = false;
+		return ticks;
 	}
 
 private:
-	unsigned int pausedTicks, runTicks;
-	bool running;
+	bool started;
+	unsigned int ticks;
 };
-
 
 #endif // __SIMPLETIMER_H__
