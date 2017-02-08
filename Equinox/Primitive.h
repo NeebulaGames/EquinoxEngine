@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __PRIMITIVE_H__
+#define __PRIMITIVE_H__
+
 #include "MathGeoLib/include/Math/Quat.h"
 #include "Point3.h"
 
@@ -21,4 +23,6 @@ public:
 	Quat Rotation;
 	fPoint3 Normals;
 };
+
+#endif // __PRIMITIVE_H__
 

@@ -1,5 +1,5 @@
-#ifndef __PLANE__
-#define __PLANE__
+#ifndef __PLANE_H__
+#define __PLANE_H__
 #include "Primitive.h"
 
 class Plane : public Primitive
@@ -13,5 +13,5 @@ public:
 	int PlaneSize;
 };
 
-#endif
+#endif // __PLANE_H__
 
