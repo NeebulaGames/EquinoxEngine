@@ -12,6 +12,7 @@
 #include "Sphere.h"
 #include "Cylinder.h"
 #include "Plane.h"
+#include "ModuleEditorCamera.h"
 
 ModuleRender::ModuleRender()
 {
@@ -80,16 +81,20 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {	
+	ModuleEditorCamera* camera = App->editorCamera;
+
 	//Color c = cam->background;
+	glClearColor(.192f, .192f, .192f, 1.f);
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	glLoadMatrixf(camera->GetProjectionMatrix());
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
-	glClearColor(.192f, .192f, .192f, 1.f);
-	glFrustum(-1, 1, -1, 1, 1, 100);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadMatrixf(cam->GetOpenGLViewMatrix());
+	//glLoadMatrixf((GLfloat*) camera->GetViewMatrix());
 
 	return UPDATE_CONTINUE;
 }

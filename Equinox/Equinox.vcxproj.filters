@@ -115,6 +115,7 @@
     <ClInclude Include="Cylinder.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleEditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -170,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="Cylinder.cpp">
       <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEditorCamera.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
