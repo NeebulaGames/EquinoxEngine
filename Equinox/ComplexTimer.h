@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __COMPLEX_TIMER_H__
+#define __COMPLEX_TIMER_H__
 #include <SDL/include/SDL.h>
 
 const Uint64 PerformanceFrequency = SDL_GetPerformanceFrequency();
@@ -33,3 +34,5 @@ private:
 	double ticks;
 	double count;
 };
+
+#endif
