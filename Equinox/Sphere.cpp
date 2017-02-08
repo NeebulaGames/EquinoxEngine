@@ -4,7 +4,49 @@
 #include <GL/glew.h>
 #include <MathGeoLib/include/Math/MathFunc.h>
 
-::Sphere::Sphere(const fPoint3& position, Quat& rotation, const fPoint3& normals, float radius, unsigned int rings, unsigned int sectors): Primitive(position, rotation, normals)
+
+::Sphere::Sphere(float radius, unsigned rings, unsigned sectors) : 
+	Primitive()
+{
+	iniRingsAndSectors(radius, rings, sectors);
+}
+
+::Sphere::Sphere(const float3& position, Quat& rotation, float radius, unsigned rings, unsigned sectors) : 
+	Primitive(position, rotation)
+{
+	iniRingsAndSectors(radius, rings, sectors);
+}
+
+::Sphere::Sphere(const float3& position, Quat& rotation, const float3& color, float radius, unsigned rings, unsigned sectors) :
+	Primitive(position, rotation, color)
+{
+	iniRingsAndSectors(radius, rings, sectors);
+}
+
+::Sphere::~Sphere() {}
+
+void ::Sphere::Draw()
+{
+	glPushMatrix();
+	glTranslatef(Position.x, Position.y, Position.z);
+	float3 axis = Rotation.Axis();
+	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
+
+	glColor3f(Color.x, Color.y, Color.z);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, &verticesVector[0]);
+	glNormalPointer(GL_FLOAT, 0, &normalsVector[0]);
+	glTexCoordPointer(2, GL_FLOAT, 0, &texcoordsVector[0]);
+	glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, &indices[0]);
+
+	glPopMatrix();
+}
+
+void ::Sphere::iniRingsAndSectors(float radius, unsigned rings, unsigned sectors)
 {
 	float const R = 1.f / static_cast<float>(rings - 1);
 	float const S = 1.f / static_cast<float>(sectors - 1);
@@ -41,29 +83,4 @@
 		*i++ = (r + 1) * sectors + (s + 1);
 		*i++ = (r + 1) * sectors + s;
 	}
-}
-
-::Sphere::~Sphere()
-{
-}
-
-void ::Sphere::Draw()
-{
-	glPushMatrix();
-	glTranslatef(Position.x, Position.y, Position.z);
-	float3 axis = Rotation.Axis();
-	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
-
-	glColor3f(25.f, 21.75f, 0); //TODO:Remove, take by param
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, &verticesVector[0]);
-	glNormalPointer(GL_FLOAT, 0, &normalsVector[0]);
-	glTexCoordPointer(2, GL_FLOAT, 0, &texcoordsVector[0]);
-	glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, &indices[0]);
-
-	glPopMatrix();
 }

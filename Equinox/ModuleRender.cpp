@@ -119,10 +119,10 @@ update_status ModuleRender::Update()
 	Quat rotation_sphere = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 	Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(90.f), DEG2RAD(0.f), DEG2RAD(0.f));
 
-	Cube cube(fPoint3(0, 0, -5.f), rotation_cube, fPoint3(0, 0, 0));
-	::Plane plane(fPoint3(0, 0, -5.f), rotation_plane, fPoint3(0, 0, 0), 120);
-	::Sphere sphere(fPoint3(2, 2, -5.f), rotation_sphere, fPoint3(0, 0, 0), 1, 12, 24);
-	::Cylinder cylinder(fPoint3(-2, 3, -5.f), rotation_cylinder, fPoint3(0, 0, 0), 0.3, 1.5);
+	Cube cube(float3(0, 0, -5.f), rotation_cube, float3(0, 25.f, 0));
+	::Plane plane(float3(0, 0, -5.f), rotation_plane, float3(25.f, 0, 0), 120);
+	::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
+	::Cylinder cylinder(float3(-2, 3, -5.f), rotation_cylinder, float3(0, 0, 25.f), 0.3, 1.5);
 
 	plane.Draw();
 	cube.Draw();

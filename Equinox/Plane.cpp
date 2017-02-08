@@ -4,8 +4,17 @@
 #include <MathGeoLib/include/Math/MathFunc.h>
 #include "Globals.h"
 
-::Plane::Plane(const fPoint3& position, Quat& rotation, const fPoint3& normals, int plane_size) :
-	Primitive(position, rotation, normals), PlaneSize(plane_size) {};
+
+::Plane::Plane(int planeSize) : 
+	Primitive(), PlaneSize(planeSize) {}
+
+::Plane::Plane(const float3& position, Quat& rotation, int planeSize) :
+	Primitive(position, rotation), PlaneSize(planeSize) {}
+
+::Plane::Plane(const float3& position, Quat& rotation, const float3& color, int planeSize) : 
+	Primitive(position, rotation, color), PlaneSize(planeSize) {}
+
+::Plane::~Plane() {}
 
 void ::Plane::Draw()
 {
@@ -14,7 +23,7 @@ void ::Plane::Draw()
 	float3 axis = Rotation.Axis();
 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
-	glColor3f(25.f, 0, 0); //TODO:Remove, take by param
+	glColor3f(Color.x,Color.y,Color.z);
 
 	glBegin(GL_QUADS);
 	glVertex3f(-PlaneSize, -0.001, -PlaneSize);

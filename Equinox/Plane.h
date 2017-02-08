@@ -1,12 +1,16 @@
 #ifndef __PLANE_H__
 #define __PLANE_H__
+
 #include "Primitive.h"
 
-class Plane : public Primitive
+class Plane : 
+	public Primitive
 {
 public:
-	Plane(const fPoint3& position, Quat& rotation, const fPoint3& normals, int plane_size);
-	~Plane() {};
+	Plane(int planeSize);
+	Plane(const float3& position, Quat& rotation, int planeSize);
+	Plane(const float3& position, Quat& rotation, const float3& color, int planeSize);
+	~Plane();
 
 	void Draw() override;
 

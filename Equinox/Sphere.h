@@ -5,13 +5,19 @@
 #include <GL/glew.h>
 #include <vector>
 
-class Sphere : public Primitive
+class Sphere : 
+	public Primitive
 {
 public:
-	Sphere(const fPoint3& position, Quat& rotation, const fPoint3& normals, float radius, unsigned int rings, unsigned int sectors);
+	Sphere(float radius, unsigned int rings, unsigned int sectors);
+	Sphere(const float3& position, Quat& rotation, float radius, unsigned int rings, unsigned int sectors);
+	Sphere(const float3& position, Quat& rotation, const float3& color, float radius, unsigned int rings, unsigned int sectors);
 	~Sphere();
 
 	void Draw() override;
+
+private:
+	void iniRingsAndSectors(float radius, unsigned int rings, unsigned int sectors);
 
 protected:
 	std::vector<GLfloat> verticesVector;

@@ -8,7 +8,24 @@ class Primitive
 {
 public:
 
-	Primitive(const fPoint3& position, Quat& rotation, const fPoint3& normals) : Position(position), Rotation(rotation), Normals(normals)
+	/*
+	 * Basic Primitive
+	 */
+	Primitive()
+	{
+	}
+
+	/*
+	 * Primitive with Position and Rotation
+	 */
+	Primitive(const float3& position, Quat& rotation) : Position(position), Rotation(rotation)
+	{
+	}
+
+	/*
+	* Primitive with Position, Rotation and Color
+	*/
+	Primitive(const float3& position, Quat& rotation, const float3& color) : Position(position), Rotation(rotation), Color(color)
 	{
 	}
 
@@ -19,9 +36,10 @@ public:
 	virtual void Draw() = 0;
 
 public:
-	fPoint3 Position;
-	Quat Rotation;
-	fPoint3 Normals;
+	float3 Position = float3(0, 0, 0);
+	Quat Rotation = Quat::FromEulerXYZ(0, 0, 0);
+	float3 Color = float3(0, 0, 0);
+	float3 Scale = float3(1, 1, 1);
 };
 
 #endif // __PRIMITIVE_H__
