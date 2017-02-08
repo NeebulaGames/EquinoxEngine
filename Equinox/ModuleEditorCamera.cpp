@@ -22,6 +22,28 @@ ModuleEditorCamera::~ModuleEditorCamera()
 {
 }
 
+update_status ModuleEditorCamera::Update()
+{
+	float3 movement = float3::zero;
+	
+	if (App->input->GetKey(SDL_SCANCODE_Q))
+		movement += float3::unitY;
+	if (App->input->GetKey(SDL_SCANCODE_E))
+		movement -= float3::unitY;
+	if (App->input->GetKey(SDL_SCANCODE_W))
+		movement += Frustum.Front();
+	if (App->input->GetKey(SDL_SCANCODE_S))
+		movement -= Frustum.Front();
+	if (App->input->GetKey(SDL_SCANCODE_A))
+		movement -= Frustum.WorldRight();
+	if (App->input->GetKey(SDL_SCANCODE_D))
+		movement += Frustum.WorldRight();
+	
+	Frustum.Translate(movement);
+
+	return UPDATE_CONTINUE;
+}
+
 void ModuleEditorCamera::SetFOV(float fov)
 {
 	Frustum.SetVerticalFovAndAspectRatio(fov, Frustum.AspectRatio());

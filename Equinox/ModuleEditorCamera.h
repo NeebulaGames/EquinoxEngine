@@ -11,6 +11,8 @@ public:
 	ModuleEditorCamera();
 	~ModuleEditorCamera();
 
+	update_status Update() override;
+
 	void SetFOV(float fov);
 	void SetAspectRatio(float ratio);
 	void SetPlaneDistances(float near, float far);
