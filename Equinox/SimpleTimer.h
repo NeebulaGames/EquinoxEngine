@@ -18,12 +18,12 @@ public:
 
 	unsigned int Read() const
 	{
-		return started ? ticks - SDL_GetTicks() : ticks;
+		return started ? SDL_GetTicks() - ticks : ticks;
 	}
 
 	unsigned int Stop()
 	{
-		ticks = ticks - SDL_GetTicks();
+		ticks = Read();
 		started = false;
 		return ticks;
 	}
