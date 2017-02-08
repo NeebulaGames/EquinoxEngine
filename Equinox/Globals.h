@@ -51,6 +51,6 @@ typedef unsigned int uint;
 #define SCREEN_HEIGHT 224
 #define FULLSCREEN false
 #define VSYNC true
-#define TITLE "Simpsons Arcade"
+#define TITLE "Equinox Engine Editor"
 
 #endif //__GLOBALS_H__
