@@ -112,6 +112,9 @@
     <ClInclude Include="Sphere.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -163,6 +166,9 @@
       <Filter>Primitives</Filter>
     </ClCompile>
     <ClCompile Include="Sphere.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
       <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
