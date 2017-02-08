@@ -83,18 +83,17 @@ update_status ModuleRender::PreUpdate()
 {	
 	ModuleEditorCamera* camera = App->editorCamera;
 
-	//Color c = cam->background;
-	glClearColor(.192f, .192f, .192f, 1.f);
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glLoadMatrixf(camera->GetProjectionMatrix());
 
+	//Color c = cam->background;
+	glClearColor(.192f, .192f, .192f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glLoadMatrixf((GLfloat*) camera->GetViewMatrix());
+	glLoadMatrixf(camera->GetViewMatrix());
 
 	return UPDATE_CONTINUE;
 }
@@ -102,21 +101,6 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	// debug camera
-	int speed = 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->renderer->camera.y += speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->renderer->camera.y -= speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->renderer->camera.x += speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->renderer->camera.x -= speed;
-
 	bool ret = true;
 
 	Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(30.f), DEG2RAD(20.f), DEG2RAD(0.f));

@@ -1,15 +1,16 @@
 #include "ModuleEditorCamera.h"
+#include "Engine.h"
+#include "ModuleInput.h"
 
 using namespace math;
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
 	Frustum.SetPos(float3::zero);
-	Frustum.SetFront(float3::zero);
-	Frustum.SetFront(float3(0.f, 0.f, -1.f));
-	Frustum.SetUp(float3(0.f, 1.f, 0.f));
+	Frustum.SetFront(-float3::unitZ);
+	Frustum.SetUp(float3::unitY);
 
-	SetPlaneDistances(1.f, 100.0f);
+	SetPlaneDistances(0.1f, 1000.0f);
 
 	Frustum.SetPerspective(1, DegToRad(60));
 	SetAspectRatio(1.3f);
@@ -63,10 +64,10 @@ float* ModuleEditorCamera::GetProjectionMatrix() const
 
 float* ModuleEditorCamera::GetViewMatrix() const
 {
-	float3x4 view;
+	float4x4 view;
 	
-	view = Frustum.ViewMatrix();
-	view.Transpose3();
+	view = Frustum.ComputeViewMatrix();
+	view.Transpose();
 
 	return reinterpret_cast<float*>(view.v);
 }
