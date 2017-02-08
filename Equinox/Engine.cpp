@@ -145,6 +145,11 @@ update_status Engine::Update()
 
 	++_total_frames;
 	LOG("FPS: %f", _total_frames / (_total_complex_time.Read() / 1E6));
+
+	double current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
+
+	current_avg = current_avg ? (current_avg + current_fps) / 2 : current_fps;
+
 	return ret;
 }
 
@@ -157,7 +162,7 @@ bool Engine::CleanUp()
 			ret = (*it)->CleanUp();
 	LOG("Total Time: %f microseconds", _total_complex_time.Stop());
 	LOG("Total Frames: %d", _total_frames);
-	LOG("Average FPS: %f", _total_frames / (_total_complex_time.Stop() / 1E6));
+	LOG("Average FPS: %f", current_avg);
 	return ret;
 }
 
