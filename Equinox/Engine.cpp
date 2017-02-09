@@ -147,7 +147,7 @@ update_status Engine::Update()
 			ret = (*it)->PostUpdate();
 
 	++_total_frames;
-	LOG("FPS: %f", _total_frames / (_total_complex_time.Read() / 1E6));
+	//LOG("FPS: %f", _total_frames / (_total_complex_time.Read() / 1E6));
 
 	double current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
 

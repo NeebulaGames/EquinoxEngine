@@ -102,6 +102,10 @@ update_status ModuleInput::PreUpdate()
 					case SDL_WINDOWEVENT_RESTORED:
 					windowEvents[WE_SHOW] = true;
 					break;
+
+					case SDL_WINDOWEVENT_RESIZED:
+					windowEvents[WE_RESIZE] = true;
+					break;
 				}
 			break;
 
