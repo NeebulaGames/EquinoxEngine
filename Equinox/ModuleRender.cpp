@@ -74,6 +74,10 @@ bool ModuleRender::Init()
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
+
+		int w, h;
+		SDL_GetWindowSize(App->window->window, &w, &h);
+		App->editorCamera->SetAspectRatio(float(w) / float(h));
 	}
 
 	return ret;
@@ -86,6 +90,14 @@ update_status ModuleRender::PreUpdate()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glLoadMatrixf(camera->GetProjectionMatrix());
+
+	if (App->input->GetWindowEvent(WE_RESIZE))
+	{
+		int w, h;
+		SDL_GetWindowSize(App->window->window, &w, &h);
+		camera->SetAspectRatio(float(w) / float(h));
+		glViewport(0, 0, w, h);
+	}
 
 	//Color c = cam->background;
 	glClearColor(.192f, .192f, .192f, 1.f);

@@ -12,11 +12,10 @@ ModuleEditorCamera::ModuleEditorCamera()
 	Frustum.SetUp(float3::unitY);
 
 	SetPlaneDistances(0.1f, 1000.0f);
-
-	Frustum.SetPerspective(1, DegToRad(60));
-	SetAspectRatio(1.3f);
-
+	
 	Frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
+
+	Frustum.SetVerticalFovAndAspectRatio(DegToRad(60), 1.f);
 }
 
 ModuleEditorCamera::~ModuleEditorCamera()

@@ -13,6 +13,7 @@ enum EventWindow
 	WE_QUIT = 0,
 	WE_HIDE = 1,
 	WE_SHOW = 2,
+	WE_RESIZE = 3,
 	WE_COUNT
 };
 

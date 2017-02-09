@@ -46,11 +46,12 @@ typedef unsigned int uint;
 	 }
 
 // Configuration -----------
-#define SCREEN_SIZE 4
-#define SCREEN_WIDTH 288
-#define SCREEN_HEIGHT 224
+#define SCREEN_SIZE 1
+#define SCREEN_WIDTH 600
+#define SCREEN_HEIGHT 400
 #define FULLSCREEN false
 #define VSYNC true
+#define RESIZABLE true
 #define TITLE "Equinox Engine Editor"
 
 #endif //__GLOBALS_H__
