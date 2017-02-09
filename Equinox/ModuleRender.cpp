@@ -103,10 +103,10 @@ update_status ModuleRender::Update()
 {
 	bool ret = true;
 
-	Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(30.f), DEG2RAD(20.f), DEG2RAD(0.f));
-	Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(45.f), DEG2RAD(45.f));
+	Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
+	Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 	Quat rotation_sphere = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
-	Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(90.f), DEG2RAD(0.f), DEG2RAD(0.f));
+	Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 
 	Cube cube(float3(0, 0, -5.f), rotation_cube, float3(0, 25.f, 0));
 	::Plane plane(float3(0, 0, -5.f), rotation_plane, float3(25.f, 0, 0), 120);

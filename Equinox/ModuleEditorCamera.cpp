@@ -35,13 +35,13 @@ update_status ModuleEditorCamera::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN))
 		rotateUp -= 1;
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT))
-		rotateRight += 1;
-	if (App->input->GetKey(SDL_SCANCODE_LEFT))
 		rotateRight -= 1;
+	if (App->input->GetKey(SDL_SCANCODE_LEFT))
+		rotateRight += 1;
 
 	if (rotateRight != 0)
 	{
-		Quat rot = Quat::RotateAxisAngle(Frustum.Up(), DegToRad(rotateRight));
+		Quat rot = Quat::RotateY(DegToRad(rotateRight));
 
 		Frustum.SetFront(rot.Mul(Frustum.Front()).Normalized());
 		Frustum.SetUp(rot.Mul(Frustum.Up()).Normalized());
