@@ -6,6 +6,10 @@
 #include <ios>
 #include "Rectangle3.h"
 #include <functional>
+#include <GL/glew.h>
+
+#define CHECKERS_WIDTH 10
+#define CHECKERS_HEIGHT 10
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -58,6 +62,8 @@ private:
 	typedef std::pair<int, RenderData*> PIRD;
 	std::priority_queue<PIRD, std::vector<PIRD>, std::greater<PIRD>> _foreground;
 	std::queue<QuadData*> _quads;
+
+	GLuint ImageName;
 
 	int _background_height = 0;
 };
