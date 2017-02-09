@@ -12,6 +12,7 @@
 #include "Sphere.h"
 #include "Cylinder.h"
 #include "Plane.h"
+#include "ModuleEditorCamera.h"
 
 ModuleRender::ModuleRender()
 {
@@ -80,16 +81,19 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {	
-	//Color c = cam->background;
+	ModuleEditorCamera* camera = App->editorCamera;
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	glLoadMatrixf(camera->GetProjectionMatrix());
+
+	//Color c = cam->background;
+	glClearColor(.192f, .192f, .192f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
-	glClearColor(.192f, .192f, .192f, 1.f);
-	glFrustum(-1, 1, -1, 1, 1, 100);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadMatrixf(cam->GetOpenGLViewMatrix());
+	glLoadMatrixf(camera->GetViewMatrix());
 
 	return UPDATE_CONTINUE;
 }
@@ -97,36 +101,21 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	// debug camera
-	int speed = 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->renderer->camera.y += speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->renderer->camera.y -= speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->renderer->camera.x += speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->renderer->camera.x -= speed;
-
 	bool ret = true;
 
-	Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(30.f), DEG2RAD(20.f), DEG2RAD(0.f));
-	Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(45.f), DEG2RAD(45.f));
+	Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
+	Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 	Quat rotation_sphere = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
-	Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(90.f), DEG2RAD(0.f), DEG2RAD(0.f));
+	Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 
 	Cube cube(float3(0, 0, -5.f), rotation_cube, float3(0, 25.f, 0));
 	::Plane plane(float3(0, 0, -5.f), rotation_plane, float3(25.f, 0, 0), 120);
-	::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
+	//::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
 	::Cylinder cylinder(float3(-2, 3, -5.f), rotation_cylinder, float3(0, 0, 25.f), 0.3, 1.5);
 
 	plane.Draw();
 	cube.Draw();
-	sphere.Draw();
+	//sphere.Draw();
 	cylinder.Draw();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;

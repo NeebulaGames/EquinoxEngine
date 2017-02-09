@@ -11,6 +11,7 @@
 #include "ModuleTimer.h"
 #include "ModuleFonts.h"
 #include "ComplexTimer.h"
+#include "ModuleEditorCamera.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ Engine::Engine()
 	// Order matters: they will init/start/pre/update/post in this order
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(window = new ModuleWindow());
+
+	modules.push_back(editorCamera = new ModuleEditorCamera());
 
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
