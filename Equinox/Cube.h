@@ -2,13 +2,15 @@
 #define __CUBE_H__
 
 #include "Primitive.h"
+
 class Cube :
 	public Primitive
 {
 public:
-	Cube(const fPoint3& position, Quat& rotation, const fPoint3& normals);
+	Cube();
+	Cube(const float3& position, Quat& rotation);
+	Cube(const float3& position, Quat& rotation, const float3& color);
 	~Cube();
-
 
 	void Draw() override;
 };

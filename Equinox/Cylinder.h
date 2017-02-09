@@ -4,10 +4,13 @@
 #include "Primitive.h"
 #include <GL/glew.h>
 
-class Cylinder : public Primitive
+class Cylinder : 
+	public Primitive
 {
 public:
-	Cylinder(const fPoint3& position, Quat& rotation, const fPoint3& normals, GLfloat radius, GLfloat height);
+	Cylinder(GLfloat radius, GLfloat height);
+	Cylinder(const float3& position, Quat& rotation, GLfloat radius, GLfloat height);
+	Cylinder(const float3& position, Quat& rotation, const float3& color, GLfloat radius, GLfloat height);
 	~Cylinder();
 
 	void Draw() override;

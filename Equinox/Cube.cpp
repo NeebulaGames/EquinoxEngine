@@ -4,14 +4,16 @@
 #include <MathGeoLib/include/Math/MathFunc.h>
 
 
-Cube::Cube(const fPoint3& position, Quat& rotation, const fPoint3& normals) : Primitive(position, rotation, normals)
-{
-}
+Cube::Cube() : 
+	Primitive() {}
 
+Cube::Cube(const float3& position, Quat& rotation) : 
+	Primitive(position, rotation) {}
 
-Cube::~Cube()
-{
-}
+Cube::Cube(const float3& position, Quat& rotation, const float3& color) : 
+	Primitive(position, rotation, color) {}
+
+Cube::~Cube() {}
 
 void Cube::Draw()
 {
@@ -20,7 +22,7 @@ void Cube::Draw()
 	float3 axis = Rotation.Axis();
  	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
-	glColor3f(0, 25.f, 0); //TODO:Remove, take by param
+	glColor3f(Color.x, Color.y, Color.z);
 
 	glBegin(GL_TRIANGLES);
 	glVertex3f(0, 0, 0);

@@ -4,15 +4,16 @@
 #include <MathGeoLib/include/Math/MathFunc.h>
 
 
-::Cylinder::Cylinder(const fPoint3& position, Quat& rotation, const fPoint3& normals, GLfloat radius, GLfloat height) :
-	Primitive(position, rotation, normals), Radius(radius), Height(height)
-{
-}
+::Cylinder::Cylinder(GLfloat radius, GLfloat height) :
+	Primitive(), Radius(radius), Height(height) {}
 
+::Cylinder::Cylinder(const float3& position, Quat& rotation, GLfloat radius, GLfloat height) :
+	Primitive(position, rotation), Radius(radius), Height(height) {}
 
-::Cylinder::~Cylinder()
-{
-}
+::Cylinder::Cylinder(const float3& position, Quat& rotation, const float3& color, GLfloat radius, GLfloat height) :
+	Primitive(position, rotation, color), Radius(radius), Height(height) {}
+
+::Cylinder::~Cylinder() {}
 
 void ::Cylinder::Draw()
 {
@@ -21,7 +22,7 @@ void ::Cylinder::Draw()
 	float3 axis = Rotation.Axis();
 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
-	glColor3f(0, 0, 25.f); //TODO:Remove, take by param
+	glColor3f(Color.x, Color.y, Color.z);
 
 	GLfloat x = 0.0;
 	GLfloat y = 0.0;
