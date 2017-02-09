@@ -1,6 +1,7 @@
 #include "ModuleEditorCamera.h"
 #include "Engine.h"
 #include "ModuleInput.h"
+#include <MathGeoLib/include/Math/Quat.h>
 
 using namespace math;
 
@@ -26,6 +27,39 @@ update_status ModuleEditorCamera::Update()
 {
 	float3 movement = float3::zero;
 	
+	float rotateUp = 0;
+	float rotateRight = 0;
+
+	if (App->input->GetKey(SDL_SCANCODE_UP))
+		rotateUp += 1;
+	if (App->input->GetKey(SDL_SCANCODE_DOWN))
+		rotateUp -= 1;
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT))
+		rotateRight += 1;
+	if (App->input->GetKey(SDL_SCANCODE_LEFT))
+		rotateRight -= 1;
+
+	if (rotateRight != 0)
+	{
+		Quat rot = Quat::RotateAxisAngle(Frustum.Up(), DegToRad(rotateRight));
+
+		Frustum.SetFront(rot.Mul(Frustum.Front()).Normalized());
+		Frustum.SetUp(rot.Mul(Frustum.Up()).Normalized());
+	}
+
+	if (rotateUp != 0.f)
+	{
+		Quat rot = Quat::RotateAxisAngle(Frustum.WorldRight(), DegToRad(rotateUp));
+
+		float3 up = rot.Mul(Frustum.Up()).Normalized();
+
+		if (up.y > 0.f)
+		{
+			Frustum.SetFront(rot.Mul(Frustum.Front()).Normalized());
+			Frustum.SetUp(up);
+		}
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_Q))
 		movement += float3::unitY;
 	if (App->input->GetKey(SDL_SCANCODE_E))
@@ -38,8 +72,8 @@ update_status ModuleEditorCamera::Update()
 		movement -= Frustum.WorldRight();
 	if (App->input->GetKey(SDL_SCANCODE_D))
 		movement += Frustum.WorldRight();
-	
-	Frustum.Translate(movement);
+
+	Frustum.SetPos(Frustum.Pos() + movement);
 
 	return UPDATE_CONTINUE;
 }
@@ -76,7 +110,7 @@ void ModuleEditorCamera::LookAt(float x, float y, float z)
 
 float* ModuleEditorCamera::GetProjectionMatrix() const
 {
-	float4x4 proj;
+	static float4x4 proj;
 	
 	proj = Frustum.ProjectionMatrix();
 	proj.Transpose();
@@ -86,9 +120,10 @@ float* ModuleEditorCamera::GetProjectionMatrix() const
 
 float* ModuleEditorCamera::GetViewMatrix() const
 {
-	float4x4 view;
-	
-	view = Frustum.ComputeViewMatrix();
+	static float4x4 view;
+
+	view = Frustum.ViewMatrix();
+
 	view.Transpose();
 
 	return reinterpret_cast<float*>(view.v);
