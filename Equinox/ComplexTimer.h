@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __COMPLEX_TIMER_H__
+#define __COMPLEX_TIMER_H__
 #include <SDL/include/SDL.h>
 
 const Uint64 PerformanceFrequency = SDL_GetPerformanceFrequency();
@@ -12,23 +13,26 @@ public:
 
 	void Start()
 	{
-		ticks = SDL_GetPerformanceCounter();
+		ticks = SDL_GetPerformanceCounter() * 1E6;
 		started = true;
 	}
 
-	Uint64 Read() const
+	double Read() const
 	{
-		return started ? (ticks - SDL_GetPerformanceCounter()) / PerformanceFrequency : ticks;
+		return started ? (double)(((SDL_GetPerformanceCounter() * 1E6) - ticks) / PerformanceFrequency) : count;
 	}
 
-	Uint64 Stop()
+	double Stop()
 	{
-		ticks = (SDL_GetPerformanceCounter() - ticks) / PerformanceFrequency;
+		count = Read();
 		started = false;
-		return ticks;
+		return count;
 	}
 
 private:
 	bool started;
-	Uint64 ticks;
+	double ticks;
+	double count;
 };
+
+#endif

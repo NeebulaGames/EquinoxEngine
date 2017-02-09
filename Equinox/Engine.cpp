@@ -18,6 +18,7 @@ Engine* App;
 
 Engine::Engine()
 {
+	_total_frames = 0;
 	state = State::CREATION;
 
 	// Order matters: they will init/start/pre/update/post in this order
@@ -109,6 +110,7 @@ int Engine::Loop()
 
 bool Engine::Init()
 {
+	_total_complex_time.Start();
 	bool ret = true;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
@@ -141,6 +143,13 @@ update_status Engine::Update()
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PostUpdate();
 
+	++_total_frames;
+	LOG("FPS: %f", _total_frames / (_total_complex_time.Read() / 1E6));
+
+	double current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
+
+	current_avg = current_avg ? (current_avg + current_fps) / 2 : current_fps;
+
 	return ret;
 }
 
@@ -151,7 +160,9 @@ bool Engine::CleanUp()
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->CleanUp();
-
+	LOG("Total Time: %f microseconds", _total_complex_time.Stop());
+	LOG("Total Frames: %d", _total_frames);
+	LOG("Average FPS: %f", current_avg);
 	return ret;
 }
 
