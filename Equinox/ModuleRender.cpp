@@ -16,9 +16,6 @@
 
 ModuleRender::ModuleRender()
 {
-	camera.x = camera.y = 0;
-	camera.w = SCREEN_WIDTH * SCREEN_SIZE;
-	camera.h = SCREEN_HEIGHT* SCREEN_SIZE;
 }
 
 // Destructor
@@ -182,8 +179,8 @@ bool ModuleRender::BlitBackground(SDL_Texture* texture, int x, int y, SDL_Rect* 
 {
 	bool ret = true;
 	SDL_Rect* rect = new SDL_Rect;
-	rect->x = (int)(camera.x * speed) + x * SCREEN_SIZE;
-	rect->y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+	rect->x = x * SCREEN_SIZE;
+	rect->y = y * SCREEN_SIZE;
 
 	if(section != NULL)
 	{
@@ -210,9 +207,9 @@ bool ModuleRender::AbsoluteBlit(SDL_Texture* texture, int x, int y, int z, SDL_R
 {
 	bool ret = true;
 	SDL_Rect* rect = new SDL_Rect;
-	rect->x = int(camera.x * speed) + x * SCREEN_SIZE;
+	rect->x = int(speed) + x * SCREEN_SIZE;
 	y += int(ZTOY(z, RenderingAngle));
-	rect->y = int(camera.y * speed) + y * SCREEN_SIZE; // TODO: Add z to y
+	rect->y = int(speed) + y * SCREEN_SIZE; // TODO: Add z to y
 
 	if (section != NULL)
 	{
@@ -250,8 +247,8 @@ bool ModuleRender::AbsoluteDrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint
 	SDL_Rect* rec = new SDL_Rect(rect);
 	if (use_camera)
 	{
-		rec->x = int(camera.x + rect.x * SCREEN_SIZE);
-		rec->y = int(camera.y + rect.y * SCREEN_SIZE);
+		rec->x = int(rect.x * SCREEN_SIZE);
+		rec->y = int(rect.y * SCREEN_SIZE);
 		rec->w *= SCREEN_SIZE;
 		rec->h *= SCREEN_SIZE;
 	}

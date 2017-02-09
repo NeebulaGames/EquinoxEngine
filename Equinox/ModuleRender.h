@@ -49,7 +49,6 @@ public:
 public:
 	SDL_GLContext context = nullptr;
 	SDL_Renderer* renderer = nullptr; // TODO: Remove
-	SDL_Rect camera;
 
 	int RenderingAngle = 0;
 	
