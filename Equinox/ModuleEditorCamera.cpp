@@ -51,7 +51,13 @@ update_status ModuleEditorCamera::Update()
 	{
 		Quat rot = Quat::RotateAxisAngle(Frustum.WorldRight(), DegToRad(rotateUp));
 
-		Frustum.Transform(rot);
+		float3 up = rot.Mul(Frustum.Up()).Normalized();
+
+		if (up.y > 0.f)
+		{
+			Frustum.SetFront(rot.Mul(Frustum.Front()).Normalized());
+			Frustum.SetUp(up);
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_Q))
