@@ -1,73 +1,36 @@
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef __SIMPLETIMER_H__
+#define __SIMPLETIMER_H__
 
 #include "SDL/include/SDL.h"
 
 class SimpleTimer
 {
 public:
-	SimpleTimer()
+	SimpleTimer() : started(false), ticks(0)
 	{
-		pausedTicks = 0, runTicks = 0;
-		running = false;
 	}
 
 	void Start()
 	{
-		running = true;
-		runTicks = SDL_GetTicks();
+		ticks = SDL_GetTicks();
+		started = true;
 	}
 
-	int Stop()
+	unsigned int Read() const
 	{
-		if(running)
-		{
-			running = false;
-			return pausedTicks = SDL_GetTicks() - runTicks;
-		}
-		return 0;
+		return started ? SDL_GetTicks() - ticks : ticks;
 	}
 
-	void Resume()
+	unsigned int Stop()
 	{
-		if(!running)
-		{
-			running = true;
-			runTicks = SDL_GetTicks() - pausedTicks;
-			pausedTicks = 0;
-		}
-	}
-
-	void Clear()
-	{
-		running = false;
-		runTicks = 0;
-		pausedTicks = 0;
-	}
-
-	unsigned int GetTimerTicks() const
-	{
-		if (running)
-			return SDL_GetTicks() - runTicks;
-		return 0;
-	}
-
-	unsigned int GetPausedTicks() const
-	{
-		if (!running)
-			return pausedTicks;
-		return 0;
-	}
-
-	bool IsRunning() const
-	{
-		return running;
+		ticks = Read();
+		started = false;
+		return ticks;
 	}
 
 private:
-	unsigned int pausedTicks, runTicks;
-	bool running;
+	bool started;
+	unsigned int ticks;
 };
 
-
-#endif // __TIMER_H__
+#endif // __SIMPLETIMER_H__
