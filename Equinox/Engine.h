@@ -74,7 +74,8 @@ private:
 	ComplexTimer _total_complex_time;
 	SimpleTimer _total_simple_time;
 
-	double current_avg = 0;
+	double _current_avg = 0;
+	double _current_fps = 0;
 };
 
 extern Engine* App;
