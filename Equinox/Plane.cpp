@@ -24,7 +24,7 @@ void ::Plane::Draw()
 	float3 axis = Rotation.Axis();
 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
-	glColor4f(0.f, 0.f, 0.f, 0.f);
+	glColor4f(Color.x, Color.y, Color.z, 0.f);
 
 	glBegin(GL_QUADS);
 	glVertex3f(-PlaneSize, -0.001, -PlaneSize);
@@ -46,4 +46,5 @@ void ::Plane::Draw()
 	};
 	glEnd();
 	glPopMatrix();
+	glDepthMask(GL_TRUE);
 }
