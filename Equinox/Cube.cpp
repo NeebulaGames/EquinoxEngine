@@ -32,101 +32,102 @@ void Cube::Draw()
 	glColor3f(Color.x, Color.y, Color.z);
 
 	glBegin(GL_TRIANGLES);
-	//a,b,d
-	glTexCoord2f(0.f, 0.f);
-	glVertex3f(0, 0, 0);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(1, 0, 0);
-	glTexCoord2f(1.f, 1.f);
-	glVertex3f(1, 1, 0);
 
-	//a,d,c
-	glTexCoord2f(0.f, 0.f);
-	glVertex3f(0, 0, 0);
+	// a, b, c
 	glTexCoord2f(1.f, 1.f);
-	glVertex3f(1, 1, 0);
+	glVertex3f(1.f, 1.f, 0);
 	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 1, 0);
-
-	//c,f,h
+	glVertex3f(0.f, 1.f, 0.f);
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(1, 0, 0);
+	glVertex3f(0.f, 0.f, 0.f);
+
+	// c, d, a
+	glTexCoord2f(0.f, 0.f);
+	glVertex3f(0.f, 0.f, 0);
 	glTexCoord2f(1.f, 0.f);
-	glVertex3f(1, 0, 1);
+	glVertex3f(1.f, 0.f, 0.f);
 	glTexCoord2f(1.f, 1.f);
-	glVertex3f(1, 1, 1);
+	glVertex3f(1.f, 1.f, 0.f);
 
-	//b,h,d
+	// a, d, e
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(1, 0, 0);
-	glTexCoord2f(1.f, 1.f);
-	glVertex3f(1, 1, 1);
+	glVertex3f(1.f, 0.f, 0.f);
 	glTexCoord2f(1.f, 0.f);
-	glVertex3f(1, 1, 0);
+	glVertex3f(1.f, 0.f, -1.f);
 
-	//f,e,g
+	// e, f, a
+	glTexCoord2f(1.f, 0.f);
+	glVertex3f(1.f, 0.f, -1.f);
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(1.f, 1.f, -1.f);
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	// a, f, g
+	glTexCoord2f(1.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(1.f, 1.f, -1.f);
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+
+	// g, b, a
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(0.f, 1.f, -1.f);
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(1, 0, 1);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 0, 1);
-	glTexCoord2f(1.f, 1.f);
-	glVertex3f(0, 1, 1);
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(1.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
 
-	//f,g,h
+	// g, f, e
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(1.f, 1.f, -1.f);
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(1, 0, 1);
-	glTexCoord2f(1.f, 1.f);
-	glVertex3f(0, 1, 1);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(1, 1, 1);
+	glVertex3f(1.f, 0.f, -1.f);
 
-	//e,a,c
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 0, 1);
+	// e, h, g
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(0, 0, 0);
+	glVertex3f(1.f, 0.f, -1.f);
 	glTexCoord2f(1.f, 0.f);
-	glVertex3f(0, 1, 0);
-
-	//e,b,g
-	glTexCoord2f(1.f, 0.f);
-	glVertex3f(0, 0, 1);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 1, 0);
+	glVertex3f(0.f, 0.f, -1.f);
 	glTexCoord2f(1.f, 1.f);
-	glVertex3f(0, 1, 1);
+	glVertex3f(0.f, 1.f, -1.f);
 
-	//b,a,e
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(1, 0, 0);
+	// g, h, c
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+	glTexCoord2f(1.f, 0.f);
+	glVertex3f(0.f, 0.f, -1.f);
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(0, 0, 0);
-	glTexCoord2f(1.f, 0.f);
-	glVertex3f(0, 0, 1);
+	glVertex3f(0.f, 0.f, 0.f);
 
-	//c,e,f
-	glTexCoord2f(1.f, 0.f);
-	glVertex3f(1, 0, 0);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 0, 1);
-	glTexCoord2f(1.f, 1.f);
-	glVertex3f(1, 0, 1);
-
-	//d,h,g
-	glTexCoord2f(1.f, 0.f);
-	glVertex3f(1, 1, 0);
-	glTexCoord2f(1.f, 1.f);
-	glVertex3f(1, 1, 1);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 1, 1);
-
-	//d,g,b
-	glTexCoord2f(1.f, 0.f);
-	glVertex3f(1, 1, 0);
-	glTexCoord2f(0.f, 1.f);
-	glVertex3f(0, 1, 1);
+	// c, b, g
 	glTexCoord2f(0.f, 0.f);
-	glVertex3f(0, 1, 0);
+	glVertex3f(0.f, 0.f, 0.f);
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(0.f, 1.f, -1.f);
+
+	// h, e, d
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(0.f, 0.f, -1.f);
+	glTexCoord2f(0.f, 1.f);
+	glVertex3f(1.f, 0.f, -1.f);
+	glTexCoord2f(0.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+
+	// d, c, h
+	glTexCoord2f(0.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(1.f, 0.f);
+	glVertex3f(0.f, 0.f, 0.f);
+	glTexCoord2f(1.f, 1.f);
+	glVertex3f(0.f, 0.f, -1.f);
 
 	glEnd();
 
