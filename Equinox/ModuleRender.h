@@ -8,8 +8,8 @@
 #include <functional>
 #include <GL/glew.h>
 
-#define CHECKERS_WIDTH 10
-#define CHECKERS_HEIGHT 10
+#define CHECKERS_WIDTH 64
+#define CHECKERS_HEIGHT 64
 
 struct SDL_Texture;
 struct SDL_Renderer;
