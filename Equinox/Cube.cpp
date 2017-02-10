@@ -7,14 +7,14 @@
 Cube::Cube() : 
 	Primitive() {}
 
-Cube::Cube(const float3& position, Quat& rotation) : 
+Cube::Cube(const float3& position, const Quat& rotation) :
 	Primitive(position, rotation) {}
 
-Cube::Cube(const float3& position, Quat& rotation, int textureId) : Primitive(position, rotation), _textureId(textureId)
+Cube::Cube(const float3& position, const Quat& rotation, int textureId) : Primitive(position, rotation), _textureId(textureId)
 {
 }
 
-Cube::Cube(const float3& position, Quat& rotation, const float3& color) : 
+Cube::Cube(const float3& position, const Quat& rotation, const float3& color) :
 	Primitive(position, rotation, color) {}
 
 Cube::~Cube() {}

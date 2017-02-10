@@ -10,8 +10,8 @@ class Sphere :
 {
 public:
 	Sphere(float radius, unsigned int rings, unsigned int sectors);
-	Sphere(const float3& position, Quat& rotation, float radius, unsigned int rings, unsigned int sectors);
-	Sphere(const float3& position, Quat& rotation, const float3& color, float radius, unsigned int rings, unsigned int sectors);
+	Sphere(const float3& position, const Quat& rotation, float radius, unsigned int rings, unsigned int sectors);
+	Sphere(const float3& position, const Quat& rotation, const float3& color, float radius, unsigned int rings, unsigned int sectors);
 	~Sphere();
 
 	void Draw() override;
