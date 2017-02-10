@@ -18,12 +18,13 @@
 
 void ::Plane::Draw()
 {
+	glDepthMask(GL_FALSE);
 	glPushMatrix();
 	glTranslatef(Position.x, Position.y, Position.z);
 	float3 axis = Rotation.Axis();
 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
 
-	glColor3f(Color.x,Color.y,Color.z);
+	glColor4f(0.f, 0.f, 0.f, 0.f);
 
 	glBegin(GL_QUADS);
 	glVertex3f(-PlaneSize, -0.001, -PlaneSize);

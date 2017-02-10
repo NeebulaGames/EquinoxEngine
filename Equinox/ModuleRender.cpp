@@ -64,13 +64,14 @@ bool ModuleRender::Init()
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
-		glClearColor(.192f, .192f, .192f, 1.f);
+		glClearColor(0, 0, 0, 1.f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
 
 		//this must be on Start()
 		int w, h;
@@ -123,7 +124,7 @@ update_status ModuleRender::PreUpdate()
 	}
 
 	//Color c = cam->background;
-	glClearColor(.192f, .192f, .192f, 1.f);
+	glClearColor(0, 0, 0, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
@@ -144,7 +145,7 @@ update_status ModuleRender::Update()
 	Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 
 	Cube cube(float3(0, 0, -5.f), rotation_cube, ImageName);
-	::Plane plane(float3(0, 0, -5.f), rotation_plane, float3(25.f, 0, 0), 120);
+	::Plane plane(float3(0, 0, -5.f), rotation_plane, 60);
 	//::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
 	::Cylinder cylinder(float3(-2, 3, -5.f), rotation_cylinder, float3(0, 0, 25.f), 0.3, 1.5);
 
