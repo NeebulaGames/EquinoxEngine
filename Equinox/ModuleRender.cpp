@@ -13,6 +13,7 @@
 #include "Cylinder.h"
 #include "Plane.h"
 #include "ModuleEditorCamera.h"
+#include "CoordinateArrows.h"
 
 ModuleRender::ModuleRender()
 {
@@ -148,10 +149,14 @@ update_status ModuleRender::Update()
 	//::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
 	::Cylinder cylinder(float3(-2, 3, -5.f), rotation_cylinder, float3(0, 0, 25.f), 0.3, 1.5);
 
+	CoordinateArrows coordArrows;
+		
 	plane.Draw();
 	cube.Draw();
 	//sphere.Draw();
 	cylinder.Draw();
+
+	coordArrows.Draw();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }

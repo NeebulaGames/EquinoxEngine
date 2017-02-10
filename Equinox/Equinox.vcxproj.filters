@@ -118,6 +118,9 @@
     <ClInclude Include="ModuleEditorCamera.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
+    <ClInclude Include="CoordinateArrows.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="ModuleEditorCamera.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinateArrows.cpp">
+      <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

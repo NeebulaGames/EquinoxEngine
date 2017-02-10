@@ -88,6 +88,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BaseFactory.h" />
     <ClInclude Include="ComplexTimer.h" />
+    <ClInclude Include="CoordinateArrows.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Engine.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="SimpleTimer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CoordinateArrows.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Engine.cpp" />
