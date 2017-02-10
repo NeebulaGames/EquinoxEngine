@@ -147,16 +147,17 @@ update_status Engine::Update()
 			ret = (*it)->PostUpdate();
 
 	++_total_frames;
-	//LOG("FPS: %f", _total_frames / (_total_complex_time.Read() / 1E6));
+	
+	_current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
+	//LOG("FPS: %f", _current_fps);
 
-	double current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
+	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
 
-	current_avg = current_avg ? (current_avg + current_fps) / 2 : current_fps;
-
-
-	int aSecond = 1E3;
-	Uint32 timeToDelay = (aSecond - (FPS_CAP*aSecond / _fps)) / FPS_CAP;
-	SDL_Delay(timeToDelay);
+	if (FPS_CAP && _current_fps >= FPS_CAP) {
+		int aSecond = 1E3;
+		Uint32 timeToDelay = aSecond - (FPS_CAP*aSecond / _current_fps);
+		SDL_Delay(timeToDelay);
+	}
 
 	return ret;
 }
@@ -170,7 +171,7 @@ bool Engine::CleanUp()
 			ret = (*it)->CleanUp();
 	LOG("Total Time: %f microseconds", _total_complex_time.Stop());
 	LOG("Total Frames: %d", _total_frames);
-	LOG("Average FPS: %f", current_avg);
+	LOG("Average FPS: %f", _current_avg);
 	return ret;
 }
 
