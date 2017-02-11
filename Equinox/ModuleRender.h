@@ -64,6 +64,7 @@ private:
 	std::queue<QuadData*> _quads;
 
 	GLuint ImageName;
+	GLuint lenaImage;
 
 	int _background_height = 0;
 };
