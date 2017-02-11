@@ -11,13 +11,13 @@
 	iniRingsAndSectors(radius, rings, sectors);
 }
 
-::Sphere::Sphere(const float3& position, Quat& rotation, float radius, unsigned rings, unsigned sectors) : 
+::Sphere::Sphere(const float3& position, const Quat& rotation, float radius, unsigned rings, unsigned sectors) :
 	Primitive(position, rotation)
 {
 	iniRingsAndSectors(radius, rings, sectors);
 }
 
-::Sphere::Sphere(const float3& position, Quat& rotation, const float3& color, float radius, unsigned rings, unsigned sectors) :
+::Sphere::Sphere(const float3& position, const Quat& rotation, const float3& color, float radius, unsigned rings, unsigned sectors) :
 	Primitive(position, rotation, color)
 {
 	iniRingsAndSectors(radius, rings, sectors);

@@ -8,10 +8,10 @@
 ::Plane::Plane(int planeSize) : 
 	Primitive(), PlaneSize(planeSize) {}
 
-::Plane::Plane(const float3& position, Quat& rotation, int planeSize) :
+::Plane::Plane(const float3& position, const Quat& rotation, int planeSize) :
 	Primitive(position, rotation), PlaneSize(planeSize) {}
 
-::Plane::Plane(const float3& position, Quat& rotation, const float3& color, int planeSize) : 
+::Plane::Plane(const float3& position, const Quat& rotation, const float3& color, int planeSize) :
 	Primitive(position, rotation, color), PlaneSize(planeSize) {}
 
 ::Plane::~Plane() {}

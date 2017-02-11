@@ -8,8 +8,8 @@ class Plane :
 {
 public:
 	Plane(int planeSize);
-	Plane(const float3& position, Quat& rotation, int planeSize);
-	Plane(const float3& position, Quat& rotation, const float3& color, int planeSize);
+	Plane(const float3& position, const Quat& rotation, int planeSize);
+	Plane(const float3& position, const Quat& rotation, const float3& color, int planeSize);
 	~Plane();
 
 	void Draw() override;

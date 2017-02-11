@@ -18,14 +18,14 @@ public:
 	/*
 	 * Primitive with Position and Rotation
 	 */
-	Primitive(const float3& position, Quat& rotation) : Position(position), Rotation(rotation)
+	Primitive(const float3& position, const Quat& rotation) : Position(position), Rotation(rotation)
 	{
 	}
 
 	/*
 	* Primitive with Position, Rotation and Color
 	*/
-	Primitive(const float3& position, Quat& rotation, const float3& color) : Position(position), Rotation(rotation), Color(color)
+	Primitive(const float3& position, const Quat& rotation, const float3& color) : Position(position), Rotation(rotation), Color(color)
 	{
 	}
 

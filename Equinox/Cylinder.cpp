@@ -7,10 +7,10 @@
 ::Cylinder::Cylinder(GLfloat radius, GLfloat height) :
 	Primitive(), Radius(radius), Height(height) {}
 
-::Cylinder::Cylinder(const float3& position, Quat& rotation, GLfloat radius, GLfloat height) :
+::Cylinder::Cylinder(const float3& position, const Quat& rotation, GLfloat radius, GLfloat height) :
 	Primitive(position, rotation), Radius(radius), Height(height) {}
 
-::Cylinder::Cylinder(const float3& position, Quat& rotation, const float3& color, GLfloat radius, GLfloat height) :
+::Cylinder::Cylinder(const float3& position, const Quat& rotation, const float3& color, GLfloat radius, GLfloat height) :
 	Primitive(position, rotation, color), Radius(radius), Height(height) {}
 
 ::Cylinder::~Cylinder() {}

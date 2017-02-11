@@ -9,8 +9,8 @@ class Cylinder :
 {
 public:
 	Cylinder(GLfloat radius, GLfloat height);
-	Cylinder(const float3& position, Quat& rotation, GLfloat radius, GLfloat height);
-	Cylinder(const float3& position, Quat& rotation, const float3& color, GLfloat radius, GLfloat height);
+	Cylinder(const float3& position, const Quat& rotation, GLfloat radius, GLfloat height);
+	Cylinder(const float3& position, const Quat& rotation, const float3& color, GLfloat radius, GLfloat height);
 	~Cylinder();
 
 	void Draw() override;
