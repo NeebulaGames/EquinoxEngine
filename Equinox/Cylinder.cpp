@@ -27,7 +27,7 @@ void ::Cylinder::Draw()
 	GLfloat x = 0.0;
 	GLfloat y = 0.0;
 	GLfloat angle = 0.0;
-	GLfloat angle_stepsize = 0.1;
+	GLfloat angle_stepsize = 0.1f;
 
 	/** Draw the tube */
 	glBegin(GL_QUAD_STRIP);
