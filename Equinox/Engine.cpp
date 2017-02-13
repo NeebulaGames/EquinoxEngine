@@ -9,7 +9,6 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleTimer.h"
-#include "ModuleFonts.h"
 #include "ComplexTimer.h"
 #include "ModuleEditorCamera.h"
 
@@ -39,7 +38,6 @@ Engine::Engine()
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(timer = new ModuleTimer());
-	modules.push_back(fonts = new ModuleFonts());
 	//modules.push_back(fade = new ModuleFadeToBlack());
 
 	App = this;
@@ -154,8 +152,8 @@ update_status Engine::Update()
 	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
 
 	if (FPS_CAP && _current_fps >= FPS_CAP) {
-		int aSecond = 1E3;
-		Uint32 timeToDelay = aSecond - (FPS_CAP*aSecond / _current_fps);
+		double aSecond = 1E3;
+		Uint32 timeToDelay = Uint32(aSecond - (FPS_CAP*aSecond / _current_fps));
 		SDL_Delay(timeToDelay);
 	}
 

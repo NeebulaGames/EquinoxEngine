@@ -3,6 +3,7 @@
 #include "Sphere.h"
 #include <GL/glew.h>
 #include <MathGeoLib/include/Math/MathFunc.h>
+#include <SDL/include/SDL_stdinc.h>
 
 
 ::Sphere::Sphere(float radius, unsigned rings, unsigned sectors) : 
@@ -46,11 +47,11 @@ void ::Sphere::Draw()
 	glPopMatrix();
 }
 
-void ::Sphere::iniRingsAndSectors(float radius, unsigned rings, unsigned sectors)
+void ::Sphere::iniRingsAndSectors(float radius, Uint32 rings, Uint32 sectors)
 {
 	float const R = 1.f / static_cast<float>(rings - 1);
 	float const S = 1.f / static_cast<float>(sectors - 1);
-	int r, s;
+	Uint32 r, s;
 
 	verticesVector.resize(rings * sectors * 3);
 	normalsVector.resize(rings * sectors * 3);
@@ -58,29 +59,31 @@ void ::Sphere::iniRingsAndSectors(float radius, unsigned rings, unsigned sectors
 	std::vector<GLfloat>::iterator v = verticesVector.begin();
 	std::vector<GLfloat>::iterator n = normalsVector.begin();
 	std::vector<GLfloat>::iterator t = texcoordsVector.begin();
-	for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
-		float const y = sin(-M_PI_2 + M_PI * r * R);
-		float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
-		float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
+	for (r = 0; r < rings; r++) 
+		for (s = 0; s < sectors; s++) {
+			float y = float(sin(-M_PI_2 + M_PI * r * R));
+			float x = float(cos(2 * M_PI * s * S) * sin(M_PI * r * R));
+			float z = float(sin(2 * M_PI * s * S) * sin(M_PI * r * R));
 
-		*t++ = s*S;
-		*t++ = r*R;
+			*t++ = s*S;
+			*t++ = r*R;
 
-		*v++ = x * radius;
-		*v++ = y * radius;
-		*v++ = z * radius;
+			*v++ = x * radius;
+			*v++ = y * radius;
+			*v++ = z * radius;
 
-		*n++ = x;
-		*n++ = y;
-		*n++ = z;
-	}
+			*n++ = x;
+			*n++ = y;
+			*n++ = z;
+		}
 
 	indices.resize(rings * sectors * 4);
 	std::vector<GLushort>::iterator i = indices.begin();
-	for (r = 0; r < rings - 1; r++) for (s = 0; s < sectors - 1; s++) {
-		*i++ = r * sectors + s;
-		*i++ = r * sectors + (s + 1);
-		*i++ = (r + 1) * sectors + (s + 1);
-		*i++ = (r + 1) * sectors + s;
+	for (r = 0; r < rings - 1; r++) 
+		for (s = 0; s < sectors - 1; s++) {
+			*i++ = r * sectors + s;
+			*i++ = r * sectors + (s + 1);
+			*i++ = (r + 1) * sectors + (s + 1);
+			*i++ = (r + 1) * sectors + s;
 	}
 }

@@ -100,7 +100,6 @@
     <ClInclude Include="ModuleCollision.h" />
     <ClInclude Include="ModuleEditorCamera.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
-    <ClInclude Include="ModuleFonts.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleParticles.h" />
     <ClInclude Include="ModuleRender.h" />
@@ -130,7 +129,6 @@
     <ClCompile Include="ModuleCollision.cpp" />
     <ClCompile Include="ModuleEditorCamera.cpp" />
     <ClCompile Include="ModuleFadeToBlack.cpp" />
-    <ClCompile Include="ModuleFonts.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleParticles.cpp" />
     <ClCompile Include="ModuleRender.cpp" />

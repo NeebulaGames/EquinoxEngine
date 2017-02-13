@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include <GL/glew.h>
 #include <vector>
+#include <SDL/include/SDL_quit.h>
 
 class Sphere : 
 	public Primitive
@@ -17,7 +18,7 @@ public:
 	void Draw() override;
 
 private:
-	void iniRingsAndSectors(float radius, unsigned int rings, unsigned int sectors);
+	void iniRingsAndSectors(float radius, Uint32 rings, Uint32 sectors);
 
 protected:
 	std::vector<GLfloat> verticesVector;

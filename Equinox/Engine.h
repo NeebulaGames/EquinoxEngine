@@ -22,7 +22,6 @@ class ModuleCollision;
 class ModuleParticles;
 class ModuleSceneManager;
 class ModuleTimer;
-class ModuleFonts;
 class ModuleEditorCamera;
 
 // Game modules ---
@@ -59,7 +58,6 @@ public:
 	ModuleCollision* collision;
 	ModuleParticles* particles;
 	ModuleTimer* timer;
-	ModuleFonts* fonts;
 	ModuleEditorCamera* editorCamera;
 
 	// Game modules ---

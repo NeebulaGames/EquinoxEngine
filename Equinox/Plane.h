@@ -7,14 +7,14 @@ class Plane :
 	public Primitive
 {
 public:
-	Plane(int planeSize);
-	Plane(const float3& position, const Quat& rotation, int planeSize);
-	Plane(const float3& position, const Quat& rotation, const float3& color, int planeSize);
+	Plane(float planeSize);
+	Plane(const float3& position, const Quat& rotation, float planeSize);
+	Plane(const float3& position, const Quat& rotation, const float3& color, float planeSize);
 	~Plane();
 
 	void Draw() override;
 
-	int PlaneSize;
+	float PlaneSize;
 };
 
 #endif // __PLANE_H__
