@@ -17,7 +17,6 @@ class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
 class ModuleAudio;
-class ModuleFadeToBlack;
 class ModuleCollision;
 class ModuleParticles;
 class ModuleSceneManager;
@@ -54,7 +53,6 @@ public:
 	ModuleTextures* textures;
 	ModuleInput* input;
 	ModuleAudio* audio;
-	ModuleFadeToBlack* fade;
 	ModuleCollision* collision;
 	ModuleParticles* particles;
 	ModuleTimer* timer;

@@ -64,7 +64,7 @@ SDL_Texture* const ModuleTextures::Load(const char* path, SDL_Color* color_key)
 	{
 		if (color_key)
 			SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, color_key->r, color_key->g, color_key->b));
-		texture = SDL_CreateTextureFromSurface(App->renderer->renderer, surface);
+		//texture = SDL_CreateTextureFromSurface(App->renderer->renderer, surface);
 
 		if(texture == nullptr)
 		{
