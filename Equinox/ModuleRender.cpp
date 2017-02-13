@@ -14,6 +14,10 @@
 #include "Plane.h"
 #include "ModuleEditorCamera.h"
 #include "CoordinateArrows.h"
+#include "IL/ilut_config.h"
+#include "IL/il.h"
+#include "IL/ilut.h"
+#include "IL/ilu.h"
 
 ModuleRender::ModuleRender()
 {
@@ -102,6 +106,17 @@ bool ModuleRender::Init()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
 			0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
+		// Activate DevIL (Move to TextureManager)
+		ilInit();
+		iluInit();
+		ilutInit();
+
+		// Enable OpenGL access to DevIL
+		ilutRenderer(ILUT_OPENGL);
+		ilutEnable(ILUT_OPENGL_CONV);
+
+		lenaImage = ilutGLLoadImage("Lenna.png");
+
 		//End Start()
 	}
 
@@ -147,6 +162,7 @@ update_status ModuleRender::Update()
 
 	Cube cube(float3(0, 0, -5.f), rotation_cube, ImageName);
 	::Plane plane(float3(0, 0, -5.f), rotation_plane, 60);
+	Cube cube2(float3(5.f, 0, -5.f), rotation_cube, lenaImage);
 	//::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
 	::Cylinder cylinder(float3(-2, 3, -5.f), rotation_cylinder, float3(0, 0, 25.f), 0.3, 1.5);
 
@@ -154,6 +170,7 @@ update_status ModuleRender::Update()
 		
 	plane.Draw();
 	cube.Draw();
+	cube2.Draw();
 	//sphere.Draw();
 	cylinder.Draw();
 
