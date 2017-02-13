@@ -162,7 +162,7 @@ update_status ModuleRender::Update()
 
 	Cube cube(float3(0, 0, -5.f), rotation_cube, ImageName);
 	::Plane plane(float3(0, 0, -5.f), rotation_plane, 60);
-	Cube cube(float3(0, 0, -5.f), rotation_cube, lenaImage);
+	Cube cube2(float3(5.f, 0, -5.f), rotation_cube, lenaImage);
 	//::Sphere sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24);
 	::Cylinder cylinder(float3(-2, 3, -5.f), rotation_cylinder, float3(0, 0, 25.f), 0.3, 1.5);
 
@@ -170,6 +170,7 @@ update_status ModuleRender::Update()
 		
 	plane.Draw();
 	cube.Draw();
+	cube2.Draw();
 	//sphere.Draw();
 	cylinder.Draw();
 
