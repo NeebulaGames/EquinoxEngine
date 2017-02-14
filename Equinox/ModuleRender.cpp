@@ -1,3 +1,4 @@
+#include "Model.h"
 #include "Globals.h"
 #include "Engine.h"
 #include "ModuleRender.h"
@@ -124,6 +125,10 @@ bool ModuleRender::Start()
 		objects.push_back(new Cube(float3(5.f, 0.f, -5.f), rotation_cube, lenaImage));
 		objects.push_back(new ::Cylinder(float3(-2.f, 3.f, -5.f), rotation_cylinder, float3(0.f, 0.f, 25.f), 0.3f, 1.5));
 		objects.push_back(new ::Sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24));
+		Model* batman = new Model();
+		batman->Load("Models/Batman/batman.obj");
+		batman->Position.x = 10;
+		objects.push_back(batman);
 		objects.push_back(new CoordinateArrows());
 	}
 	return ret;
@@ -159,6 +164,15 @@ update_status ModuleRender::PreUpdate()
 update_status ModuleRender::Update()
 {
 	bool ret = true;
+
+	GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+
+	GLfloat light_position[] = { 0.25f, 1.0f, 1.0f, 0.0f };
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 		(*it)->Draw();
