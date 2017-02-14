@@ -77,7 +77,8 @@ void ModuleCollision::DebugDraw()
 		SDL_Color color = { 255, 0, 0, 0 };
 		if ((*it)->type == PLAYER_ATTACK)
 			color.g = 255;
-		App->renderer->DrawQuad((*it)->rect, color.r, color.g, color.b, 80);
+		//App->renderer->DrawQuad((*it)->rect, color.r, color.g, color.b, 80);
+		//we will move all the module to be compatible with OpenGL
 	}
 }
 

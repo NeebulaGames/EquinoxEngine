@@ -37,9 +37,6 @@
     <ClInclude Include="ModuleAudio.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleFadeToBlack.h">
-      <Filter>Core Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -130,9 +127,6 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleAudio.cpp">
-      <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleFadeToBlack.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">

@@ -5,7 +5,6 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModuleSceneManager.h"
-#include "ModuleFadeToBlack.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleTimer.h"
@@ -38,7 +37,6 @@ Engine::Engine()
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(timer = new ModuleTimer());
-	//modules.push_back(fade = new ModuleFadeToBlack());
 
 	App = this;
 }
