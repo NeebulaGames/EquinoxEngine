@@ -21,13 +21,13 @@ void Model::Load(const char* file)
 
 	indexes = new Uint32*[scene->mNumMeshes];
 
-	for (int i = 0; i < scene->mNumMeshes; ++i)
+	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[i];
 
 		indexes[i] = new Uint32[mesh->mNumFaces * 3];
 
-		for (int iFace = 0; iFace < mesh->mNumFaces; ++iFace)
+		for (unsigned iFace = 0; iFace < mesh->mNumFaces; ++iFace)
 		{
 			aiFace* face = &mesh->mFaces[iFace];
 			
@@ -50,14 +50,14 @@ void Model::Draw()
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	for (int i = 0; i < scene->mNumMeshes; ++i)
+	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[i];
 		
 		glVertexPointer(3, GL_FLOAT, sizeof(aiVector3D), &mesh->mVertices[0]);
 		glNormalPointer(GL_FLOAT, sizeof(aiVector3D), &mesh->mNormals[0]);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector2D), &mesh->mTextureCoords[0]);
-		glDrawElements(GL_TRIANGLES, mesh->mNumFaces, GL_UNSIGNED_INT, indexes[i]);
+		glDrawElements(GL_TRIANGLES, mesh->mNumFaces * 3, GL_UNSIGNED_INT, indexes[i]);
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
