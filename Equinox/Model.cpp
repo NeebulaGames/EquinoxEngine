@@ -30,10 +30,10 @@ void Model::Load(const char* file)
 		for (int iFace = 0; iFace < mesh->mNumFaces; ++iFace)
 		{
 			aiFace* face = &mesh->mFaces[iFace];
-			for (int iVert = 0; iVert < face->mNumIndices; ++iVert)
-			{
-				indexes[i][(iFace * 3) + iVert] = face->mIndices[iVert];
-			}
+			
+			indexes[i][(iFace * 3)] = face->mIndices[0];
+			indexes[i][(iFace * 3) + 1] = face->mIndices[1];
+			indexes[i][(iFace * 3) + 2] = face->mIndices[2];
 		}
 	}
 }
@@ -46,31 +46,23 @@ void Model::Clear()
 void Model::Draw()
 {
 	glPushMatrix();
-	glBegin(GL_TRIANGLES);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < scene->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[i];
 		
-		//glVertexPointer(3, GL_FLOAT, 0, &mesh->mVertices[0]);
-		/*glNormalPointer(GL_FLOAT, 0, &mesh->mNormals[0]);
-		glTexCoordPointer(2, GL_FLOAT, 0, &mesh->mTextureCoords[0]);*/
-		//glDrawElements(GL_TRIANGLES, mesh->mNumFaces, GL_UNSIGNED_INT, indexes[i]);
-
-		for (int iFace = 0; iFace < mesh->mNumFaces; ++iFace)
-		{
-			aiFace* face = &mesh->mFaces[iFace];
-			Uint32* indexes = face->mIndices;
-
-			glVertex3fv(&mesh->mVertices[*indexes++][0]);
-			glVertex3fv(&mesh->mVertices[*indexes++][0]);
-			glVertex3fv(&mesh->mVertices[*indexes][0]);
-		}
+		glVertexPointer(3, GL_FLOAT, sizeof(aiVector3D), &mesh->mVertices[0]);
+		glNormalPointer(GL_FLOAT, sizeof(aiVector3D), &mesh->mNormals[0]);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector2D), &mesh->mTextureCoords[0]);
+		glDrawElements(GL_TRIANGLES, mesh->mNumFaces, GL_UNSIGNED_INT, indexes[i]);
 	}
 
-	glEnd();
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	glPopMatrix();
 }
