@@ -22,6 +22,7 @@ class ModuleParticles;
 class ModuleSceneManager;
 class ModuleTimer;
 class ModuleEditorCamera;
+class ModuleEditor;
 
 // Game modules ---
 
@@ -57,6 +58,7 @@ public:
 	ModuleParticles* particles;
 	ModuleTimer* timer;
 	ModuleEditorCamera* editorCamera;
+	ModuleEditor* editor;
 
 	// Game modules ---
 	ModuleSceneManager* scene_manager;

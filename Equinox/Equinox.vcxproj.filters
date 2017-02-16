@@ -17,6 +17,9 @@
     <Filter Include="Primitives">
       <UniqueIdentifier>{0ec5c406-2f61-43ea-af01-a467e365bead}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\IMGUI">
+      <UniqueIdentifier>{afa5a197-0162-4d3b-b374-4b7fdfbcda75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleRender.h">
@@ -115,6 +118,30 @@
     <ClInclude Include="CoordinateArrows.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="IMGUI\imgui_internal.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\stb_rect_pack.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\stb_textedit.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\stb_truetype.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imconfig.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imgui.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEditor.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imgui_impl_sdl_gl3.h">
+      <Filter>Utils\IMGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -170,6 +197,18 @@
     </ClCompile>
     <ClCompile Include="CoordinateArrows.cpp">
       <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_draw.cpp">
+      <Filter>Utils\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui.cpp">
+      <Filter>Utils\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_impl_sdl_gl3.cpp">
+      <Filter>Utils\IMGUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
