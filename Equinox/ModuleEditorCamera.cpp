@@ -28,6 +28,21 @@ update_status ModuleEditorCamera::Update()
 	
 	float rotateUp = 0;
 	float rotateRight = 0;
+	SDL_ShowCursor(1);
+	SDL_SetRelativeMouseMode(SDL_FALSE);
+	if(App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
+	{
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+		SDL_ShowCursor(0);
+		iPoint mouse_movement = App->input->GetMouseMotion();
+		float2 mouse_drag = { float(mouse_movement.x), float(mouse_movement.y) };
+
+		if(!mouse_drag.IsZero())
+			mouse_drag.Normalize();
+		
+		rotateUp = -mouse_drag.y * 3.f;
+		rotateRight = -mouse_drag.x * 3.f;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP))
 		rotateUp += 1;
@@ -37,6 +52,9 @@ update_status ModuleEditorCamera::Update()
 		rotateRight -= 1;
 	if (App->input->GetKey(SDL_SCANCODE_LEFT))
 		rotateRight += 1;
+
+	CLAMP(rotateUp, -1, 1);
+	CLAMP(rotateRight, -1, 1);
 
 	if (rotateRight != 0)
 	{
