@@ -3,6 +3,7 @@
 #include <assimp/postprocess.h>
 #include "Globals.h"
 #include <GL/glew.h>
+#include <IL/ilut.h>
 
 typedef std::vector<std::vector<int>> VII;
 
@@ -15,9 +16,12 @@ Model::~Model()
 {
 }
 
-void Model::Load(const char* file)
+void Model::Load(const char* path, const char* file)
 {
-	scene = aiImportFile(file, aiProcess_PreTransformVertices | aiProcess_FlipUVs);
+	std::string filePath(path);
+	filePath.append(file);
+
+	scene = aiImportFile(filePath.data(), aiProcess_PreTransformVertices | aiProcess_FlipUVs);
 
 	indexes = new Uint32*[scene->mNumMeshes];
 
@@ -36,6 +40,27 @@ void Model::Load(const char* file)
 			indexes[i][(iFace * 3) + 2] = face->mIndices[2];
 		}
 	}
+
+	materials = new GLuint*[scene->mNumMaterials];
+	int numTexturesByMaterial;
+	for(int i = 0; i < scene->mNumMaterials; ++i)
+	{
+		numTexturesByMaterial = scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE);
+		materials[i] = new GLuint[numTexturesByMaterial];
+		aiMaterial* material = scene->mMaterials[i];
+		for(int y = 0; y < numTexturesByMaterial; y++)
+		{
+			aiString* fileName = new aiString();
+			material->GetTexture(aiTextureType_DIFFUSE, y, fileName);
+			filePath = std::string(path);
+			filePath.append(fileName->data);
+			LOG("PATH: %s", filePath.data());
+
+			materials[i][y] = ilutGLLoadImage(const_cast<char*>(filePath.data()));
+		}
+	}
+
+	LOG("FI LOAD");
 }
 
 void Model::Clear()
@@ -46,17 +71,24 @@ void Model::Clear()
 void Model::Draw()
 {
 	glPushMatrix();
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
+	int numTexturesByMaterial;
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[i];
-		
+
+		numTexturesByMaterial = scene->mMaterials[mesh->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE);
+		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+		//for (int y = 0; y < numTexturesByMaterial; ++y)
+			glBindTexture(GL_TEXTURE_2D, materials[mesh->mMaterialIndex][0]);
+
 		glVertexPointer(3, GL_FLOAT, sizeof(aiVector3D), &mesh->mVertices[0]);
 		glNormalPointer(GL_FLOAT, sizeof(aiVector3D), &mesh->mNormals[0]);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector2D), &mesh->mTextureCoords[0]);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector3D), &mesh->mTextureCoords[0]);
 		glDrawElements(GL_TRIANGLES, mesh->mNumFaces * 3, GL_UNSIGNED_INT, indexes[i]);
 	}
 
