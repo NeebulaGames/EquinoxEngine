@@ -10,6 +10,7 @@
 #include "ModuleTimer.h"
 #include "ComplexTimer.h"
 #include "ModuleEditorCamera.h"
+#include "ModuleEditor.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ Engine::Engine()
 
 	modules.push_back(editorCamera = new ModuleEditorCamera());
 
+	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(audio = new ModuleAudio());
