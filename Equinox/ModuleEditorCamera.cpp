@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "ModuleInput.h"
 #include <MathGeoLib/include/Math/Quat.h>
+#include "ModuleWindow.h"
 
 using namespace math;
 
@@ -28,9 +29,12 @@ update_status ModuleEditorCamera::Update()
 	
 	float rotateUp = 0;
 	float rotateRight = 0;
-
+	SDL_ShowCursor(1);
+	SDL_SetRelativeMouseMode(SDL_FALSE);
 	if(App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT))
 	{
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+		SDL_ShowCursor(0);
 		iPoint mouse_movement = App->input->GetMouseMotion();
 		float2 mouse_drag = { float(mouse_movement.x), float(mouse_movement.y) };
 
@@ -39,8 +43,8 @@ update_status ModuleEditorCamera::Update()
 
 		LOG("%d, %d", mouse_movement.x, mouse_movement.y);
 
-		rotateUp += -mouse_drag.y;
-		rotateRight += -mouse_drag.x;
+		rotateUp = -mouse_drag.y * 3.5f;
+		rotateRight = -mouse_drag.x * 3.5f;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP))
