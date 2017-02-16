@@ -43,8 +43,8 @@ update_status ModuleEditorCamera::Update()
 
 		LOG("%d, %d", mouse_movement.x, mouse_movement.y);
 
-		rotateUp = -mouse_drag.y * 3.5f;
-		rotateRight = -mouse_drag.x * 3.5f;
+		rotateUp = -mouse_drag.y * 3.f;
+		rotateRight = -mouse_drag.x * 3.f;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP))
