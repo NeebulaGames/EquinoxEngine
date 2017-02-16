@@ -55,5 +55,17 @@ void ::Cylinder::Draw()
 	glVertex3f(Radius, 0.0, Height);
 	glEnd();
 
+	/** Draw the circle on bottom of cylinder */
+	glBegin(GL_POLYGON);
+	angle = 2 * M_PI;
+	while (angle > 0.0) {
+		x = Radius * cos(angle);
+		y = Radius * sin(angle);
+		glVertex3f(x, y, 0.0);
+		angle = angle - angle_stepsize;
+	}
+	glVertex3f(Radius, 0.0, 0.0);
+	glEnd();
+
 	glPopMatrix();
 }
