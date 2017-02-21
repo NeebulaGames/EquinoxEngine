@@ -5,6 +5,8 @@
 #include "SDL/include/SDL.h"
 
 #include "SDL_image/include/SDL_image.h"
+#include <IL/ilut.h>
+#include <cassert>
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 
 using namespace std;
@@ -22,18 +24,17 @@ ModuleTextures::~ModuleTextures()
 // Called before render is available
 bool ModuleTextures::Init()
 {
-	LOG("Init Image library");
+	LOG("Init Texture Manager");
 	bool ret = true;
 
 	// load support for the PNG image format
-	int flags = IMG_INIT_PNG;
-	int init = IMG_Init(flags);
+	ilInit();
+	iluInit();
+	ilutInit();
 
-	if((init & flags) != flags)
-	{
-		LOG("Could not initialize Image lib. IMG_Init: %s", IMG_GetError());
-		ret = false;
-	}
+	// Enable OpenGL access to DevIL
+	ilutRenderer(ILUT_OPENGL);
+	ilutEnable(ILUT_OPENGL_CONV);
 
 	return ret;
 }
@@ -41,55 +42,92 @@ bool ModuleTextures::Init()
 // Called before quitting
 bool ModuleTextures::CleanUp()
 {
-	LOG("Freeing textures and Image library");
+	LOG("Freeing textures and Texture Manager");
 
-	for(list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
-		SDL_DestroyTexture(*it);
+	for (TextureMap::iterator it = textures.begin(); it != textures.end(); ++it)
+	{
+		glDeleteTextures(1, &it->second);
+	}
 
 	textures.clear();
 	return true;
 }
 
 // Load new texture from file path
-SDL_Texture* const ModuleTextures::Load(const char* path, SDL_Color* color_key)
+unsigned ModuleTextures::Load(const string& path)
 {
-	SDL_Texture* texture = nullptr;
-	SDL_Surface* surface = IMG_Load(path);
+	TextureMap::iterator it = textures.find(path);
 
-	if(surface == nullptr)
-	{
-		LOG("Could not load surface with path: %s. IMG_Load: %s", path, IMG_GetError());
-	}
-	else
-	{
-		if (color_key)
-			SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, color_key->r, color_key->g, color_key->b));
-		//texture = SDL_CreateTextureFromSurface(App->renderer->renderer, surface);
-		//we will move all the module to be compatible with OpenGL
+	if (it != textures.end())
+		return it->second;
 
-		if(texture == nullptr)
-		{
-			LOG("Unable to create texture from surface! SDL Error: %s\n", SDL_GetError());
-		}
-		else
-		{
-			textures.push_back(texture);
-		}
+	unsigned textureID = 0;
 
-		SDL_FreeSurface(surface);
+	ILuint imageID;
+	ilGenImages(1, &imageID);
+	ilBindImage(imageID);
+
+	ilLoadImage(path.c_str());
+
+	ILubyte* data = ilGetData();
+	if (!data) {
+		ilBindImage(0);
+		ilDeleteImages(1, &imageID);
+		return 0;
 	}
 
-	return texture;
+	int width = ilGetInteger(IL_IMAGE_WIDTH);
+	int height = ilGetInteger(IL_IMAGE_HEIGHT);
+
+	int components = 3;
+	int format = GL_RGB;
+	switch (ilGetInteger(IL_IMAGE_FORMAT))
+	{
+	case IL_RGB:
+		components = 3;
+		format = GL_RGB;
+		break;
+	case IL_RGBA:
+		components = 4;
+		format = GL_RGBA;
+		break;
+	case IL_BGR:
+		components = 3;
+		format = GL_BGR_EXT;
+		break;
+	case IL_BGRA:
+		components = 4;
+		format = GL_BGRA_EXT;
+		break;
+	default:
+		assert(false);
+	}
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, components, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	ilDeleteImage(imageID);
+
+	textures[path] = textureID;
+
+	return textureID;
 }
 
 // Free texture from memory
-void ModuleTextures::Unload(SDL_Texture* texture)
+void ModuleTextures::Unload(unsigned id)
 {
-	for(list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
+	for (TextureMap::iterator it = textures.begin(); it != textures.end(); ++it)
 	{
-		if(*it == texture)
+		if (it->second == id)
 		{
-			SDL_DestroyTexture(*it);
+			glDeleteTextures(1, &it->second);
 			textures.erase(it);
 			break;
 		}

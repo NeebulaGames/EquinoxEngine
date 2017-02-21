@@ -45,7 +45,7 @@ update_status ModuleParticles::PreUpdate()
 bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
-	App->textures->Unload(graphics);
+	//App->textures->Unload(graphics);
 
 	for (list<Particle*>::iterator it = active.begin(); it != active.end(); ++it)
 		RELEASE(*it);

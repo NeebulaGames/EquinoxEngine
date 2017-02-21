@@ -3,6 +3,7 @@
 #include "Model.h"
 #include <GL/glew.h>
 #include <IL/ilut.h>
+#include "ModuleTextures.h"
 
 typedef std::vector<std::vector<int>> VII;
 
@@ -20,7 +21,7 @@ void Model::Load(const char* path, const char* file)
 	std::string filePath(path);
 	filePath.append(file);
 
-	scene = aiImportFile(filePath.data(), aiProcess_PreTransformVertices);
+	scene = aiImportFile(filePath.data(), aiProcess_PreTransformVertices | aiProcess_FlipUVs);
 
 	indexes = new Uint32*[scene->mNumMeshes];
 
@@ -60,7 +61,7 @@ void Model::Load(const char* path, const char* file)
 			char tmp[512];
 			strcpy_s(tmp, filePath.c_str());
 
-			matNum = ilutGLLoadImage(tmp);
+			matNum = App->textures->Load(filePath.c_str());
 
 
 
@@ -86,10 +87,49 @@ bool Model::CleanUp()
 	return true;
 }
 
+//void Model::Draw()
+//{
+//	glPushMatrix();
+//	glBegin(GL_TRIANGLES);
+//	glEnableClientState(GL_VERTEX_ARRAY);
+//	glEnableClientState(GL_NORMAL_ARRAY);
+//	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+//
+//	for (int i = 0; i < 1; ++i)
+//	{
+//		aiMesh* mesh = scene->mMeshes[i];
+//
+//		glBindTexture(GL_TEXTURE_2D, materials[mesh->mMaterialIndex]);
+//
+//		//glVertexPointer(3, GL_FLOAT, 0, &mesh->mVertices[0]); 
+//		/*glNormalPointer(GL_FLOAT, 0, &mesh->mNormals[0]);
+//		glTexCoordPointer(2, GL_FLOAT, 0, &mesh->mTextureCoords[0]);*/
+//		//glDrawElements(GL_TRIANGLES, mesh->mNumFaces, GL_UNSIGNED_INT, indexes[i]); 
+//
+//		for (int iFace = 0; iFace < mesh->mNumFaces; ++iFace)
+//		{
+//			aiFace* face = &mesh->mFaces[iFace];
+//			Uint32* indexes = face->mIndices;
+//
+//			if (mesh->HasTextureCoords(0))
+//			{
+//				glTexCoord2fv(mesh->mTextureCoords[0])
+//			}
+//
+//			glVertex3fv(&mesh->mVertices[*indexes++][0]);
+//			glVertex3fv(&mesh->mVertices[*indexes++][0]);
+//			glVertex3fv(&mesh->mVertices[*indexes][0]);
+//		}
+//	}
+//
+//	glEnd();
+//	glPopMatrix();
+//}
+
 void Model::Draw()
 {
 	glPushMatrix();
-
+	glColor3f(1.f, 1.f, 1.f);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -106,8 +146,10 @@ void Model::Draw()
 
 		glVertexPointer(3, GL_FLOAT, sizeof(aiVector3D), &mesh->mVertices[0]);
 		glNormalPointer(GL_FLOAT, sizeof(aiVector3D), &mesh->mNormals[0]);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector3D), &mesh->mTextureCoords[0]);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector3D), &mesh->mTextureCoords[0][0]);
 		glDrawElements(GL_TRIANGLES, mesh->mNumFaces * 3, GL_UNSIGNED_INT, indexes[i]);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
