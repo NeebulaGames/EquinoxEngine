@@ -118,6 +118,9 @@
     <ClInclude Include="CoordinateArrows.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
     <ClInclude Include="IMGUI\imgui_internal.h">
       <Filter>Utils\IMGUI</Filter>
     </ClInclude>
@@ -209,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="IMGUI\imgui_impl_sdl_gl3.cpp">
       <Filter>Utils\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
