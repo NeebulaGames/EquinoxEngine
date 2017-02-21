@@ -19,6 +19,7 @@
 #include "IL/il.h"
 #include "IL/ilut.h"
 #include "IL/ilu.h"
+#include "ModuleTextures.h"
 
 ModuleRender::ModuleRender()
 {
@@ -104,7 +105,7 @@ bool ModuleRender::Start()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
 			0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
-		lenaImage = ilutGLLoadImage("Lenna.png");
+		lenaImage = App->textures->Load("Lenna.png");
 
 		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
