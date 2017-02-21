@@ -132,6 +132,7 @@ void Cube::Draw()
 	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // Always restore Texture Environment to GL_MODULATE
 
 	glPopMatrix();
 }
