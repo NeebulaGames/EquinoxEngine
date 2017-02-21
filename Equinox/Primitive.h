@@ -2,9 +2,10 @@
 #define __PRIMITIVE_H__
 
 #include "MathGeoLib/include/Math/Quat.h"
-#include "Point3.h"
+#include "Entity.h"
 
 class Primitive
+	: public Entity
 {
 public:
 

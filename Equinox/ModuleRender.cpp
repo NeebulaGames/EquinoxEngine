@@ -185,7 +185,10 @@ bool ModuleRender::CleanUp()
 	}
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
+	{
+		(*it)->CleanUp();
 		RELEASE(*it);
+	}
 
 	return true;
 }
