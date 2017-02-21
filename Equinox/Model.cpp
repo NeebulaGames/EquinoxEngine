@@ -1,7 +1,6 @@
-#include "Model.h"
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
-#include "Globals.h"
+#include "Model.h"
 #include <GL/glew.h>
 #include <IL/ilut.h>
 
@@ -21,7 +20,7 @@ void Model::Load(const char* path, const char* file)
 	std::string filePath(path);
 	filePath.append(file);
 
-	scene = aiImportFile(filePath.data(), aiProcess_PreTransformVertices | aiProcess_FlipUVs);
+	scene = aiImportFile(filePath.data(), aiProcess_PreTransformVertices);
 
 	indexes = new Uint32*[scene->mNumMeshes];
 
@@ -41,31 +40,50 @@ void Model::Load(const char* path, const char* file)
 		}
 	}
 
-	materials = new GLuint*[scene->mNumMaterials];
+	materials = new GLuint[scene->mNumMaterials];
 	int numTexturesByMaterial;
 	for(int i = 0; i < scene->mNumMaterials; ++i)
 	{
 		numTexturesByMaterial = scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE);
-		materials[i] = new GLuint[numTexturesByMaterial];
-		aiMaterial* material = scene->mMaterials[i];
-		for(int y = 0; y < numTexturesByMaterial; y++)
+		//materials[i] = new GLuint[numTexturesByMaterial];
+		if (numTexturesByMaterial > 0)
 		{
-			aiString* fileName = new aiString();
-			material->GetTexture(aiTextureType_DIFFUSE, y, fileName);
-			filePath = std::string(path);
-			filePath.append(fileName->data);
+			aiMaterial* material = scene->mMaterials[i];
+
+			aiString fileName;
+			aiReturn ret = material->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
+			filePath = path;
+			filePath.append(fileName.C_Str());
 			LOG("PATH: %s", filePath.data());
 
-			materials[i][y] = ilutGLLoadImage(const_cast<char*>(filePath.data()));
+			GLuint matNum = 0;
+			char tmp[512];
+			strcpy_s(tmp, filePath.c_str());
+
+			matNum = ilutGLLoadImage(tmp);
+
+
+
+			LOG("Texture ID: %i", matNum);
+			//assert(matNum != 0);
+
+			materials[i] = matNum;
 		}
+		else
+			materials[i] = 0;
 	}
 
 	LOG("FI LOAD");
 }
 
-void Model::Clear()
+bool Model::CleanUp()
 {
-	RELEASE(scene);
+	for (int i = 0; i < scene->mNumMeshes; ++i)
+		RELEASE_ARRAY(indexes[i]);
+	RELEASE_ARRAY(indexes);
+	RELEASE_ARRAY(materials);
+
+	return true;
 }
 
 void Model::Draw()
@@ -84,7 +102,7 @@ void Model::Draw()
 		numTexturesByMaterial = scene->mMaterials[mesh->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE);
 		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 		//for (int y = 0; y < numTexturesByMaterial; ++y)
-			glBindTexture(GL_TEXTURE_2D, materials[mesh->mMaterialIndex][0]);
+			glBindTexture(GL_TEXTURE_2D, materials[mesh->mMaterialIndex]);
 
 		glVertexPointer(3, GL_FLOAT, sizeof(aiVector3D), &mesh->mVertices[0]);
 		glNormalPointer(GL_FLOAT, sizeof(aiVector3D), &mesh->mNormals[0]);

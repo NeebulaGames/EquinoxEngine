@@ -1,9 +1,8 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
-#include "Primitive.h"
 #include <assimp/scene.h>
-#include <SDL/include/SDL_hints.h>
+#include "Primitive.h"
 #include <GL/glew.h>
 
 class Model :
@@ -14,7 +13,7 @@ public:
 	~Model();
 
 	void Load(const char* path, const char* file);
-	void Clear();
+	bool CleanUp() override;
 	void Draw() override;
 
 private:
@@ -22,7 +21,7 @@ private:
 
 	Uint32** indexes;
 
-	GLuint** materials;
+	GLuint* materials;
 };
 
 #endif // __MODEL_H__
