@@ -22,7 +22,7 @@ private:
 
 	typedef std::map <std::string, unsigned> TextureMap;
 
-	TextureMap textures;
+	TextureMap _textures;
 };
 
 #endif // __MODULETEXTURES_H__

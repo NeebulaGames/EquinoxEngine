@@ -44,21 +44,21 @@ bool ModuleTextures::CleanUp()
 {
 	LOG("Freeing textures and Texture Manager");
 
-	for (TextureMap::iterator it = textures.begin(); it != textures.end(); ++it)
+	for (TextureMap::iterator it = _textures.begin(); it != _textures.end(); ++it)
 	{
 		glDeleteTextures(1, &it->second);
 	}
 
-	textures.clear();
+	_textures.clear();
 	return true;
 }
 
 // Load new texture from file path
 unsigned ModuleTextures::Load(const string& path)
 {
-	TextureMap::iterator it = textures.find(path);
+	TextureMap::iterator it = _textures.find(path);
 
-	if (it != textures.end())
+	if (it != _textures.end())
 		return it->second;
 
 	unsigned textureID = 0;
@@ -115,7 +115,7 @@ unsigned ModuleTextures::Load(const string& path)
 
 	ilDeleteImage(imageID);
 
-	textures[path] = textureID;
+	_textures[path] = textureID;
 
 	return textureID;
 }
@@ -123,12 +123,12 @@ unsigned ModuleTextures::Load(const string& path)
 // Free texture from memory
 void ModuleTextures::Unload(unsigned id)
 {
-	for (TextureMap::iterator it = textures.begin(); it != textures.end(); ++it)
+	for (TextureMap::iterator it = _textures.begin(); it != _textures.end(); ++it)
 	{
 		if (it->second == id)
 		{
 			glDeleteTextures(1, &it->second);
-			textures.erase(it);
+			_textures.erase(it);
 			break;
 		}
 	}
