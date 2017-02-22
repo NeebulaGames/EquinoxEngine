@@ -29,14 +29,9 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	ImGui::Begin("Debug");
+	ImGui::Begin("Engine Stats", nullptr, ImGuiWindowFlags_AlwaysUseWindowPadding);
 
-	ImGui::Text("Hello, world %d", 123);
-
-	if (ImGui::Button("Ok"))
-	{
-		
-	}
+	ImGui::Text("FPS: %f", ImGui::GetIO().Framerate);
 
 	bool wireframe = _wireframe;
 	ImGui::Checkbox("Wireframe mode", &wireframe);
@@ -44,16 +39,8 @@ update_status ModuleEditor::Update()
 	if (wireframe != _wireframe)
 	{
 		_wireframe = wireframe;
-
 		wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-
-	char buf[200];
-
-	ImGui::InputText("string", buf, 256);
-
-	float f;
-	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 
 	ImGui::End();
 
