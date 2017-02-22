@@ -151,6 +151,9 @@
     <ClInclude Include="IMGUI\imgui_impl_sdl_gl3.h">
       <Filter>Utils\IMGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleLighting.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Primitives</Filter>
     </ClInclude>
@@ -242,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleLighting.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Primitives</Filter>

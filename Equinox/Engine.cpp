@@ -11,6 +11,7 @@
 #include "ComplexTimer.h"
 #include "ModuleEditorCamera.h"
 #include "ModuleEditor.h"
+#include "ModuleLighting.h"
 #include "ModuleSettings.h"
 
 using namespace std;
@@ -31,6 +32,7 @@ Engine::Engine()
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
+	modules.push_back(lighting = new ModuleLighting());
 	modules.push_back(audio = new ModuleAudio());
 	modules.push_back(settings = new ModuleSettings());
 
