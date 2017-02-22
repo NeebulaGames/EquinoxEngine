@@ -19,6 +19,7 @@
 #include "IL/il.h"
 #include "IL/ilut.h"
 #include "IL/ilu.h"
+#include "ModuleTextures.h"
 
 ModuleRender::ModuleRender()
 {
@@ -104,19 +105,9 @@ bool ModuleRender::Start()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
 			0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
-		// Activate DevIL (Move to TextureManager)
-		ilutRenderer(ILUT_OPENGL);
-		ilInit();
-		iluInit();
-		ilutInit();
+		lenaImage = App->textures->Load("Lenna.png");
 
-		// Enable OpenGL access to DevIL
-		ilutRenderer(ILUT_OPENGL);
-		ilutEnable(ILUT_OPENGL_CONV);
-
-		lenaImage = ilutGLLoadImage("Lenna.png");
-
-		/*Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
+		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		Quat rotation_cube = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		Quat rotation_sphere = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		Quat rotation_cylinder = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
@@ -125,7 +116,7 @@ bool ModuleRender::Start()
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
 		objects.push_back(new Cube(float3(5.f, 0.f, -5.f), rotation_cube, lenaImage));
 		objects.push_back(new ::Cylinder(float3(-2.f, 3.f, -5.f), rotation_cylinder, float3(0.f, 0.f, 25.f), 0.3f, 1.5));
-		objects.push_back(new ::Sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24));*/
+		objects.push_back(new ::Sphere(float3(2, 2, -5.f), rotation_sphere, float3(25.f, 21.75f, 0), 1, 12, 24));
 		Model* batman = new Model();
 		batman->Load("Models/Batman/", "batman.obj");
 		batman->Position.x = 10;

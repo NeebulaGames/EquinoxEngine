@@ -1,8 +1,8 @@
 #ifndef __MODULETEXTURES_H__
 #define __MODULETEXTURES_H__
 
-#include<list>
 #include "Module.h"
+#include <map>
 
 struct SDL_Texture;
 
@@ -12,14 +12,17 @@ public:
 	ModuleTextures();
 	~ModuleTextures();
 
-	bool Init();
-	bool CleanUp();
+	bool Init() override;
+	bool CleanUp() override;
 
-	SDL_Texture* const Load(const char* path, SDL_Color* color_key = nullptr);
-	void Unload(SDL_Texture* texture);
+	unsigned Load(const std::string& path);
+	void Unload(unsigned id);
 
 private:
-	std::list<SDL_Texture*> textures;
+
+	typedef std::map <std::string, unsigned> TextureMap;
+
+	TextureMap _textures;
 };
 
 #endif // __MODULETEXTURES_H__

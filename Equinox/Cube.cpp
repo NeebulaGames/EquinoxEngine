@@ -23,8 +23,8 @@ void Cube::Draw()
 {
 	glPushMatrix();
 
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	glBindTexture(GL_TEXTURE_2D, _textureId);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	glTranslatef(Position.x, Position.y, Position.z);
 	float3 axis = Rotation.Axis();
 	glRotatef(RadToDeg(Rotation.Angle()), axis.x, axis.y, axis.z);
@@ -132,6 +132,7 @@ void Cube::Draw()
 	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // Always restore Texture Environment to GL_MODULATE
 
 	glPopMatrix();
 }
