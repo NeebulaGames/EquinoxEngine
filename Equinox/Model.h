@@ -19,7 +19,9 @@ public:
 private:
 	const aiScene* scene = nullptr;
 
-	Uint32** indexes;
+	GLuint* vertexIDs;
+	GLuint* normalIDs;
+	GLuint* indexesID;
 
 	GLuint* materials;
 };
