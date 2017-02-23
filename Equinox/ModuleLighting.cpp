@@ -36,7 +36,6 @@ bool ModuleLighting::Start()
 	Lights[0].IsEnabled = true;
 
 	//Ambient light
-	Ambient.Type = L_AMBIENT;
 	Ambient.IsEnabled = false;
 
 	return true;
@@ -57,13 +56,12 @@ update_status ModuleLighting::Update()
 		if(light.IsEnabled)
 		{
 			glEnable(light.Number);
-			if (light.Type == L_COMBINED)
-			{
-				glLightfv(light.Number, GL_AMBIENT, light.Ambient);
-				glLightfv(light.Number, GL_DIFFUSE, light.Diffuse);
-				glLightfv(light.Number, GL_SPECULAR, light.Specular);
-			}
-			else if (light.Type == L_POINT)
+
+			glLightfv(light.Number, GL_AMBIENT, light.Ambient);
+			glLightfv(light.Number, GL_DIFFUSE, light.Diffuse);
+			glLightfv(light.Number, GL_SPECULAR, light.Specular);
+			
+			if (light.Type == L_POINT)
 			{
 				glLightfv(light.Number, GL_POSITION, light.Position);
 			}
@@ -92,3 +90,22 @@ bool ModuleLighting::CleanUp()
 {
 	return true;
 }
+
+void ModuleLighting::SetLightType(Light light, LightType new_type)
+{
+	light.Type = new_type;
+
+	//default point
+	GLfloat default_point[4] = { 0.f, 0.f, 0.f, 0.f };
+	memcpy(light.Position, default_point, sizeof(GLfloat) * 4);
+	
+	//default spotlight values
+	light.CutOff = 45.0f;
+	GLfloat default_direction[3] = { 0.f, 0.f, 0.f };
+	memcpy(light.Direction, default_direction, sizeof(GLfloat) * 3);
+
+	if (new_type == L_DIRECTIONAL)
+		light.Position[3] = 0.f;
+	else
+		light.Position[3] = 1.f;
+}	

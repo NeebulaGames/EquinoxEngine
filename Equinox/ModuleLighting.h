@@ -7,32 +7,30 @@
 
 enum LightType
 {
-	L_COMBINED,
 	L_POINT,
 	L_DIRECTIONAL,
 	L_SPOTLIGHT,
-	L_AMBIENT
+	L_DEFAULT
 };
 
 struct Light
 {
-public:
-	
-	GLfloat Ambient[4] = { 0.f, 0.f, 0.f, 1.f };
-	GLfloat Diffuse[4] = { 1.f, 1.f, 1.f, 1.f };
-	GLfloat Specular[4] = { 1.f, 1.f, 1.f, 1.f };
+
+	GLfloat* Ambient = new GLfloat[4]{ 0.f, 0.f, 0.f, 1.f };
+	GLfloat* Diffuse = new GLfloat[4]{ 1.f, 1.f, 1.f, 1.f };
+	GLfloat* Specular = new GLfloat[4]{ 1.f, 1.f, 1.f, 1.f };
 
 	bool IsEnabled = false;
 
 	int Number = GL_LIGHT0;
-	LightType Type = L_COMBINED;
+	LightType Type = L_DEFAULT;
 
 	// w=1 => position || w=0 => direction (Direct light = 0.f, 0.f, 1.f, 0.f | position light = 0.f, 0.f, 0.f, 1.f)
-	GLfloat Position[4] = { 0.f, 0.f, 0.f, 1.f };
+	GLfloat* Position = new GLfloat[4]{ 0.f, 0.f, 0.f, 1.f };
 
 	//Required for Spotlight
 	GLfloat CutOff = 45.0f;
-	GLfloat Direction[3] = { 0.f, 0.f, 0.f };
+	GLfloat* Direction = new GLfloat[3]{ 0.f, 0.f, 0.f };
 
 };
 
@@ -52,6 +50,8 @@ public:
 public:
 	Light Lights[8];
 	Light Ambient;
+
+	void SetLightType(Light light, LightType new_type);
 };
 
 #endif
