@@ -36,7 +36,7 @@ bool ModuleLighting::Start()
 	Lights[0].IsEnabled = true;
 
 	//Ambient light
-	Ambient.IsEnabled = false;
+	AmbientLight.IsEnabled = false;
 
 	return true;
 }
@@ -48,8 +48,8 @@ update_status ModuleLighting::PreUpdate()
 
 update_status ModuleLighting::Update()
 {
-	if (Ambient.IsEnabled)
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Ambient.Ambient);
+	if (AmbientLight.IsEnabled)
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, AmbientLight.Ambient);
 
 	for (Light light : Lights)
 	{
@@ -88,6 +88,19 @@ update_status ModuleLighting::PostUpdate()
 
 bool ModuleLighting::CleanUp()
 {
+	for (Light light : Lights)
+	{
+		RELEASE_ARRAY(light.Ambient);
+		RELEASE_ARRAY(light.Diffuse);
+		RELEASE_ARRAY(light.Specular);
+		RELEASE_ARRAY(light.Position);
+		RELEASE_ARRAY(light.Direction);
+	}
+	RELEASE_ARRAY(AmbientLight.Ambient);
+	RELEASE_ARRAY(AmbientLight.Diffuse);
+	RELEASE_ARRAY(AmbientLight.Specular);
+	RELEASE_ARRAY(AmbientLight.Position);
+	RELEASE_ARRAY(AmbientLight.Direction);
 	return true;
 }
 

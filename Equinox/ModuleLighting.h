@@ -49,7 +49,7 @@ public:
 
 public:
 	Light Lights[8];
-	Light Ambient;
+	Light AmbientLight;
 
 	void SetLightType(Light light, LightType new_type);
 };
