@@ -24,15 +24,15 @@ void Model::Load(const char* path, const char* file)
 
 	scene = aiImportFile(filePath, aiProcess_PreTransformVertices | aiProcess_FlipUVs);
 
-	vertexIDs = new GLuint[scene->mNumMeshes];
-	normalIDs = new GLuint[scene->mNumMeshes];
-	textureIDs = new GLuint[scene->mNumMeshes];
-	indexesID = new GLuint[scene->mNumMeshes];
+	_vertexIDs = new GLuint[scene->mNumMeshes];
+	_normalIDs = new GLuint[scene->mNumMeshes];
+	_textureIDs = new GLuint[scene->mNumMeshes];
+	_indexesID = new GLuint[scene->mNumMeshes];
 
-	glGenBuffers(scene->mNumMeshes, vertexIDs);
-	glGenBuffers(scene->mNumMeshes, normalIDs);
-	glGenBuffers(scene->mNumMeshes, textureIDs);
-	glGenBuffers(scene->mNumMeshes, indexesID);
+	glGenBuffers(scene->mNumMeshes, _vertexIDs);
+	glGenBuffers(scene->mNumMeshes, _normalIDs);
+	glGenBuffers(scene->mNumMeshes, _textureIDs);
+	glGenBuffers(scene->mNumMeshes, _indexesID);
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
@@ -49,16 +49,16 @@ void Model::Load(const char* path, const char* file)
 			indexes[(iFace * 3) + 2] = face->mIndices[2];
 		}
 
-		glBindBuffer(GL_ARRAY_BUFFER, vertexIDs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _vertexIDs[i]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->mNumVertices * 3, &mesh->mVertices[0], GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, normalIDs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _normalIDs[i]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->mNumVertices * 3, &mesh->mNormals[0], GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, textureIDs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _textureIDs[i]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->mNumVertices * 3, &mesh->mTextureCoords[0][0], GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexesID[i]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexesID[i]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->mNumFaces * 3, indexes, GL_STATIC_DRAW);
 
 		RELEASE_ARRAY(indexes);
@@ -97,13 +97,15 @@ bool Model::CleanUp()
 {
 	RELEASE_ARRAY(materials);
 
-	glDeleteBuffers(scene->mNumMeshes, vertexIDs);
-	glDeleteBuffers(scene->mNumMeshes, normalIDs);
-	glDeleteBuffers(scene->mNumMeshes, indexesID);
+	glDeleteBuffers(scene->mNumMeshes, _vertexIDs);
+	glDeleteBuffers(scene->mNumMeshes, _normalIDs);
+	glDeleteBuffers(scene->mNumMeshes, _textureIDs);
+	glDeleteBuffers(scene->mNumMeshes, _indexesID);
 
-	RELEASE_ARRAY(vertexIDs);
-	RELEASE_ARRAY(normalIDs);
-	RELEASE_ARRAY(indexesID);
+	RELEASE_ARRAY(_vertexIDs);
+	RELEASE_ARRAY(_normalIDs);
+	RELEASE_ARRAY(_textureIDs);
+	RELEASE_ARRAY(_indexesID);
 
 	return true;
 }
@@ -122,16 +124,16 @@ void Model::Draw()
 		
 		glBindTexture(GL_TEXTURE_2D, materials[mesh->mMaterialIndex]);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vertexIDs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _vertexIDs[i]);
 		glVertexPointer(3, GL_FLOAT, 0, nullptr);
 
-		glBindBuffer(GL_ARRAY_BUFFER, normalIDs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _normalIDs[i]);
 		glNormalPointer(GL_FLOAT, 0, nullptr);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, textureIDs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _textureIDs[i]);
 		glTexCoordPointer(3, GL_FLOAT, 0, nullptr);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexesID[i]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexesID[i]);
 		glDrawElements(GL_TRIANGLES, mesh->mNumFaces * 3, GL_UNSIGNED_INT, nullptr);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
