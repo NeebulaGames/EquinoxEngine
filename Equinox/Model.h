@@ -21,6 +21,7 @@ private:
 
 	GLuint* vertexIDs;
 	GLuint* normalIDs;
+	GLuint* textureIDs;
 	GLuint* indexesID;
 
 	GLuint* materials;

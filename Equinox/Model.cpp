@@ -26,10 +26,12 @@ void Model::Load(const char* path, const char* file)
 
 	vertexIDs = new GLuint[scene->mNumMeshes];
 	normalIDs = new GLuint[scene->mNumMeshes];
+	textureIDs = new GLuint[scene->mNumMeshes];
 	indexesID = new GLuint[scene->mNumMeshes];
 
 	glGenBuffers(scene->mNumMeshes, vertexIDs);
 	glGenBuffers(scene->mNumMeshes, normalIDs);
+	glGenBuffers(scene->mNumMeshes, textureIDs);
 	glGenBuffers(scene->mNumMeshes, indexesID);
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
@@ -52,6 +54,9 @@ void Model::Load(const char* path, const char* file)
 
 		glBindBuffer(GL_ARRAY_BUFFER, normalIDs[i]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->mNumVertices * 3, &mesh->mNormals[0], GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, textureIDs[i]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->mNumVertices * 3, &mesh->mTextureCoords[0][0], GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexesID[i]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * mesh->mNumFaces * 3, indexes, GL_STATIC_DRAW);
@@ -123,8 +128,8 @@ void Model::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, normalIDs[i]);
 		glNormalPointer(GL_FLOAT, 0, nullptr);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(aiVector3D), &mesh->mTextureCoords[0][0]);
+		glBindBuffer(GL_ARRAY_BUFFER, textureIDs[i]);
+		glTexCoordPointer(3, GL_FLOAT, 0, nullptr);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexesID[i]);
 		glDrawElements(GL_TRIANGLES, mesh->mNumFaces * 3, GL_UNSIGNED_INT, nullptr);
