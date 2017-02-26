@@ -11,6 +11,7 @@
 #include "ComplexTimer.h"
 #include "ModuleEditorCamera.h"
 #include "ModuleEditor.h"
+#include "ModuleSettings.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ Engine::Engine()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(audio = new ModuleAudio());
+	modules.push_back(settings = new ModuleSettings());
 
 	// Game Modules
 	modules.push_back(scene_manager = new ModuleSceneManager());
@@ -146,7 +148,7 @@ update_status Engine::Update()
 
 	++_total_frames;
 
-	float currentFrameTime = _total_complex_time.Read() / 1E6;
+	float currentFrameTime = float(_total_complex_time.Read() / 1E6);
 	DeltaTime = float(currentFrameTime - _timeFromLastFrame);
 	_timeFromLastFrame = currentFrameTime;
 	
@@ -154,9 +156,9 @@ update_status Engine::Update()
 
 	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
 
-	if (FPS_CAP && _current_fps >= FPS_CAP) {
+	if (_current_fps >= settings->MaxFps) {
 		double aSecond = 1E3;
-		Uint32 timeToDelay = Uint32(aSecond - (FPS_CAP*aSecond / _current_fps));
+		Uint32 timeToDelay = Uint32(aSecond - (settings->MaxFps*aSecond / _current_fps));
 		SDL_Delay(timeToDelay);
 	}
 

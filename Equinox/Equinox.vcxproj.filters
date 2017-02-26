@@ -169,6 +169,9 @@
     <ClInclude Include="MaterialComponent.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleSettings.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -254,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="MaterialComponent.cpp">
       <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSettings.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
