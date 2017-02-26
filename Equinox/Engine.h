@@ -77,7 +77,7 @@ private:
 	double _current_avg = 0;
 	double _current_fps = 0;
 
-	double _timeFromLastFrame;
+	double _timeFromLastFrame = 0;
 };
 
 extern Engine* App;
