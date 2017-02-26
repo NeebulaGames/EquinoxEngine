@@ -132,6 +132,8 @@ update_status Engine::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	_timeFromLastFrame = _total_complex_time.Read() / 1E6;
+
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->PreUpdate();
@@ -147,9 +149,10 @@ update_status Engine::Update()
 	++_total_frames;
 	
 	_current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
-	//LOG("FPS: %f", _current_fps);
 
 	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
+
+	DeltaTime = float(_total_complex_time.Read() / 1E6 - _timeFromLastFrame);
 
 	if (FPS_CAP && _current_fps >= FPS_CAP) {
 		double aSecond = 1E3;
