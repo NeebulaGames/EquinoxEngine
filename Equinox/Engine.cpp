@@ -145,9 +145,12 @@ update_status Engine::Update()
 			ret = (*it)->PostUpdate();
 
 	++_total_frames;
+
+	float currentFrameTime = _total_complex_time.Read() / 1E6;
+	DeltaTime = float(currentFrameTime - _timeFromLastFrame);
+	_timeFromLastFrame = currentFrameTime;
 	
-	_current_fps = _total_frames / (_total_complex_time.Read() / 1E6);
-	//LOG("FPS: %f", _current_fps);
+	_current_fps = _total_frames / currentFrameTime;
 
 	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
 

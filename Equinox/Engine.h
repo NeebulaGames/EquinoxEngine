@@ -63,6 +63,8 @@ public:
 	// Game modules ---
 	ModuleSceneManager* scene_manager;
 
+	float DeltaTime;
+
 private:
 	State state;
 
@@ -74,6 +76,8 @@ private:
 
 	double _current_avg = 0;
 	double _current_fps = 0;
+
+	double _timeFromLastFrame = 0;
 };
 
 extern Engine* App;
