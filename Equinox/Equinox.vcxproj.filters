@@ -145,6 +145,9 @@
     <ClInclude Include="IMGUI\imgui_impl_sdl_gl3.h">
       <Filter>Utils\IMGUI</Filter>
     </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -214,6 +217,9 @@
       <Filter>Utils\IMGUI</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
       <Filter>Primitives</Filter>
     </ClCompile>
   </ItemGroup>
