@@ -90,7 +90,9 @@ update_status ModuleEditorCamera::Update()
 	if (App->input->GetKey(SDL_SCANCODE_D))
 		movement += Frustum.WorldRight();
 
-	Frustum.SetPos(Frustum.Pos() + movement);
+	float velocity = App->input->GetKey(SDL_SCANCODE_LSHIFT)? 0.6f : 0.1f;
+
+	Frustum.SetPos(Frustum.Pos() + movement*velocity);
 
 	return UPDATE_CONTINUE;
 }
