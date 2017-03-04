@@ -3,6 +3,7 @@
 #include "IMGUI/imgui_impl_sdl_gl3.h"
 #include "Engine.h"
 #include "ModuleWindow.h"
+#include <GL/glew.h>
 
 ModuleEditor::ModuleEditor() : Module()
 {
@@ -35,6 +36,16 @@ update_status ModuleEditor::Update()
 	if (ImGui::Button("Ok"))
 	{
 		
+	}
+
+	bool wireframe = _wireframe;
+	ImGui::Checkbox("Wireframe mode", &wireframe);
+
+	if (wireframe != _wireframe)
+	{
+		_wireframe = wireframe;
+
+		wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
 	char buf[200];
