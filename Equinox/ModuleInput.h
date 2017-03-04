@@ -85,6 +85,7 @@ public:
 
 	// Get mouse / axis position
 	const iPoint& GetMouseMotion() const;
+	const iPoint& GetMouseWheel() const;
 	const iPoint& GetMousePosition() const;
 
 private:
@@ -95,6 +96,7 @@ private:
 	KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
 	iPoint mouse_motion;
 	iPoint mouse;
+	iPoint mouse_wheel;
 };
 
 #endif // __MODULEINPUT_H__

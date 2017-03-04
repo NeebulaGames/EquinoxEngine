@@ -46,6 +46,7 @@ update_status ModuleInput::PreUpdate()
 	static SDL_Event event;
 
 	mouse_motion = {0, 0};
+	mouse_wheel = {0,0};
 	memset(windowEvents, false, WE_COUNT * sizeof(bool));
 	
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -123,6 +124,11 @@ update_status ModuleInput::PreUpdate()
 				mouse.x = event.motion.x / SCREEN_SIZE;
 				mouse.y = event.motion.y / SCREEN_SIZE;
 			break;
+
+			case SDL_MOUSEWHEEL:
+				mouse_wheel.x = event.wheel.x;
+				mouse_wheel.y = event.wheel.y;
+				break;
 		}
 	}
 
@@ -240,4 +246,9 @@ const iPoint& ModuleInput::GetMousePosition() const
 const iPoint& ModuleInput::GetMouseMotion() const
 {
 	return mouse_motion;
+}
+
+const iPoint& ModuleInput::GetMouseWheel() const
+{
+	return mouse_wheel;
 }
