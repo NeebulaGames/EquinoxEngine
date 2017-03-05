@@ -5,7 +5,7 @@
 #include <MathGeoLib/include/Math/Quat.h>
 
 class TransformComponent :
-	BaseComponent
+	public BaseComponent
 {
 public:
 	float3 Position = float3(0, 0, 0);

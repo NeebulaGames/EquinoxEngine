@@ -28,7 +28,7 @@ void Level::Load(const char* path, const char* file)
 
 	loadMeshes(scene, path);
 
-	loadNodes(node, root, meshes[0]);
+	loadNodes(node, root);
 
 	aiReleaseImport(scene);
 }
@@ -65,7 +65,7 @@ void Level::LinkNode(GameObject* node, GameObject* destination)
 {
 }
 
-void Level::loadNodes(aiNode* originalNode, GameObject* node, Mesh* mesh)
+void Level::loadNodes(aiNode* originalNode, GameObject* node)
 {
 	if (originalNode == nullptr)
 		return;
@@ -86,21 +86,27 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node, Mesh* mesh)
 	transform->Scale = float3(scale.x, scale.y, scale.z);
 	transform->Rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
 
-	children->AddComponent((BaseComponent*)transform);
+	children->AddComponent(transform);
 
-	MaterialComponent* materialComponent = new MaterialComponent;
-	materialComponent->Material = materials[mesh->material];
-	materialComponent->Material->textureID = mesh->textureID;
+	if (originalNode->mMeshes != nullptr)
+	{
+		Mesh* mesh = meshes[originalNode->mMeshes[0]];
 
-	children->AddComponent((BaseComponent*)materialComponent);
+		MaterialComponent* materialComponent = new MaterialComponent;
+		materialComponent->Material = materials[mesh->material];
+		materialComponent->Material->textureID = mesh->textureID;
 
-	MeshComponent* meshComponent = new MeshComponent;
-	meshComponent->Mesh = mesh;
-	children->AddComponent((BaseComponent*)meshComponent);
+		children->AddComponent(materialComponent);
+
+		MeshComponent* meshComponent = new MeshComponent;
+		meshComponent->Mesh = mesh;
+		children->AddComponent(meshComponent);
+	}
+	
 
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
 	{
-		loadNodes(originalNode->mChildren[i], children, meshes[i]);
+		loadNodes(originalNode->mChildren[i], children);
 	}
 }
 

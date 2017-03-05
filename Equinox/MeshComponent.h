@@ -17,7 +17,7 @@ struct Mesh
 };
 
 class MeshComponent :
-	BaseComponent
+	public BaseComponent
 {
 public:
 	Mesh* Mesh;

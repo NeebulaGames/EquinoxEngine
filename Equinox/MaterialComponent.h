@@ -16,7 +16,7 @@ struct Material
 };
 
 class MaterialComponent :
-	BaseComponent
+	public BaseComponent
 {
 public:
 	Material* Material;	

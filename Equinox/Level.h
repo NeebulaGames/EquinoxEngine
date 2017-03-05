@@ -38,7 +38,7 @@ public:
 	void LinkNode(GameObject* node, GameObject* destination);
 
 private:
-	void loadNodes(aiNode* originalNode, GameObject* node, Mesh* mesh);
+	void loadNodes(aiNode* originalNode, GameObject* node);
 
 	void loadMeshes(const aiScene* scene, const char* path);
 
