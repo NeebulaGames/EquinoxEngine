@@ -2,10 +2,14 @@
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
 #include "ModuleTextures.h"
+#include "GameObject.h"
+#include "MeshComponent.h"
+#include "TransformComponent.h"
+#include "MaterialComponent.h"
 
 Level::Level()
 {
-	root = new Node;
+	root = new GameObject;
 }
 
 Level::~Level()
@@ -24,13 +28,26 @@ void Level::Load(const char* path, const char* file)
 
 	loadMeshes(scene, path);
 
-	loadNodes(node, root);
+	loadNodes(node, root, meshes[0]);
 
 	aiReleaseImport(scene);
 }
 
 bool Level::CleanUp()
 {
+	for (Material* mat : materials)
+	{
+		RELEASE(mat);
+	}
+	for (Mesh* mesh : meshes)
+	{
+		RELEASE(mesh);
+	}
+
+	cleanUpNodes(root);
+
+	RELEASE(root);
+
 	return true;
 }
 
@@ -39,34 +56,51 @@ void Level::Draw()
 	drawNode(root);
 }
 
-Level::Node* Level::FindNode(const char* name)
+GameObject* Level::FindNode(const char* name)
 {
 	return nullptr;
 }
 
-void Level::LinkNode(Node* node, Node* destination)
+void Level::LinkNode(GameObject* node, GameObject* destination)
 {
 }
 
-void Level::loadNodes(aiNode* originalNode, Node* node)
+void Level::loadNodes(aiNode* originalNode, GameObject* node, Mesh* mesh)
 {
 	if (originalNode == nullptr)
 		return;
 
-	Node* children = new Node;
+	GameObject* children = new GameObject;
 
-	children->name = originalNode->mName.C_Str();
-	children->parent = node;
-	for (int i = 0; i < originalNode->mNumMeshes; ++i)
-		children->meshes.push_back(originalNode->mMeshes[i]);
+	children->Name = originalNode->mName.C_Str();
+	children->SetParent(node);
+	node->AddChild(children);
+
+	aiVector3D position;
+	aiVector3D scale;
 	aiQuaternion rotation;
-	originalNode->mTransformation.Decompose(children->scale, rotation, children->position);
-	children->rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
-	node->childs.push_back(children);
+
+	originalNode->mTransformation.Decompose(scale, rotation, position);
+	TransformComponent* transform = new TransformComponent;
+	transform->Position = float3(position.x, position.y, position.z);
+	transform->Scale = float3(scale.x, scale.y, scale.z);
+	transform->Rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
+
+	children->AddComponent((BaseComponent*)transform);
+
+	MaterialComponent* materialComponent = new MaterialComponent;
+	materialComponent->Material = materials[mesh->material];
+	materialComponent->Material->textureID = mesh->textureID;
+
+	children->AddComponent((BaseComponent*)materialComponent);
+
+	MeshComponent* meshComponent = new MeshComponent;
+	meshComponent->Mesh = mesh;
+	children->AddComponent((BaseComponent*)meshComponent);
 
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
 	{
-		loadNodes(originalNode->mChildren[i], children);
+		loadNodes(originalNode->mChildren[i], children, meshes[i]);
 	}
 }
 
@@ -141,68 +175,36 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 			aMaterial->Get(AI_MATKEY_COLOR_SPECULAR, material->specular);
 			aMaterial->Get(AI_MATKEY_SHININESS, material->shininess);
 
-			char filePath[256];
 
-			sprintf_s(filePath, "%s%s", path, fileName.C_Str());
+			sprintf_s(material->FilePath, "%s%s", path, fileName.C_Str());
 
-			material->texture = App->textures->Load(filePath);
+			material->texture = App->textures->Load(material->FilePath);
 		}
-
+		
 		materials.push_back(material);
 	}
 }
 
-void Level::drawNode(const Node* node)
+void Level::drawNode(GameObject* node)
 {
-	glPushMatrix();
+	node->Update();
 
-	glColor3f(1.f, 1.f, 1.f);
-
-	glTranslatef(node->position.x, node->position.y, node->position.z);
-	glScalef(node->scale.x, node->scale.y, node->scale.z);
-	float3 rotation = node->rotation.ToEulerXYZ();
-	glRotatef(node->rotation.Angle(), rotation.x, rotation.y, rotation.z);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	for (unsigned iMesh : node->meshes)
-	{
-		Mesh* mesh = meshes[iMesh];
-		Material* mat = materials[mesh->material];
-
-		glBindTexture(GL_TEXTURE_2D, mat->texture);
-
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexID);
-		glVertexPointer(3, GL_FLOAT, 0, nullptr);
-
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->normalID);
-		glNormalPointer(GL_FLOAT, 0, nullptr);
-
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->textureID);
-		glTexCoordPointer(3, GL_FLOAT, 0, nullptr);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexesID);
-		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, nullptr);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	}
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	for (Node* child : node->childs)
+	for (GameObject* child : node->GetChilds())
 	{
 		drawNode(child);
 	}
+}
 
-	glPopMatrix();
+void Level::cleanUpNodes(GameObject* node)
+{
+	for (BaseComponent* comp : node->GetComponents())
+	{
+		RELEASE(comp);
+	}
+
+	for(GameObject* child : node->GetChilds())
+	{
+		cleanUpNodes(child);
+		RELEASE(child);
+	}
 }
