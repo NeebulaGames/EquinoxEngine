@@ -1,5 +1,7 @@
 #pragma once
 #include "Module.h"
+#include <list>
+
 class ModuleEditor :
 	public Module
 {
@@ -15,5 +17,8 @@ public:
 
 private:
 	bool _wireframe = false;
+	std::list<float> _fpsValues;
+
+	static float ListGetter(void* data, int id);
 };
 
