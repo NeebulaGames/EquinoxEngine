@@ -30,21 +30,22 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Once);
-	ImVec2 windowPosition = ImGui::GetWindowSize();
-	windowPosition.y = 0;
+	ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiSetCond_Always);
+	int w, h;
+	SDL_GetWindowSize(App->window->window, &w, &h);
+	ImVec2 windowPosition(0, h - 100);
 	ImGui::SetNextWindowPos(windowPosition, ImGuiSetCond_Always);
 	if (ImGui::Begin("Engine Stats", nullptr, ImGuiWindowFlags_AlwaysUseWindowPadding))
 	{
-
-		ImGui::Text("FPS: %f", ImGui::GetIO().Framerate);
-		_fpsValues.push_back(ImGui::GetIO().Framerate);
-
+		float framerate = ImGui::GetIO().Framerate;
+		
+		_fpsValues.push_back(framerate);
 		if (_fpsValues.size() > 30)
 			_fpsValues.pop_front();
 
 		if (ImGui::BeginChild("Histogram", ImVec2(0, 0), true))
 		{
+			ImGui::Text("FPS: %f", framerate);
 			ImGui::PlotHistogram("Framerate", &ModuleEditor::ListGetter, &_fpsValues, _fpsValues.size(), 0, nullptr, 0, 120);
 		}
 
@@ -52,8 +53,8 @@ update_status ModuleEditor::Update()
 	}
 	ImGui::End();
 
-	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Once);
-	windowPosition.y = 110;
+	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
+	windowPosition.x = 301;
 	ImGui::SetNextWindowPos(windowPosition, ImGuiSetCond_Always);
 	if (ImGui::Begin("Engine Debug", nullptr, ImGuiWindowFlags_AlwaysUseWindowPadding))
 	{
