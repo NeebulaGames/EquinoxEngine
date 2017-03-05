@@ -29,8 +29,6 @@ public:
 		
 private:
 	std::list<Primitive*> objects;
-	GLuint ImageName;
-	GLuint lenaImage;
 };
 
 #endif // __MODULERENDER_H__
