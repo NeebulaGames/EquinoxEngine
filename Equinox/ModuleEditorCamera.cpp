@@ -77,6 +77,16 @@ update_status ModuleEditorCamera::Update()
 		}
 	}
 
+	iPoint wheel_movement = App->input->GetMouseWheel();
+
+	if(wheel_movement.y != 0)
+	{
+		if(wheel_movement.y > 0)
+			movement += Frustum.Front();
+		else
+			movement -= Frustum.Front();
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_Q))
 		movement += float3::unitY;
 	if (App->input->GetKey(SDL_SCANCODE_E))
@@ -90,7 +100,9 @@ update_status ModuleEditorCamera::Update()
 	if (App->input->GetKey(SDL_SCANCODE_D))
 		movement += Frustum.WorldRight();
 
-	Frustum.SetPos(Frustum.Pos() + movement);
+	float velocity = (App->input->GetKey(SDL_SCANCODE_LSHIFT) || wheel_movement.y != 0)? 0.6f : 0.1f;
+
+	Frustum.SetPos(Frustum.Pos() + movement*velocity);
 
 	return UPDATE_CONTINUE;
 }
