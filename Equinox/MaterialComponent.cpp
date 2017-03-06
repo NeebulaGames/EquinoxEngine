@@ -9,11 +9,16 @@ MaterialComponent::~MaterialComponent()
 {
 }
 
-void MaterialComponent::Update()
+unsigned MaterialComponent::AddMaterial(Material* material)
 {
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, Material->texture);
+	int count = 0;
+	for (Material* mat : Materials)
+	{
+		if (mat == material)
+			return count;
+		++count;
+	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, TextureCoordsId);
-	glTexCoordPointer(3, GL_FLOAT, 0, nullptr);
+	Materials.push_back(material);
+	return count;
 }
