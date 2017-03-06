@@ -34,6 +34,8 @@ public:
 	
 	void Update();
 
+	bool CleanUp();
+
 };
 
 #endif

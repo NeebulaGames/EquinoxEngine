@@ -204,13 +204,9 @@ void Level::drawNode(GameObject* node)
 
 void Level::cleanUpNodes(GameObject* node)
 {
-	for (BaseComponent* comp : node->GetComponents())
-	{
-		RELEASE(comp);
-	}
-
 	for(GameObject* child : node->GetChilds())
 	{
+		child->CleanUp();
 		cleanUpNodes(child);
 		RELEASE(child);
 	}

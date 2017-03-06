@@ -13,10 +13,12 @@ public:
 
 public:
 	BaseComponent() {};
-
+	
 	virtual ~BaseComponent() {};
 
 	virtual void Update() {};
+
+	virtual void CleanUp() {};
 	
 };
 

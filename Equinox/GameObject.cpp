@@ -80,6 +80,7 @@ void GameObject::DeleteComponentByName(std::string name)
 			if ((*it)->Name == name)
 			{
 				_components.erase(it);
+				RELEASE(*it);
 			}
 		}
 	}
@@ -101,5 +102,15 @@ void GameObject::Update()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glPopMatrix();
+}
+
+bool GameObject::CleanUp()
+{
+	for (BaseComponent* component : _components)
+	{
+		component->CleanUp();
+		RELEASE(component);
+	}
+	return true;
 }
 
