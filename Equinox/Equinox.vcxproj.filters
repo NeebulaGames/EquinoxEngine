@@ -14,11 +14,17 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{ad89cf24-f35e-4d0c-90e5-820c054c274d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\IMGUI">
+      <UniqueIdentifier>{afa5a197-0162-4d3b-b374-4b7fdfbcda75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{c29da112-57d4-40f2-a719-596aa46c287b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Primitives">
       <UniqueIdentifier>{0ec5c406-2f61-43ea-af01-a467e365bead}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils\IMGUI">
-      <UniqueIdentifier>{afa5a197-0162-4d3b-b374-4b7fdfbcda75}</UniqueIdentifier>
+    <Filter Include="GameObject\Components">
+      <UniqueIdentifier>{68192a36-02bc-4de9-9e93-6dc57eeecade}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +154,21 @@
     <ClInclude Include="Level.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -221,6 +242,18 @@
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialComponent.cpp">
+      <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

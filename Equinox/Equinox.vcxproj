@@ -86,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseFactory.h" />
     <ClInclude Include="ComplexTimer.h" />
     <ClInclude Include="CoordinateArrows.h" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
@@ -102,7 +104,9 @@
     <ClInclude Include="IMGUI\stb_textedit.h" />
     <ClInclude Include="IMGUI\stb_truetype.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MaterialComponent.h" />
     <ClInclude Include="MemLeaks.h" />
+    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -127,17 +131,21 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="ModuleTimer.h" />
     <ClInclude Include="SimpleTimer.h" />
+    <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoordinateArrows.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
     <ClCompile Include="IMGUI\imgui_impl_sdl_gl3.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MaterialComponent.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCollision.cpp" />
@@ -153,6 +161,7 @@
     <ClCompile Include="parson.c" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
