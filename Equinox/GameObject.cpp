@@ -42,7 +42,10 @@ std::vector<BaseComponent*> GameObject::GetComponents()
 void GameObject::AddComponent(BaseComponent* component)
 {
 	if (component != nullptr)
+	{
+		component->Parent = this;
 		_components.push_back(component);
+	}
 }
 
 void GameObject::DeleteComponentByName(std::string name)
@@ -53,10 +56,18 @@ void GameObject::DeleteComponentByName(std::string name)
 void GameObject::Update()
 {
 	glPushMatrix();
+
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	for (BaseComponent* baseComponent : _components)
 	{
 		baseComponent->Update();
 	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	glPopMatrix();
 }
 

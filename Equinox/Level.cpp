@@ -94,7 +94,7 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 		MaterialComponent* materialComponent = new MaterialComponent;
 		materialComponent->Material = materials[mesh->material];
-		materialComponent->Material->textureID = mesh->textureID;
+		materialComponent->TextureCoordsId = mesh->textureID;
 
 		children->AddComponent(materialComponent);
 
