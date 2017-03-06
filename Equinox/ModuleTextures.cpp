@@ -76,32 +76,19 @@ unsigned ModuleTextures::Load(const string& path)
 		return 0;
 	}
 
+	ILinfo ImageInfo;
+	iluGetImageInfo(&ImageInfo);
+	if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+	{
+		iluFlipImage();
+	}
+
+	ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+
 	int width = ilGetInteger(IL_IMAGE_WIDTH);
 	int height = ilGetInteger(IL_IMAGE_HEIGHT);
 
-	int components = 3;
-	int format = GL_RGB;
-	switch (ilGetInteger(IL_IMAGE_FORMAT))
-	{
-	case IL_RGB:
-		components = 3;
-		format = GL_RGB;
-		break;
-	case IL_RGBA:
-		components = 4;
-		format = GL_RGBA;
-		break;
-	case IL_BGR:
-		components = 3;
-		format = GL_BGR_EXT;
-		break;
-	case IL_BGRA:
-		components = 4;
-		format = GL_BGRA_EXT;
-		break;
-	default:
-		assert(false);
-	}
+	data = ilGetData();
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -109,7 +96,8 @@ unsigned ModuleTextures::Load(const string& path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, components, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), width, height, 0,
+		ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, data);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
