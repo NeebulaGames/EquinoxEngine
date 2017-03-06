@@ -56,13 +56,14 @@ void Level::Draw()
 	drawNode(root);
 }
 
-GameObject* Level::FindNode(const char* name)
+GameObject* Level::FindGameObject(const char* name)
 {
 	return nullptr;
 }
 
-void Level::LinkNode(GameObject* node, GameObject* destination)
+void Level::LinkGameObject(GameObject* node, GameObject* destination)
 {
+	destination->AddChild(node);
 }
 
 void Level::loadNodes(aiNode* originalNode, GameObject* node)

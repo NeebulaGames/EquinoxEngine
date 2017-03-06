@@ -34,8 +34,8 @@ public:
 	GameObject* GetRootNode() { return root; }
 	const GameObject* GetRootNode() const { return root; }
 
-	GameObject* FindNode(const char* name);
-	void LinkNode(GameObject* node, GameObject* destination);
+	GameObject* FindGameObject(const char* name);
+	void LinkGameObject(GameObject* node, GameObject* destination);
 
 private:
 	void loadNodes(aiNode* originalNode, GameObject* node);

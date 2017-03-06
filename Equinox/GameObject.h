@@ -26,6 +26,7 @@ public:
 
 	std::vector<GameObject*> GetChilds();
 	void AddChild(GameObject* child);
+	void RemoveChild(GameObject* child);
 
 	std::vector<BaseComponent*> GetComponents();
 	void AddComponent(BaseComponent* component);

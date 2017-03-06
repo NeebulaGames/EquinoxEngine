@@ -13,7 +13,12 @@ GameObject::~GameObject()
 
 void GameObject::SetParent(GameObject* new_parent)
 {
-	_parent = new_parent;
+	if(_parent != nullptr)
+	{
+		_parent->RemoveChild(this);
+		new_parent->_childs.push_back(this);
+		_parent = new_parent;
+	}
 }
 
 GameObject* GameObject::GetParent()
@@ -30,7 +35,25 @@ void GameObject::AddChild(GameObject* child)
 {
 	if (child != nullptr)
 	{
+		if(child->_parent != nullptr)
+			child->_parent->RemoveChild(this);
+		child->_parent = this;
 		_childs.push_back(child);
+	}
+}
+
+void GameObject::RemoveChild(GameObject* child)
+{
+	if(!_childs.empty())
+	{
+		for (auto it = _childs.begin(); it != _childs.cend(); ++it)
+		{
+			if (*it == child)
+			{
+				_childs.erase(it);
+				break;
+			}
+		}
 	}
 }
 
@@ -50,7 +73,16 @@ void GameObject::AddComponent(BaseComponent* component)
 
 void GameObject::DeleteComponentByName(std::string name)
 {
-	//TODO:
+	if(!_components.empty())
+	{
+		for (auto it = _components.begin(); it != _components.cend(); ++it)
+		{
+			if ((*it)->Name == name)
+			{
+				_components.erase(it);
+			}
+		}
+	}
 }
 
 void GameObject::Update()
