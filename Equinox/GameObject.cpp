@@ -80,6 +80,7 @@ void GameObject::DeleteComponentByName(std::string name)
 			if ((*it)->Name == name)
 			{
 				_components.erase(it);
+				(*it)->CleanUp();
 				RELEASE(*it);
 			}
 		}
