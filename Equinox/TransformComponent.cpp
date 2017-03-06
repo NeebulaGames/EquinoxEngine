@@ -1,5 +1,6 @@
 ﻿#include "TransformComponent.h"
 #include <GL/glew.h>
+#include <MathGeoLib/include/Math/float4x4.h>
 
 TransformComponent::TransformComponent()
 {
@@ -12,8 +13,6 @@ TransformComponent::~TransformComponent()
 
 void TransformComponent::Update()
 {	
-	glTranslatef(Position.x, Position.y, Position.z);
-	float3 rotation = Rotation.ToEulerXYZ();
-	glRotatef(Rotation.Angle(), rotation.x, rotation.y, rotation.z);
-	glScalef(Scale.x, Scale.y, Scale.z);
+	float4x4 transformMatrix = float4x4::FromTRS(Position, Rotation, Scale);
+	glMultMatrixf(reinterpret_cast<GLfloat*>(&transformMatrix));
 }
