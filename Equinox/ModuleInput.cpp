@@ -5,6 +5,8 @@
 
 #define MAX_KEYS 300
 
+bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event);
+
 ModuleInput::ModuleInput() : Module(), mouse({0, 0}), mouse_motion({0,0})
 {
 	keyboard = new KeyState[MAX_KEYS];
@@ -80,6 +82,7 @@ update_status ModuleInput::PreUpdate()
 
 	while(SDL_PollEvent(&event) != 0)
 	{
+		ImGui_ImplSdlGL3_ProcessEvent(&event);
 		switch(event.type)
 		{
 			case SDL_QUIT:
