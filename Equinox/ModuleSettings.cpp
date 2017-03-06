@@ -15,8 +15,9 @@ bool ModuleSettings::Init()
 
 	if(settings != nullptr)
 	{
-		MaxFps = static_cast<int>(json_object_get_number(settings, "maxFps"));
-		if (MaxFps == 0)
+		if (json_object_has_value(settings, "maxFps"))
+			MaxFps = static_cast<int>(json_object_get_number(settings, "maxFps"));
+		else
 			MaxFps = 60;
 		return true;
 	}
