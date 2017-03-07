@@ -52,7 +52,6 @@ typedef unsigned int uint;
 #define FULLSCREEN false
 #define VSYNC true
 #define RESIZABLE true
-#define FPS_CAP 60	//Set to 0 to deactivate
 #define TITLE "Equinox Engine Editor"
 
 

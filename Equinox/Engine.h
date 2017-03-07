@@ -23,6 +23,7 @@ class ModuleSceneManager;
 class ModuleTimer;
 class ModuleEditorCamera;
 class ModuleEditor;
+class ModuleSettings;
 
 // Game modules ---
 
@@ -59,6 +60,7 @@ public:
 	ModuleTimer* timer;
 	ModuleEditorCamera* editorCamera;
 	ModuleEditor* editor;
+	ModuleSettings* settings;
 
 	// Game modules ---
 	ModuleSceneManager* scene_manager;
