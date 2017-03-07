@@ -22,7 +22,7 @@ void Level::Load(const char* path, const char* file)
 	char filePath[256];
 	sprintf_s(filePath, "%s%s", path, file);
 
-	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate);
+	const aiScene* scene = aiImportFile(filePath, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	aiNode* node = scene->mRootNode;
 
@@ -91,17 +91,22 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	if (originalNode->mMeshes != nullptr)
 	{
-		Mesh* mesh = meshes[originalNode->mMeshes[0]];
+		MeshComponent* meshComponent = new MeshComponent;
+		children->AddComponent(meshComponent);
 
 		MaterialComponent* materialComponent = new MaterialComponent;
-		materialComponent->Material = materials[mesh->material];
-		materialComponent->TextureCoordsId = mesh->textureID;
-
 		children->AddComponent(materialComponent);
 
-		MeshComponent* meshComponent = new MeshComponent;
-		meshComponent->Mesh = mesh;
-		children->AddComponent(meshComponent);
+		meshComponent->MaterialComponent = materialComponent;
+
+		for (int i = 0; i < originalNode->mNumMeshes; ++i)
+		{
+			Mesh* mesh = meshes[originalNode->mMeshes[i]];
+			
+			mesh->materialInComponent = materialComponent->AddMaterial(materials[mesh->material]);
+			
+			meshComponent->Meshes.push_back(mesh);
+		}
 	}
 	
 
@@ -150,8 +155,8 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 		
 		if (aMesh->mTextureCoords[0] != nullptr)
 		{
-			glGenBuffers(1, &mesh->textureID);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->textureID);
+			glGenBuffers(1, &mesh->textureCoordsID);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->textureCoordsID);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(aiVector3D) * mesh->num_vertices, &aMesh->mTextureCoords[0][0], GL_STATIC_DRAW);
 		}
 

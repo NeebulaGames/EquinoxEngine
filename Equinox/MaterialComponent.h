@@ -3,6 +3,7 @@
 #include "BaseComponent.h"
 #include <assimp/color4.h>
 #include <GL/glew.h>
+#include <list>
 
 struct Material
 {
@@ -18,14 +19,13 @@ class MaterialComponent :
 	public BaseComponent
 {
 public:
-	Material* Material;
-	unsigned TextureCoordsId;
+	std::vector<Material*> Materials;
 	
 public:
 	MaterialComponent();
 	~MaterialComponent();
 
-	void Update() override;
+	unsigned AddMaterial(Material* material);
 };
 
 #endif
