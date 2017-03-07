@@ -22,15 +22,15 @@ public:
 	~GameObject();
 
 	void SetParent(GameObject* new_parent);
-	GameObject* GetParent();
+	GameObject* GetParent() const;
 
-	std::vector<GameObject*> GetChilds();
+	const std::vector<GameObject*>& GetChilds() const;
 	void AddChild(GameObject* child);
-	void RemoveChild(GameObject* child);
+	void RemoveChild(const GameObject* child);
 
-	std::vector<BaseComponent*> GetComponents();
+	const std::vector<BaseComponent*>& GetComponents() const;
 	void AddComponent(BaseComponent* component);
-	void DeleteComponentByName(std::string name);
+	void DeleteComponentByName(const std::string& name);
 	
 	void Update();
 

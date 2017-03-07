@@ -21,12 +21,12 @@ void GameObject::SetParent(GameObject* new_parent)
 	}
 }
 
-GameObject* GameObject::GetParent()
+GameObject* GameObject::GetParent() const
 {
 	return _parent;
 }
 
-std::vector<GameObject*> GameObject::GetChilds()
+const std::vector<GameObject*>& GameObject::GetChilds() const
 {
 	return _childs;
 }
@@ -42,7 +42,7 @@ void GameObject::AddChild(GameObject* child)
 	}
 }
 
-void GameObject::RemoveChild(GameObject* child)
+void GameObject::RemoveChild(const GameObject* child)
 {
 	if(!_childs.empty())
 	{
@@ -57,7 +57,7 @@ void GameObject::RemoveChild(GameObject* child)
 	}
 }
 
-std::vector<BaseComponent*> GameObject::GetComponents()
+const std::vector<BaseComponent*>& GameObject::GetComponents() const
 {
 	return _components;
 }
@@ -71,7 +71,7 @@ void GameObject::AddComponent(BaseComponent* component)
 	}
 }
 
-void GameObject::DeleteComponentByName(std::string name)
+void GameObject::DeleteComponentByName(const std::string& name)
 {
 	if(!_components.empty())
 	{
