@@ -5,6 +5,7 @@
 
 GameObject::GameObject()
 {
+	BoundingBox.SetNegativeInfinity();
 }
 
 GameObject::~GameObject()
@@ -96,6 +97,64 @@ void GameObject::DeleteComponentByName(const std::string& name)
 			}
 		}
 	}
+}
+
+void GameObject::DrawBoundingBox()
+{
+	glPushMatrix();
+
+	if (BoundingBox.IsFinite())
+	{
+		glColor3f(0.f, 255.f, 0.f);
+		glLineWidth(3.f);
+		glBegin(GL_LINES);
+		vec points[8];
+		BoundingBox.GetCornerPoints(points);
+		
+		// LEFT SIDE
+		glVertex3fv(&points[0][0]);
+		glVertex3fv(&points[1][0]);
+
+		glVertex3fv(&points[0][0]);
+		glVertex3fv(&points[2][0]);
+
+		glVertex3fv(&points[2][0]);
+		glVertex3fv(&points[3][0]);
+
+		glVertex3fv(&points[3][0]);
+		glVertex3fv(&points[1][0]);
+
+		// BACK SIDE
+		glVertex3fv(&points[0][0]);
+		glVertex3fv(&points[4][0]);
+
+		glVertex3fv(&points[2][0]);
+		glVertex3fv(&points[6][0]);
+
+		glVertex3fv(&points[4][0]);
+		glVertex3fv(&points[6][0]);
+
+		// RIGHT SIDE
+		glVertex3fv(&points[6][0]);
+		glVertex3fv(&points[7][0]);
+
+		glVertex3fv(&points[4][0]);
+		glVertex3fv(&points[5][0]);
+
+		glVertex3fv(&points[7][0]);
+		glVertex3fv(&points[5][0]);
+
+		// FRONT SIDE
+		glVertex3fv(&points[1][0]);
+		glVertex3fv(&points[5][0]);
+
+		glVertex3fv(&points[3][0]);
+		glVertex3fv(&points[7][0]);
+
+		glEnd();
+	}
+
+	glPopMatrix();
 }
 
 void GameObject::Update()
