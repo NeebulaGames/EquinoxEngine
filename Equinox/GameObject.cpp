@@ -106,7 +106,8 @@ void GameObject::Update()
 
 	for (BaseComponent* baseComponent : _components)
 	{
-		baseComponent->Update();
+		if(baseComponent->Enabled)
+			baseComponent->Update();
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
