@@ -17,6 +17,7 @@ public:
 	~TransformComponent();
 
 	void Update() override;
+	void DrawUI() override;
 };
 
 #endif

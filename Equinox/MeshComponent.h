@@ -32,6 +32,7 @@ public:
 	~MeshComponent();
 
 	void Update() override;
+	void DrawUI() override;
 	
 };
 

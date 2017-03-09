@@ -9,6 +9,7 @@
 #define CHECKERS_HEIGHT 64
 
 class Primitive;
+class Level;
 
 class ModuleRender : public Module
 {
@@ -29,6 +30,8 @@ public:
 		
 private:
 	std::list<Primitive*> objects;
+
+	Level* _scene;
 };
 
 #endif // __MODULERENDER_H__

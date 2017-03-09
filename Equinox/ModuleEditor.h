@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include <list>
+#include "GameObject.h"
 
 class ModuleEditor :
 	public Module
@@ -14,6 +15,8 @@ public:
 	update_status Update() override;
 	update_status PostUpdate() override;
 	bool CleanUp() override;
+
+	GameObject* SelectedGameObject = nullptr;
 
 private:
 	bool _wireframe = false;

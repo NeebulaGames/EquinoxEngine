@@ -6,6 +6,9 @@
 #include "MeshComponent.h"
 #include "TransformComponent.h"
 #include "MaterialComponent.h"
+#include "ModuleWindow.h"
+#include "IMGUI/imgui.h"
+#include "ModuleEditor.h"
 
 Level::Level()
 {
@@ -54,6 +57,22 @@ bool Level::CleanUp()
 void Level::Draw()
 {
 	drawNode(root);
+}
+
+void Level::DrawUI()
+{
+	int w, h;
+	SDL_GetWindowSize(App->window->window, &w, &h);
+
+	ImGui::SetNextWindowSize(ImVec2(300, h), ImGuiSetCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
+
+	if (ImGui::Begin("Hierachy", nullptr, ImGuiWindowFlags_AlwaysUseWindowPadding))
+	{
+		for (GameObject* node : root->GetChilds())
+			drawHierachy(node);
+	}
+	ImGui::End();
 }
 
 GameObject* Level::FindGameObject(const char* name)
@@ -217,6 +236,30 @@ void Level::drawNode(GameObject* node)
 	for (GameObject* child : node->GetChilds())
 	{
 		drawNode(child);
+	}
+}
+
+void Level::drawHierachy(GameObject* node)
+{
+	int flags = ImGuiTreeNodeFlags_DefaultOpen;
+	if (node->GetChilds().size() == 0)
+		flags |= ImGuiTreeNodeFlags_Leaf;
+
+	if (App->editor->SelectedGameObject == node)
+		flags |= ImGuiTreeNodeFlags_Selected;
+
+	if (ImGui::TreeNodeEx(node->Name.c_str(), flags))
+	{
+		if (ImGui::IsItemClicked(0))
+		{
+			App->editor->SelectedGameObject = node;
+		}
+
+		for (GameObject* child : node->GetChilds())
+		{
+			drawHierachy(child);
+		}
+		ImGui::TreePop();
 	}
 }
 

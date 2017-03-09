@@ -1,5 +1,6 @@
 ﻿#include "MeshComponent.h"
 #include <GL/glew.h>
+#include "IMGUI/imgui.h"
 
 MeshComponent::MeshComponent()
 {
@@ -49,4 +50,31 @@ void MeshComponent::Update()
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
+}
+
+void MeshComponent::DrawUI()
+{
+	ImGui::Checkbox("Enabled", &Enabled); /*ImGui::SameLine();
+	ImGui::PushStyleColor(ImGuiCol_Button, ImColor(255, 0, 0));
+	if (ImGui::Button("Delete Component"))
+		Parent->DeleteComponent(this);
+	ImGui::PopStyleColor();*/
+
+	ImGui::PushStyleColor(ImGuiCol_Text, ImColor(240, 230, 140));
+
+	ImGui::LabelText("", "%i mesh(es)", Meshes.size());
+	int vertex, indices;
+	vertex = indices = 0;
+	int i = 0;
+	for (Mesh* mesh : Meshes)
+	{
+		vertex += mesh->num_vertices;
+		indices += mesh->num_indices;
+		ImGui::LabelText("", "Mesh %i: %i triangles (%i indices, %i vertices)", i, mesh->num_indices / 3, mesh->num_indices, mesh->num_vertices);
+		++i;
+	}
+	
+	ImGui::LabelText("", "Total: %i triangles (%i indices, %i vertices)", indices / 3, indices, vertex);
+
+	ImGui::PopStyleColor();
 }

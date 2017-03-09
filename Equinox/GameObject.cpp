@@ -58,7 +58,7 @@ void GameObject::RemoveChild(const GameObject* child)
 	}
 }
 
-const std::vector<BaseComponent*>& GameObject::GetComponents() const
+const std::list<BaseComponent*>& GameObject::GetComponents() const
 {
 	return _components;
 }
@@ -97,6 +97,11 @@ void GameObject::DeleteComponentByName(const std::string& name)
 			}
 		}
 	}
+}
+
+void GameObject::DeleteComponent(BaseComponent* component)
+{
+	_components.remove(component);
 }
 
 void GameObject::DrawBoundingBox()
