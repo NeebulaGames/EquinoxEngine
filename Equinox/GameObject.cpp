@@ -71,6 +71,17 @@ void GameObject::AddComponent(BaseComponent* component)
 	}
 }
 
+BaseComponent* GameObject::GetComponentByName(const std::string& name) const
+{
+	for (BaseComponent* component : _components)
+	{
+		if (component->Name == name)
+			return component;
+	}
+
+	return nullptr;
+}
+
 void GameObject::DeleteComponentByName(const std::string& name)
 {
 	if(!_components.empty())

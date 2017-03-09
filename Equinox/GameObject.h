@@ -30,6 +30,7 @@ public:
 
 	const std::vector<BaseComponent*>& GetComponents() const;
 	void AddComponent(BaseComponent* component);
+	BaseComponent* GetComponentByName(const std::string& name) const;
 	void DeleteComponentByName(const std::string& name);
 	
 	void Update();
