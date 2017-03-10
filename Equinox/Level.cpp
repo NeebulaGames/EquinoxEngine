@@ -89,8 +89,11 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	children->AddComponent(transform);
 
+	std::vector<vec> vertex_boundingbox;
+
 	if (originalNode->mMeshes != nullptr)
 	{
+		vertex_boundingbox.resize(originalNode->mNumMeshes*8);
 		MeshComponent* meshComponent = new MeshComponent;
 		children->AddComponent(meshComponent);
 
@@ -106,8 +109,15 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 			mesh->materialInComponent = materialComponent->AddMaterial(materials[mesh->material]);
 			
 			meshComponent->Meshes.push_back(mesh);
+
+			mesh->boundingBox.GetCornerPoints(&vertex_boundingbox[i]);
 		}
+
 	}
+
+	children->BoundingBox.SetNegativeInfinity();
+	if(!vertex_boundingbox.empty())
+		children->BoundingBox.Enclose(reinterpret_cast<float3*>(&vertex_boundingbox[0]), originalNode->mNumMeshes*8);
 	
 
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
@@ -165,6 +175,9 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(aiVector3D) * aMesh->mNumFaces, indexes, GL_STATIC_DRAW);
 
 		meshes.push_back(mesh);
+
+		mesh->boundingBox.SetNegativeInfinity();
+		mesh->boundingBox.Enclose((float3*)&aMesh->mVertices[0], mesh->num_vertices);
 
 		RELEASE_ARRAY(indexes);
 	}

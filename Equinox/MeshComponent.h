@@ -17,6 +17,7 @@ struct Mesh
 	GLuint indexesID = 0;
 	unsigned num_vertices = 0;
 	unsigned num_indices = 0;
+	AABB boundingBox;
 };
 
 class MeshComponent :
