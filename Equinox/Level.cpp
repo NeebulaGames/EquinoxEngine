@@ -119,7 +119,6 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 	if(!vertex_boundingbox.empty())
 		children->BoundingBox.Enclose(reinterpret_cast<float3*>(&vertex_boundingbox[0]), originalNode->mNumMeshes*8);
 	
-
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
 	{
 		loadNodes(originalNode->mChildren[i], children);
@@ -177,30 +176,35 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 		meshes.push_back(mesh);
 
 		mesh->boundingBox.SetNegativeInfinity();
-		mesh->boundingBox.Enclose((float3*)&aMesh->mVertices[0], mesh->num_vertices);
+		mesh->boundingBox.Enclose(reinterpret_cast<float3*>(&aMesh->mVertices[0]), mesh->num_vertices);
 
 		RELEASE_ARRAY(indexes);
 	}
 
 	for (int i = 0; i < scene->mNumMaterials; ++i)
 	{
-		int numTexturesByMaterial = scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE);
-
+		aiMaterial* aiMat = scene->mMaterials[i];
 		Material* material = new Material;
 
+		aiColor4D ai_property;
+		float shininess;
+
+		if (aiMat->Get(AI_MATKEY_COLOR_AMBIENT, ai_property) == AI_SUCCESS)
+			material->ambient = ai_property;
+		if (aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, ai_property) == AI_SUCCESS)
+			material->diffuse = ai_property;
+		if (aiMat->Get(AI_MATKEY_COLOR_SPECULAR, ai_property) == AI_SUCCESS)
+			material->specular = ai_property;
+		if (aiMat->Get(AI_MATKEY_SHININESS, shininess) == AI_SUCCESS)
+			material->shininess = shininess;
+
+		int numTexturesByMaterial = scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE);
 		if (numTexturesByMaterial > 0)
 		{
 			aiMaterial* aMaterial = scene->mMaterials[i];
 
 			aiString fileName;
 			aMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
-
-			aMaterial->Get(AI_MATKEY_COLOR_AMBIENT, material->ambient);
-			aMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, material->diffuse);
-			aMaterial->Get(AI_MATKEY_COLOR_SPECULAR, material->specular);
-			aMaterial->Get(AI_MATKEY_SHININESS, material->shininess);
-
-
 			sprintf_s(material->FilePath, "%s%s", path, fileName.C_Str());
 
 			material->texture = App->textures->Load(material->FilePath);

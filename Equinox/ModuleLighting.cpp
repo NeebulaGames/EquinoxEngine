@@ -4,6 +4,7 @@
 #include "GL/glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include <MathGeoLib/include/Math/float4.h>
 
 ModuleLighting::ModuleLighting()
 {
@@ -20,8 +21,6 @@ bool ModuleLighting::Init()
 
 bool ModuleLighting::Start()
 {
-	glEnable(GL_LIGHTING);
-
 	//Add Default illumination;
 	Lights[0].Number = GL_LIGHT0;
 	Lights[1].Number = GL_LIGHT1;
@@ -32,8 +31,16 @@ bool ModuleLighting::Start()
 	Lights[6].Number = GL_LIGHT6;
 	Lights[7].Number = GL_LIGHT7;
 
-	//enable 0 (combined light)
-	Lights[0].IsEnabled = true;
+	//enable 0 sample (combined light)
+	Lights[0].IsEnabled = false;
+
+	//////////////
+	Lights[1].IsEnabled = true;
+	Lights[1].Type = L_POINT;
+	Lights[1].Position[0] = 0.f;
+	Lights[1].Position[1] = 20.f;
+	Lights[1].Position[2] = 0.f;
+	Lights[1].Position[3] = 1.f;
 
 	//Ambient light
 	AmbientLight.IsEnabled = false;
@@ -48,6 +55,8 @@ update_status ModuleLighting::PreUpdate()
 
 update_status ModuleLighting::Update()
 {
+	//TODO: it will be nice to add something similar to a gizmod to "see" the light source object in the editor.
+	glEnable(GL_LIGHTING);
 	if (AmbientLight.IsEnabled)
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, AmbientLight.Ambient);
 
@@ -76,7 +85,12 @@ update_status ModuleLighting::Update()
 				glLightfv(light.Number, GL_SPOT_DIRECTION, light.Direction);
 			}
 		}
+		if (!light.IsEnabled)
+		{
+			glDisable(light.Number);
+		}
 	}
+	glDisable(GL_LIGHTING);
 
 	return UPDATE_CONTINUE;
 }
