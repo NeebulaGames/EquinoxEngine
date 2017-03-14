@@ -1,6 +1,8 @@
 ﻿#include "MeshComponent.h"
 #include <GL/glew.h>
 #include "IMGUI/imgui.h"
+#include "Engine.h"
+#include "ModuleEditor.h"
 
 MeshComponent::MeshComponent()
 {
@@ -46,6 +48,9 @@ void MeshComponent::Update()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+
+	if (App->editor->SelectedGameObject == Parent)
+		Parent->DrawBoundingBox();
 
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);

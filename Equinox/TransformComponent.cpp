@@ -21,7 +21,6 @@ void TransformComponent::Update()
 
 void TransformComponent::DrawUI()
 {
-	char x[64]; itoa(Position.x, x, 10);
 	ImGui::InputFloat3("Position", &Position[0], -1, ImGuiInputTextFlags_CharsDecimal);
 	float3 rot = Rotation.ToEulerXYZ() * RadToDeg(Rotation.Angle());
 	ImGui::SliderFloat3("Rotation", &rot[0], -360, 360, "%.2f deg");
