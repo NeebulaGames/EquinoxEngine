@@ -162,6 +162,9 @@ bool ModuleRender::CleanUp()
 		SDL_GL_DeleteContext(context);
 	}
 
+	_scene->CleanUp();
+	RELEASE(_scene);
+
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 	{
 		(*it)->CleanUp();

@@ -31,7 +31,7 @@ public:
 private:
 	std::list<Primitive*> objects;
 
-	Level* _scene;
+	Level* _scene = nullptr;
 };
 
 #endif // __MODULERENDER_H__
