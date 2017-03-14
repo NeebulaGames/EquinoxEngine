@@ -172,6 +172,9 @@
     <ClInclude Include="ModuleSettings.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -260,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="ModuleSettings.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
