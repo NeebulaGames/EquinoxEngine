@@ -231,12 +231,16 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 
 void Level::drawNode(GameObject* node)
 {
+	glPushMatrix();
+	
 	node->Update();
 
 	for (GameObject* child : node->GetChilds())
 	{
 		drawNode(child);
 	}
+
+	glPopMatrix();
 }
 
 void Level::drawHierachy(GameObject* node)

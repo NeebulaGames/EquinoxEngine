@@ -164,8 +164,6 @@ void GameObject::DrawBoundingBox()
 
 void GameObject::Update()
 {
-	glPushMatrix();
-
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	for (BaseComponent* baseComponent : _components)
@@ -177,8 +175,6 @@ void GameObject::Update()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glPopMatrix();
 }
 
 bool GameObject::CleanUp()
