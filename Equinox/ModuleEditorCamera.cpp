@@ -7,20 +7,13 @@ using namespace math;
 
 ModuleEditorCamera::ModuleEditorCamera()
 {
-	Frustum.SetPos(float3::zero);
-	Frustum.SetFront(-float3::unitZ);
-	Frustum.SetUp(float3::unitY);
-
-	SetPlaneDistances(0.1f, 1000.0f);
-	
-	Frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-
-	Frustum.SetVerticalFovAndAspectRatio(DegToRad(60), 1.f);
+	_cameraComponent = new ::CameraComponent();
 }
 
 ModuleEditorCamera::~ModuleEditorCamera()
 {
 }
+
 
 update_status ModuleEditorCamera::Update()
 {
@@ -60,20 +53,21 @@ update_status ModuleEditorCamera::Update()
 	{
 		Quat rot = Quat::RotateY(DegToRad(rotateRight));
 
-		Frustum.SetFront(rot.Mul(Frustum.Front()).Normalized());
-		Frustum.SetUp(rot.Mul(Frustum.Up()).Normalized());
+		//_frustum.SetFront(rot.Mul(_frustum.Front()).Normalized());
+		_cameraComponent->SetFront(rot.Mul(_cameraComponent->Orientation()).Normalized());
+		_cameraComponent->SetUp(rot.Mul(_cameraComponent->GetUp()).Normalized());
 	}
 
 	if (rotateUp != 0.f)
 	{
-		Quat rot = Quat::RotateAxisAngle(Frustum.WorldRight(), DegToRad(rotateUp));
+		Quat rot = Quat::RotateAxisAngle(_cameraComponent->GetWorldRight(), DegToRad(rotateUp));
 
-		float3 up = rot.Mul(Frustum.Up()).Normalized();
+		float3 up = rot.Mul(_cameraComponent->GetUp()).Normalized();
 
 		if (up.y > 0.f)
 		{
-			Frustum.SetFront(rot.Mul(Frustum.Front()).Normalized());
-			Frustum.SetUp(up);
+			_cameraComponent->SetFront(rot.Mul(_cameraComponent->Orientation()).Normalized());
+			_cameraComponent->SetUp(up);
 		}
 	}
 
@@ -82,9 +76,9 @@ update_status ModuleEditorCamera::Update()
 	if(wheel_movement.y != 0)
 	{
 		if(wheel_movement.y > 0)
-			movement += Frustum.Front();
+			movement += _cameraComponent->Orientation();
 		else
-			movement -= Frustum.Front();
+			movement -= _cameraComponent->Orientation();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_Q))
@@ -92,68 +86,63 @@ update_status ModuleEditorCamera::Update()
 	if (App->input->GetKey(SDL_SCANCODE_E))
 		movement -= float3::unitY;
 	if (App->input->GetKey(SDL_SCANCODE_W))
-		movement += Frustum.Front();
+		movement += _cameraComponent->Orientation();
 	if (App->input->GetKey(SDL_SCANCODE_S))
-		movement -= Frustum.Front();
+		movement -= _cameraComponent->Orientation();
 	if (App->input->GetKey(SDL_SCANCODE_A))
-		movement -= Frustum.WorldRight();
+		movement -= _cameraComponent->GetWorldRight();
 	if (App->input->GetKey(SDL_SCANCODE_D))
-		movement += Frustum.WorldRight();
+		movement += _cameraComponent->GetWorldRight();
 
 	float velocity = (App->input->GetKey(SDL_SCANCODE_LSHIFT) || wheel_movement.y != 0)? 0.6f : 0.1f;
 
-	Frustum.SetPos(Frustum.Pos() + movement*velocity);
+	_cameraComponent->SetPos(_cameraComponent->Position() + movement*velocity);
 
 	return UPDATE_CONTINUE;
 }
 
-void ModuleEditorCamera::SetFOV(float fov)
+bool ModuleEditorCamera::CleanUp()
 {
-	Frustum.SetVerticalFovAndAspectRatio(fov, Frustum.AspectRatio());
+	RELEASE(_cameraComponent);
+	return true;
 }
 
-void ModuleEditorCamera::SetAspectRatio(float ratio)
+void ModuleEditorCamera::SetFOV(float fov) const
 {
-	Frustum.SetVerticalFovAndAspectRatio(Frustum.VerticalFov(), ratio);
+	_cameraComponent->SetFOV(fov);
 }
 
-void ModuleEditorCamera::SetPlaneDistances(float near, float far)
+void ModuleEditorCamera::SetAspectRatio(float ratio) const
 {
-	Frustum.SetViewPlaneDistances(near, far);
+	_cameraComponent->SetAspectRatio(ratio);
+}
+
+void ModuleEditorCamera::SetPlaneDistances(float near, float far) const
+{
+	_cameraComponent->SetPlaneDistances(near, far);
 }
 
 float3 ModuleEditorCamera::Position() const
 {
-	return Frustum.Pos();
+	return _cameraComponent->Position();
 }
 
 float3 ModuleEditorCamera::Orientation() const
 {
-	return Frustum.Front();
+	return _cameraComponent->Orientation();
 }
 
-void ModuleEditorCamera::LookAt(float x, float y, float z)
+void ModuleEditorCamera::LookAt(float x, float y, float z) const
 {
-	
+	_cameraComponent->LookAt(x, y, z);
 }
 
 float* ModuleEditorCamera::GetProjectionMatrix() const
 {
-	static float4x4 proj;
-	
-	proj = Frustum.ProjectionMatrix();
-	proj.Transpose();
-
-	return reinterpret_cast<float*>(proj.v);
+	return _cameraComponent->GetProjectionMatrix();
 }
 
 float* ModuleEditorCamera::GetViewMatrix() const
 {
-	static float4x4 view;
-
-	view = Frustum.ViewMatrix();
-
-	view.Transpose();
-
-	return reinterpret_cast<float*>(view.v);
+	return _cameraComponent->GetViewMatrix();
 }

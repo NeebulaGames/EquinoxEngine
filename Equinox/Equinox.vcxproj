@@ -88,6 +88,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseFactory.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ComplexTimer.h" />
     <ClInclude Include="CoordinateArrows.h" />
     <ClInclude Include="Cube.h" />
@@ -114,6 +115,7 @@
     <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="ModuleEditorCamera.h" />
     <ClInclude Include="ModuleInput.h" />
+    <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleParticles.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleSettings.h" />
@@ -135,6 +137,7 @@
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CoordinateArrows.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cylinder.cpp" />
@@ -153,6 +156,7 @@
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="ModuleEditorCamera.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
+    <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleParticles.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleSettings.cpp" />
