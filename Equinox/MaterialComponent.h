@@ -12,7 +12,7 @@ struct Material
 	aiColor4D specular = aiColor4D(0.0f, 0.0f, 0.0f, 0.0f);
 	float shininess = 0.0f;
 	unsigned texture = 0;
-	char FilePath[256];
+	char FilePath[256] = { 0 };
 };
 
 class MaterialComponent :
@@ -26,6 +26,8 @@ public:
 	~MaterialComponent();
 
 	unsigned AddMaterial(Material* material);
+
+	void DrawUI() override;
 };
 
 #endif

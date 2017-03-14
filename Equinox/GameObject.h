@@ -1,6 +1,8 @@
 ﻿#ifndef __GAMEOBJECT_H__
 #define __GAMEOBJECT_H__
 #include <vector>
+#include <string>
+#include <list>
 #include <MathGeoLib/include/Geometry/AABB.h>
 
 
@@ -17,7 +19,7 @@ public:
 private:
 	GameObject* _parent = nullptr;
 	std::vector<GameObject*> _childs;
-	std::vector<BaseComponent*> _components;
+	std::list<BaseComponent*> _components;
 
 public:
 	GameObject();
@@ -30,10 +32,11 @@ public:
 	void AddChild(GameObject* child);
 	void RemoveChild(const GameObject* child);
 
-	const std::vector<BaseComponent*>& GetComponents() const;
+	const std::list<BaseComponent*>& GetComponents() const;
 	void AddComponent(BaseComponent* component);
 	BaseComponent* GetComponentByName(const std::string& name) const;
 	void DeleteComponentByName(const std::string& name);
+	void DeleteComponent(BaseComponent* component);
 
 	void DrawBoundingBox();
 	

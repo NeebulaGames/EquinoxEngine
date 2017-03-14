@@ -5,6 +5,7 @@
 #include "ModuleWindow.h"
 #include <GL/glew.h>
 #include <iterator>
+#include "BaseComponent.h"
 
 ModuleEditor::ModuleEditor() : Module()
 {
@@ -66,6 +67,23 @@ update_status ModuleEditor::Update()
 		{
 			_wireframe = wireframe;
 			wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowSize(ImVec2(400, h), ImGuiSetCond_Always);
+	windowPosition.y = 0;
+	windowPosition.x = w - 400;
+	ImGui::SetNextWindowPos(windowPosition, ImGuiSetCond_Always);
+	if (ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_HorizontalScrollbar))
+	{
+		if (SelectedGameObject)
+		{
+			for (BaseComponent* component : SelectedGameObject->GetComponents())
+			{
+				if (ImGui::CollapsingHeader(component->Name.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowOverlapMode))
+					component->DrawUI();
+			}
 		}
 	}
 	ImGui::End();

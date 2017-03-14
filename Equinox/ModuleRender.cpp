@@ -84,11 +84,10 @@ bool ModuleRender::Start()
 
 		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
-
-		Level* scene = new Level();
-		scene->Load("Models/street/", "Street.obj");
+    
+		_scene = new Level();
+		_scene->Load("Models/street/", "Street.obj");
 		//batman->Position.x = 10;
-		objects.push_back(scene);
 		objects.push_back(new CoordinateArrows());
 	}
 	return ret;
@@ -125,8 +124,12 @@ update_status ModuleRender::Update()
 {
 	bool ret = true;
 
+	_scene->Draw();
+
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 		(*it)->Draw();
+
+	_scene->DrawUI();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }
@@ -148,6 +151,9 @@ bool ModuleRender::CleanUp()
 	{
 		SDL_GL_DeleteContext(context);
 	}
+
+	_scene->CleanUp();
+	RELEASE(_scene);
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 	{

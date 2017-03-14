@@ -58,7 +58,7 @@ void GameObject::RemoveChild(const GameObject* child)
 	}
 }
 
-const std::vector<BaseComponent*>& GameObject::GetComponents() const
+const std::list<BaseComponent*>& GameObject::GetComponents() const
 {
 	return _components;
 }
@@ -97,6 +97,11 @@ void GameObject::DeleteComponentByName(const std::string& name)
 			}
 		}
 	}
+}
+
+void GameObject::DeleteComponent(BaseComponent* component)
+{
+	_components.remove(component);
 }
 
 void GameObject::DrawBoundingBox()
@@ -159,8 +164,6 @@ void GameObject::DrawBoundingBox()
 
 void GameObject::Update()
 {
-	glPushMatrix();
-
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	for (BaseComponent* baseComponent : _components)
@@ -172,8 +175,6 @@ void GameObject::Update()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glPopMatrix();
 }
 
 bool GameObject::CleanUp()

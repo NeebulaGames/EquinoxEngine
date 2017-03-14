@@ -18,6 +18,8 @@ public:
 
 	virtual void Update() {};
 
+	virtual void DrawUI() {};
+
 	virtual void CleanUp() {};
 	
 };

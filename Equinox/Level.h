@@ -22,6 +22,8 @@ public:
 	bool CleanUp() override;
 	void Draw() override;
 
+	void DrawUI();
+
 	//unsigned GetNumMeshes() const { return meshes.size(); }
 	//unsigned GetNumMaterials() const { return materials.size(); }
 
@@ -43,6 +45,7 @@ private:
 	void loadMeshes(const aiScene* scene, const char* path);
 
 	void drawNode(GameObject* node);
+	void drawHierachy(GameObject* node);
 
 	void cleanUpNodes(GameObject* node);
 };
