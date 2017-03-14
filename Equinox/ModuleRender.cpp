@@ -74,7 +74,6 @@ bool ModuleRender::Start()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
@@ -87,7 +86,7 @@ bool ModuleRender::Start()
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
 
 		Level* scene = new Level();
-		scene->Load("Models/ArmyPilot/", "ArmyPilot.dae");
+		scene->Load("Models/street/", "Street.obj");
 		//batman->Position.x = 10;
 		objects.push_back(scene);
 		objects.push_back(new CoordinateArrows());
@@ -125,15 +124,6 @@ update_status ModuleRender::PreUpdate()
 update_status ModuleRender::Update()
 {
 	bool ret = true;
-
-	GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-
-	GLfloat light_position[] = { 0.25f, 1.0f, 1.0f, 0.0f };
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHTING);
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 		(*it)->Draw();
