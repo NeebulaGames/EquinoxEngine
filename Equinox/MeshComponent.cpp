@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "ModuleEditor.h"
 
+
 MeshComponent::MeshComponent()
 {
 	Name = "Mesh";
@@ -23,6 +24,13 @@ void MeshComponent::Update()
 
 	for (Mesh* mesh : Meshes)
 	{
+		glColor3f(1.f, 1.f, 1.f);
+		Material* mat = MaterialComponent->Materials[mesh->materialInComponent];
+
+		glMaterialfv(GL_FRONT, GL_AMBIENT, reinterpret_cast<GLfloat*>(&mat->ambient));
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, reinterpret_cast<GLfloat*>(&mat->diffuse));
+		glMaterialfv(GL_FRONT, GL_SPECULAR, reinterpret_cast<GLfloat*>(&mat->specular));
+		glMaterialf(GL_FRONT, GL_SHININESS, mat->shininess);
 
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexID);
 		glVertexPointer(3, GL_FLOAT, 0, nullptr);
@@ -39,19 +47,15 @@ void MeshComponent::Update()
 			glTexCoordPointer(3, GL_FLOAT, 0, nullptr);
 		}
 
-		
-		Material* mat = MaterialComponent->Materials[mesh->materialInComponent];
-
-		glColor3f(1.f, 1.f, 1.f);
 		glBindTexture(GL_TEXTURE_2D, mat->texture);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexesID);
 		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, nullptr);
 
-		glMaterialfv(GL_FRONT, GL_AMBIENT, reinterpret_cast<GLfloat*>(&mat->ambient));
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, reinterpret_cast<GLfloat*>(&mat->diffuse));
-		glMaterialfv(GL_FRONT, GL_SPECULAR, reinterpret_cast<GLfloat*>(&mat->specular));
-		glMaterialf(GL_FRONT, GL_SHININESS, mat->shininess);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, DEFAULT_GL_AMBIENT);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, DEFAULT_GL_DIFFUSE);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, DEFAULT_GL_SPECULAR);
+		glMaterialf(GL_FRONT, GL_SHININESS, DEFAULT_GL_SHININESS);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
