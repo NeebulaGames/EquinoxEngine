@@ -33,7 +33,11 @@ public:
 
 	void Update() override;
 	void DrawUI() override;
-	
+
+	const GLfloat DEFAULT_GL_AMBIENT[4] = { 0.2f, 0.2f, 0.2f, 1.f };
+	const GLfloat DEFAULT_GL_DIFFUSE[4] = { 0.8f, 0.8f, 0.8f, 1.f };
+	const GLfloat DEFAULT_GL_SPECULAR[4] = { 0.f, 0.f, 0.f, 1.f };
+	const GLfloat DEFAULT_GL_SHININESS = 0.f;	
 };
 
 #endif
