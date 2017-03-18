@@ -25,6 +25,7 @@ class ModuleEditorCamera;
 class ModuleEditor;
 class ModuleSettings;
 class ModuleLighting;
+class ModuleAnimation;
 
 // Game modules ---
 
@@ -63,6 +64,7 @@ public:
 	ModuleEditor* editor;
 	ModuleSettings* settings;
 	ModuleLighting* lighting;
+	ModuleAnimation* animator;
 
 	// Game modules ---
 	ModuleSceneManager* scene_manager;

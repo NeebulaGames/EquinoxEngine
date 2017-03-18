@@ -46,9 +46,6 @@
     <ClInclude Include="ModuleAudio.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -178,6 +175,12 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleAnimation.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSDL.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -272,6 +275,9 @@
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleAnimation.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

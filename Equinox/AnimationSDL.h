@@ -1,5 +1,5 @@
-#ifndef __ANIMATION_H__
-#define __ANIMATION_H__
+#ifndef __ANIMATIONSDL_H__
+#define __ANIMATIONSDL_H__
 
 #include <vector>
 #include "Sprite.h"
@@ -7,7 +7,7 @@
 using namespace std;
 
 template<typename T>
-class Animation
+class AnimationSDL
 {
 public:
 	bool loop = true;
@@ -19,10 +19,10 @@ private:
 	int loops = 0;
 
 public:
-	Animation()
+	AnimationSDL()
 	{}
 
-	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), frames(anim.frames)
+	AnimationSDL(const AnimationSDL& anim) : loop(anim.loop), speed(anim.speed), frames(anim.frames)
 	{}
 
 	T& GetCurrentFrame()
@@ -61,7 +61,7 @@ public:
 	}
 };
 
-typedef Animation<SDL_Rect> RectAnimation;
-typedef Animation<Sprite> SpriteAnimation;
+typedef AnimationSDL<SDL_Rect> RectAnimation;
+typedef AnimationSDL<Sprite> SpriteAnimation;
 
-#endif // __ANIMATION_H__
+#endif // __ANIMATIONSDL_H__
