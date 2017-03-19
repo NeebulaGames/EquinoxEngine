@@ -7,15 +7,15 @@
 
 struct Channel
 {
-	const char* NodeName;
-	float3* Positions;
-	Quat* Rotations;
+	std::string NodeName;
+	std::vector<float3> Positions;
+	std::vector<Quat> Rotations;
 };
 
 struct Animation
 {
 	double Duration = 0.f;
-	Channel* Channels;
+	std::vector<Channel> Channels;
 };
 
 class ModuleAnimation : public Module
@@ -24,10 +24,12 @@ public:
 	ModuleAnimation(bool start_enabled = true);
 	~ModuleAnimation();
 
+	bool CleanUp() override;
+
 	void Load(const char* name, const char* file);
 
 private:
-	typedef std::map<const char*, Animation> AnimationsMap;
+	typedef std::map<std::string, Animation> AnimationsMap;
 
 	AnimationsMap _animations;
 };

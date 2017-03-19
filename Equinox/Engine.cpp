@@ -131,8 +131,6 @@ bool Engine::Init()
 
 	// Start the first scene --
 
-	//App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
-
 	return ret;
 }
 
