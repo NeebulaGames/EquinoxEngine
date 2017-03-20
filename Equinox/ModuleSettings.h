@@ -16,7 +16,7 @@ public:
 	int MaxFps = 0;
 
 private:
-
+	JSON_Value* rootValue = nullptr;
 	JSON_Object* settings = nullptr;
 	
 
