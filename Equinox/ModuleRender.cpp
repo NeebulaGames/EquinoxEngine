@@ -14,6 +14,7 @@
 #include "Cylinder.h"
 #include "Plane.h"
 #include "ModuleEditorCamera.h"
+#include "ModuleAnimation.h"
 #include "CoordinateArrows.h"
 #include "IL/ilut_config.h"
 #include "IL/il.h"
@@ -87,6 +88,8 @@ bool ModuleRender::Start()
     
 		_scene = new Level();
 		_scene->Load("Models/street/", "Street.obj");
+		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
+
 		//batman->Position.x = 10;
 		objects.push_back(new CoordinateArrows());
 	}

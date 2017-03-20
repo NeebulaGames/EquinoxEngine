@@ -8,14 +8,14 @@
 struct Channel
 {
 	std::string NodeName;
-	std::vector<float3> Positions;
-	std::vector<Quat> Rotations;
+	std::vector<float3*> Positions;
+	std::vector<Quat*> Rotations;
 };
 
 struct Animation
 {
 	double Duration = 0.f;
-	std::vector<Channel> Channels;
+	std::vector<Channel*> Channels;
 };
 
 class ModuleAnimation : public Module
@@ -29,7 +29,7 @@ public:
 	void Load(const char* name, const char* file);
 
 private:
-	typedef std::map<std::string, Animation> AnimationsMap;
+	typedef std::map<std::string, Animation*> AnimationsMap;
 
 	AnimationsMap _animations;
 };
