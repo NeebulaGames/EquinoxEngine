@@ -13,6 +13,7 @@
 #include "ModuleEditor.h"
 #include "ModuleLighting.h"
 #include "ModuleSettings.h"
+#include "ModuleAnimation.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ Engine::Engine()
 	modules.push_back(lighting = new ModuleLighting());
 	modules.push_back(audio = new ModuleAudio());
 	modules.push_back(settings = new ModuleSettings());
+	modules.push_back(animator = new ModuleAnimation());
 
 	// Game Modules
 	modules.push_back(scene_manager = new ModuleSceneManager());

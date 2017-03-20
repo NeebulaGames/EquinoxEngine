@@ -3,8 +3,9 @@
 
 #include<list>
 #include "Module.h"
-#include "Animation.h"
+#include "AnimationSDL.h"
 #include "Point.h"
+
 
 struct Collider;
 struct SDL_Texture;
