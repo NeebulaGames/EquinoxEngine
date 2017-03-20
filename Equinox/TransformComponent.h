@@ -16,6 +16,8 @@ public:
 	TransformComponent();
 	~TransformComponent();
 
+	float4x4 GetTransformMatrix() const;
+
 	void Update() override;
 	void DrawUI() override;
 };

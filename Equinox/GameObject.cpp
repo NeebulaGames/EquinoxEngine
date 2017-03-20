@@ -2,6 +2,8 @@
 #include "BaseComponent.h"
 #include "Globals.h"
 #include <GL/glew.h>
+#include "TransformComponent.h"
+#include <MathGeoLib/include/Math/float4x4.h>
 
 GameObject::GameObject()
 {
@@ -69,6 +71,9 @@ void GameObject::AddComponent(BaseComponent* component)
 	{
 		component->Parent = this;
 		_components.push_back(component);
+
+		if (component->Name == "Transform")
+			_transform = static_cast<TransformComponent*>(component);
 	}
 }
 
@@ -102,6 +107,11 @@ void GameObject::DeleteComponentByName(const std::string& name)
 void GameObject::DeleteComponent(BaseComponent* component)
 {
 	_components.remove(component);
+}
+
+TransformComponent* GameObject::GetTransform() const
+{
+	return _transform;
 }
 
 void GameObject::DrawBoundingBox()
@@ -162,8 +172,34 @@ void GameObject::DrawBoundingBox()
 	glPopMatrix();
 }
 
+void GameObject::DrawHierachy()
+{
+	float4x4 transform = float4x4::identity;
+	for (GameObject* child : _childs)
+		child->DrawHierachy(transform);
+}
+
+void GameObject::DrawHierachy(const float4x4& transformMatrix)
+{
+	float4x4 localMatrix = transformMatrix * _transform->GetTransformMatrix();
+
+	if (_parent && _parent->_transform)
+	{
+		glBegin(GL_LINES);
+		float3 parentPos = transformMatrix.Col3(3);
+		glVertex3fv(reinterpret_cast<GLfloat*>(&parentPos));
+		float3 position = localMatrix.Col3(3);
+		glVertex3fv(reinterpret_cast<GLfloat*>(&position));
+		glEnd();
+	}
+
+	for (GameObject* child : _childs)
+		child->DrawHierachy(localMatrix);
+}
+
 void GameObject::Update()
 {
+	glPushMatrix();
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	for (BaseComponent* baseComponent : _components)
@@ -175,6 +211,15 @@ void GameObject::Update()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	for (GameObject* child : _childs)
+	{
+		child->Update();
+	}
+
+	glEnd();
+
+	glPopMatrix();
 }
 
 bool GameObject::CleanUp()

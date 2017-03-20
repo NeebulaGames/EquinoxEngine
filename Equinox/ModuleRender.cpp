@@ -87,7 +87,7 @@ bool ModuleRender::Start()
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
     
 		_scene = new Level();
-		_scene->Load("Models/street/", "Street.obj");
+		_scene->Load("Models/ArmyPilot/", "ArmyPilot.dae");
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
 
 		//batman->Position.x = 10;
