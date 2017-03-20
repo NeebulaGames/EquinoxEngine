@@ -68,30 +68,24 @@ update_status ModuleLighting::Update()
 		{
 			glEnable(light->Number);
 
-			glLightfv(light->Number, GL_AMBIENT, light->Ambient);
-			glLightfv(light->Number, GL_DIFFUSE, light->Diffuse);
-			glLightfv(light->Number, GL_SPECULAR, light->Specular);
-			
-			if (light->Type == L_POINT)
-			{
-				glLightfv(light->Number, GL_POSITION, light->Position);
-			}
-			else if (light->Type == L_DIRECTIONAL)
-			{
-				glLightfv(light->Number, GL_POSITION, light->Position);
-			}
-			else if (light->Type == L_SPOTLIGHT)
-			{
-				glLightfv(light->Number, GL_POSITION, light->Position);
-				glLightf(light->Number, GL_SPOT_CUTOFF, light->CutOff);
-				glLightfv(light->Number, GL_SPOT_DIRECTION, light->Direction);
-			}
-			/*else if (light->Type == L_DEFAULT)
+			/*if (light->Type == L_DEFAULT)
 			{
 				glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light->Ambient);
 			}*/
+			
+			glLightfv(light->Number, GL_AMBIENT, light->Ambient);
+			glLightfv(light->Number, GL_DIFFUSE, light->Diffuse);
+			glLightfv(light->Number, GL_SPECULAR, light->Specular);
+
+			glLightfv(light->Number, GL_POSITION, light->Position);
+
+			if (light->Type == L_SPOTLIGHT)
+			{
+				glLightf(light->Number, GL_SPOT_CUTOFF, light->CutOff);
+				glLightfv(light->Number, GL_SPOT_DIRECTION, light->Direction);
+			}
 		}
-		if (!light->IsEnabled)
+		else
 		{
 			glDisable(light->Number);
 		}
@@ -124,9 +118,6 @@ bool ModuleLighting::CleanUp()
 
 void ModuleLighting::SetLightType(Light* light, LightType new_type)
 {
-	//Required for Spotlight
-	GLfloat CutOff = 45.0f;
-	GLfloat* Direction = new GLfloat[3]{ 0.f, 0.f, 0.f };
 	light->Type = new_type;
 
 	//default point
