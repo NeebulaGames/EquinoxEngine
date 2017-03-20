@@ -30,7 +30,7 @@ struct Light
 	GLfloat* Position = new GLfloat[4]{ 0.f, 0.f, 0.f, 1.f };
 
 	//Required for Spotlight
-	GLfloat CutOff = 45.0f;
+	GLfloat CutOff = 180.f;
 	GLfloat* Direction = new GLfloat[3]{ 0.f, 0.f, 0.f };
 
 };
@@ -50,10 +50,15 @@ public:
 
 public:
 	Light* Lights[8];
+	bool EnableAmbientLight = false;
+	GLfloat* AmbientLight;
+
 	void SetLightType(Light* light, LightType new_type);
 
 	LightType GetTypeByLabel(int label);
 	int GetLabelByType(LightType type);
+
+	void DrawGizmo(Light* light);
 };
 
 #endif

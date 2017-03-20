@@ -98,6 +98,16 @@ update_status ModuleEditor::Update()
 	{
 		ModuleLighting* lighting = App->lighting;
 
+		if (ImGui::CollapsingHeader("Global Ambient Light", ImGuiTreeNodeFlags_AllowOverlapMode))
+		{
+			ImGui::Checkbox("Enabled", &lighting->EnableAmbientLight);
+
+			if (lighting->EnableAmbientLight)
+			{
+				ImGui::InputFloat4("Ambient", &lighting->AmbientLight[0], -1, ImGuiInputTextFlags_CharsDecimal);
+			}
+		}
+
 		int i = 0;
 		for (Light* light : lighting->Lights)
 		{
