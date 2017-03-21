@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "GL/glew.h"
 #include <gl/GL.h>
+#include <string>
 
 enum LightType
 {
@@ -22,14 +23,14 @@ struct Light
 
 	bool IsEnabled = false;
 
-	int Number = GL_LIGHT0;
+	int Number;
 	LightType Type = L_DEFAULT;
 
 	// w=1 => position || w=0 => direction (Direct light = 0.f, 0.f, 1.f, 0.f | position light = 0.f, 0.f, 0.f, 1.f)
 	GLfloat* Position = new GLfloat[4]{ 0.f, 0.f, 0.f, 1.f };
 
 	//Required for Spotlight
-	GLfloat CutOff = 45.0f;
+	GLfloat CutOff = 180.f;
 	GLfloat* Direction = new GLfloat[3]{ 0.f, 0.f, 0.f };
 
 };
@@ -48,10 +49,16 @@ public:
 	bool CleanUp();
 
 public:
-	Light Lights[8];
-	Light AmbientLight;
+	Light* Lights[8];
+	bool EnableAmbientLight = false;
+	GLfloat* AmbientLight;
 
-	void SetLightType(Light light, LightType new_type);
+	void SetLightType(Light* light, LightType new_type);
+
+	LightType GetTypeByLabel(int label);
+	int GetLabelByType(LightType type);
+
+	void DrawGizmo(Light* light);
 };
 
 #endif
