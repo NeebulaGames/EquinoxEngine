@@ -11,7 +11,8 @@ ModuleSettings::~ModuleSettings()
 
 bool ModuleSettings::Init()
 {
-	settings = json_value_get_object(json_parse_file(inputFile));
+	rootValue = json_parse_file(inputFile);
+	settings = json_value_get_object(rootValue);
 
 	if(settings != nullptr)
 	{
@@ -27,5 +28,6 @@ bool ModuleSettings::Init()
 
 bool ModuleSettings::CleanUp()
 {
+	json_value_free(rootValue);
 	return true;
 }
