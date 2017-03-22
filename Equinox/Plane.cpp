@@ -18,7 +18,10 @@
 
 void ::Plane::Draw()
 {
+	GLboolean light = glIsEnabled(GL_LIGHTING);
 	glDepthMask(GL_FALSE);
+	glDisable(GL_LIGHTING);
+
 	glPushMatrix();
 	glTranslatef(Position.x, Position.y, Position.z);
 	float3 axis = Rotation.Axis();
@@ -46,5 +49,9 @@ void ::Plane::Draw()
 	};
 	glEnd();
 	glPopMatrix();
+
 	glDepthMask(GL_TRUE);
+
+	if (light)
+		glEnable(GL_LIGHTING);
 }

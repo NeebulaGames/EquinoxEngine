@@ -174,9 +174,18 @@ void GameObject::DrawBoundingBox()
 
 void GameObject::DrawHierachy()
 {
+	GLboolean light = glIsEnabled(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
+	glColor4f(0.f, 0.f, 1.f, 1.f);
+
 	float4x4 transform = float4x4::identity;
 	for (GameObject* child : _childs)
 		child->DrawHierachy(transform);
+
+	glColor4f(1.f, 1.f, 1.f, 1.f);
+
+	if (light)
+		glEnable(GL_LIGHTING);
 }
 
 void GameObject::DrawHierachy(const float4x4& transformMatrix)
