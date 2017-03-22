@@ -103,7 +103,7 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 	originalNode->mTransformation.Decompose(scale, rotation, position);
 	TransformComponent* transform = new TransformComponent;
 	transform->Position = float3(position.x, position.y, position.z);
-	transform->Scale = float3(1, 1, 1);
+	transform->Scale = float3(scale.x, scale.y, scale.z);
 	transform->Rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
 
 	children->AddComponent(transform);
