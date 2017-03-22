@@ -12,10 +12,14 @@ TransformComponent::~TransformComponent()
 {
 }
 
+float4x4 TransformComponent::GetTransformMatrix() const
+{
+	return float4x4::FromTRS(Position, Rotation, Scale);
+}
+
 void TransformComponent::Update()
 {	
-	float4x4 transformMatrix = float4x4::FromTRS(Position, Rotation, Scale);
-	transformMatrix.Transpose();
+	float4x4 transformMatrix = GetTransformMatrix().Transposed();
 	glMultMatrixf(reinterpret_cast<GLfloat*>(&transformMatrix));
 }
 

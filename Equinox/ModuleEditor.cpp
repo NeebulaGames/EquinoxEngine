@@ -69,6 +69,8 @@ update_status ModuleEditor::Update()
 			_wireframe = wireframe;
 			wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
+
+		ImGui::Checkbox("Draw hierachy", &DrawHierachy);
 	}
 	ImGui::End();
 

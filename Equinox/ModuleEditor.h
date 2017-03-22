@@ -18,6 +18,8 @@ public:
 
 	GameObject* SelectedGameObject = nullptr;
 
+	bool DrawHierachy = false;
+
 private:
 	bool _wireframe = false;
 	std::list<float> _fpsValues;

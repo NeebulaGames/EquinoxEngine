@@ -103,7 +103,7 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 	originalNode->mTransformation.Decompose(scale, rotation, position);
 	TransformComponent* transform = new TransformComponent;
 	transform->Position = float3(position.x, position.y, position.z);
-	transform->Scale = float3(scale.x, scale.y, scale.z);
+	transform->Scale = float3(1, 1, 1);
 	transform->Rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
 
 	children->AddComponent(transform);
@@ -235,16 +235,10 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 
 void Level::drawNode(GameObject* node)
 {
-	glPushMatrix();
-	
 	node->Update();
 
-	for (GameObject* child : node->GetChilds())
-	{
-		drawNode(child);
-	}
-
-	glPopMatrix();
+	if (App->editor->DrawHierachy)
+		node->DrawHierachy();
 }
 
 void Level::drawHierachy(GameObject* node)

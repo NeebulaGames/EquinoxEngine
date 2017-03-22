@@ -5,8 +5,8 @@
 #include <list>
 #include <MathGeoLib/include/Geometry/AABB.h>
 
-
 class BaseComponent;
+class TransformComponent;
 
 class GameObject
 {
@@ -18,6 +18,7 @@ public:
 	
 private:
 	GameObject* _parent = nullptr;
+	TransformComponent* _transform = nullptr;
 	std::vector<GameObject*> _childs;
 	std::list<BaseComponent*> _components;
 
@@ -38,7 +39,11 @@ public:
 	void DeleteComponentByName(const std::string& name);
 	void DeleteComponent(BaseComponent* component);
 
+	TransformComponent* GetTransform() const;
+
 	void DrawBoundingBox();
+	void DrawHierachy();
+	void DrawHierachy(const float4x4& transformMatrix);
 	
 	void Update();
 
