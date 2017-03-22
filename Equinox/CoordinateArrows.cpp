@@ -9,6 +9,8 @@ CoordinateArrows::CoordinateArrows()
 void CoordinateArrows::Draw()
 {
 	glPushMatrix();
+	GLboolean light = glIsEnabled(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
 
 	//Draw Axis
 	glLineWidth(4.0);
@@ -81,4 +83,7 @@ void CoordinateArrows::Draw()
 	glEnd();
 
 	glPopMatrix();
+	
+	if (light)
+		glEnable(GL_LIGHTING);
 }
