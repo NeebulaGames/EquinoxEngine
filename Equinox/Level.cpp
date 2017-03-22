@@ -112,7 +112,7 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	if (originalNode->mMeshes != nullptr)
 	{
-		vertex_boundingbox.resize(originalNode->mNumMeshes*8);
+		vertex_boundingbox.resize(originalNode->mNumMeshes * 8);
 		MeshComponent* meshComponent = new MeshComponent;
 		children->AddComponent(meshComponent);
 
@@ -129,14 +129,13 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 			
 			meshComponent->Meshes.push_back(mesh);
 
-			mesh->boundingBox.GetCornerPoints(&vertex_boundingbox[i]);
+			mesh->boundingBox.GetCornerPoints(&vertex_boundingbox[i * 8]);
 		}
-
 	}
 
 	children->BoundingBox.SetNegativeInfinity();
-	if(!vertex_boundingbox.empty())
-		children->BoundingBox.Enclose(reinterpret_cast<float3*>(&vertex_boundingbox[0]), originalNode->mNumMeshes*8);
+	if (!vertex_boundingbox.empty())
+		children->BoundingBox.Enclose(reinterpret_cast<float3*>(&vertex_boundingbox[0]), originalNode->mNumMeshes * 8);
 	
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
 	{
