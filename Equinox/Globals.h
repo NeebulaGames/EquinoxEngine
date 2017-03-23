@@ -3,6 +3,8 @@
 
 #include "MemLeaks.h"
 #include "SDL/include/SDL_rect.h"
+#include <GL/glew.h>
+#include <MathGeoLib/include/Geometry/AABB.h>
 
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__)
 
@@ -54,5 +56,68 @@ typedef unsigned int uint;
 #define RESIZABLE true
 #define TITLE "Equinox Engine Editor"
 
+inline void DrawBoundingBox(AABB& boundingBox)
+{
+	glPushMatrix();
+
+	GLboolean light = glIsEnabled(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
+
+	if (boundingBox.IsFinite())
+	{
+		glLineWidth(3.f);
+		glBegin(GL_LINES);
+		glColor3f(0.f, 1.f, 0.f);
+		vec points[8];
+		boundingBox.GetCornerPoints(points);
+
+		// LEFT SIDE
+		glVertex3fv(&points[0][0]);
+		glVertex3fv(&points[1][0]);
+
+		glVertex3fv(&points[0][0]);
+		glVertex3fv(&points[2][0]);
+
+		glVertex3fv(&points[2][0]);
+		glVertex3fv(&points[3][0]);
+
+		glVertex3fv(&points[3][0]);
+		glVertex3fv(&points[1][0]);
+
+		// BACK SIDE
+		glVertex3fv(&points[0][0]);
+		glVertex3fv(&points[4][0]);
+
+		glVertex3fv(&points[2][0]);
+		glVertex3fv(&points[6][0]);
+
+		glVertex3fv(&points[4][0]);
+		glVertex3fv(&points[6][0]);
+
+		// RIGHT SIDE
+		glVertex3fv(&points[6][0]);
+		glVertex3fv(&points[7][0]);
+
+		glVertex3fv(&points[4][0]);
+		glVertex3fv(&points[5][0]);
+
+		glVertex3fv(&points[7][0]);
+		glVertex3fv(&points[5][0]);
+
+		// FRONT SIDE
+		glVertex3fv(&points[1][0]);
+		glVertex3fv(&points[5][0]);
+
+		glVertex3fv(&points[3][0]);
+		glVertex3fv(&points[7][0]);
+
+		glEnd();
+	}
+
+	if (light)
+		glEnable(GL_LIGHTING);
+
+	glPopMatrix();
+}
 
 #endif //__GLOBALS_H__

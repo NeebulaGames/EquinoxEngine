@@ -181,6 +181,9 @@
     <ClInclude Include="AnimationSDL.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
