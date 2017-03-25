@@ -110,3 +110,32 @@ bool ModuleAnimation::GetTransform(AnimInstanceID instance, const char* channelN
 			channel->Positions;//Continue
 	}
 }
+
+aiVector3D ModuleAnimation::InterpVector3D(const aiVector3D& first, const aiVector3D& second, float lambda) const
+{
+	return first*(1.0f - lambda) + second*lambda;
+}
+
+aiQuaternion ModuleAnimation::InterpQuaternion(const aiQuaternion& first, const aiQuaternion& second, float lambda) const
+{
+	aiQuaternion result;
+
+	float dot = first.x*second.x + first.y*second.y + first.z*second.z + first.w*second.w;
+
+	if(dot >= 0.0f)
+	{
+		result.x = first.x*(1.0f - lambda) + second.x*lambda;
+		result.y = first.y*(1.0f - lambda) + second.y*lambda;
+		result.z = first.z*(1.0f - lambda) + second.z*lambda;
+		result.w = first.w*(1.0f - lambda) + second.w*lambda;
+	}
+	else
+	{
+		result.x = first.x*(1.0f - lambda) + second.x*-lambda;
+		result.y = first.y*(1.0f - lambda) + second.y*-lambda;
+		result.z = first.z*(1.0f - lambda) + second.z*-lambda;
+		result.w = first.w*(1.0f - lambda) + second.w*-lambda;
+	}
+
+	return result;
+}

@@ -48,6 +48,9 @@ public:
 
 	bool GetTransform(AnimInstanceID instance, const char* channelName, aiVector3D& position, aiQuaternion& rotation) const;
 
+	aiVector3D InterpVector3D(const aiVector3D& first, const aiVector3D& second, float lambda) const;
+	aiQuaternion InterpQuaternion(const aiQuaternion& first, const aiQuaternion& second, float lambda) const;
+
 private:
 	typedef std::map<std::string, Anim*> AnimMap;
 	typedef std::vector<AnimInstance*> InstanceList;
