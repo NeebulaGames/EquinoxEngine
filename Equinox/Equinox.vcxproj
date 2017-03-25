@@ -85,7 +85,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationInstance.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseFactory.h" />
     <ClInclude Include="CameraComponent.h" />

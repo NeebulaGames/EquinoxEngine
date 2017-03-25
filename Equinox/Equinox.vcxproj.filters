@@ -175,9 +175,6 @@
     <ClInclude Include="ModuleAnimation.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationInstance.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Utils</Filter>
     </ClInclude>
