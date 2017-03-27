@@ -53,7 +53,7 @@ bool ModuleTextures::CleanUp()
 	return true;
 }
 
-// Load new texture from file path
+// Load new _texture from file path
 unsigned ModuleTextures::Load(const string& path)
 {
 	TextureMap::iterator it = _textures.find(path);
@@ -113,7 +113,7 @@ unsigned ModuleTextures::Load(const string& path)
 	return textureID;
 }
 
-// Free texture from memory
+// Free _texture from memory
 void ModuleTextures::Unload(unsigned id)
 {
 	for (TextureMap::iterator it = _textures.begin(); it != _textures.end(); ++it)

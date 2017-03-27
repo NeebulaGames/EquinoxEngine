@@ -24,6 +24,7 @@
 #include "Level.h"
 #include "ParticleEmitter.h"
 #include "TransformComponent.h"
+#include "BillboardComponent.h"
 
 ModuleRender::ModuleRender()
 {
@@ -75,6 +76,8 @@ bool ModuleRender::Start()
 		glClearDepth(1.0f);
 		glClearColor(0, 0, 0, 1.f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1f);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_COLOR_MATERIAL);
@@ -102,6 +105,13 @@ bool ModuleRender::Start()
 		goPS->Name = "ParticleSystem";
 		goPS->AddComponent(transform);
 		goPS->AddComponent(peComponent);
+		GameObject* grass = new GameObject;
+		grass->AddComponent(new TransformComponent);
+		unsigned grassTex = App->textures->Load("Models/billboardgrass.png");
+		BillboardComponent* grassBill = new BillboardComponent;
+		grassBill->SetTexture(grassTex);
+		grass->AddComponent(grassBill);
+		_scene->LinkGameObject(grass, _scene->GetRootNode());
 
 		_scene->AddToScene(goPS);
 
