@@ -88,6 +88,7 @@
     <ClInclude Include="AnimationSDL.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseFactory.h" />
+    <ClInclude Include="BillboardComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ComplexTimer.h" />
     <ClInclude Include="CoordinateArrows.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BillboardComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CoordinateArrows.cpp" />
     <ClCompile Include="Cube.cpp" />

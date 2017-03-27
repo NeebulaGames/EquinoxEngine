@@ -187,6 +187,9 @@
     <ClInclude Include="ParticleEmitter.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="BillboardComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -283,6 +286,9 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BillboardComponent.cpp">
       <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
