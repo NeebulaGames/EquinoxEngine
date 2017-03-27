@@ -19,10 +19,21 @@ bool ModuleAnimation::CleanUp()
 	for (std::pair<std::string, Anim*> element : _animations)
 	{
 		for (NodeAnim* channel : element.second->Channels)
+		{
+			for(float3* position : channel->Positions)
+				RELEASE(position);
+
+			for(Quat* rotation : channel->Rotations)
+				RELEASE(rotation);
+
 			RELEASE(channel);
+		}
 
 		RELEASE(element.second);
 	}
+
+	for (AnimInstance* animInstance : _instances)
+		RELEASE(animInstance);
 
 	_animations.clear();
 
@@ -34,6 +45,8 @@ update_status ModuleAnimation::Update()
 	for (AnimInstance* animInstance : _instances)
 		if(animInstance != nullptr)
 			animInstance->time += App->DeltaTime;
+
+	return UPDATE_CONTINUE;
 }
 
 void ModuleAnimation::Load(const char* name, const char* file)
@@ -60,13 +73,13 @@ void ModuleAnimation::Load(const char* name, const char* file)
 		for(unsigned int j = 0; j < aiNodeAnim->mNumPositionKeys; ++j)
 		{
 			aiVector3D position = aiNodeAnim->mPositionKeys[j].mValue;
-			anim->Channels[i]->Positions.push_back(&float3(position.x, position.y, position.z));
+			anim->Channels[i]->Positions.push_back(new float3(position.x, position.y, position.z));
 		}
 
 		for (unsigned int j = 0; j < aiNodeAnim->mNumRotationKeys; ++j)
 		{
 			aiQuaternion rotation = aiNodeAnim->mRotationKeys[j].mValue;
-			anim->Channels[i]->Rotations.push_back(&Quat(rotation.x, rotation.y, rotation.z, rotation.w));
+			anim->Channels[i]->Rotations.push_back(new Quat(rotation.x, rotation.y, rotation.z, rotation.w));
 		}
 	}
 
@@ -74,7 +87,7 @@ void ModuleAnimation::Load(const char* name, const char* file)
 	aiReleaseImport(scene);
 }
 
-ModuleAnimation::AnimInstanceID ModuleAnimation::Play(const char* name)
+AnimInstanceID ModuleAnimation::Play(const char* name)
 {
 	AnimInstance* animInstance = new AnimInstance();
 	animInstance->anim = _animations[name];
@@ -102,21 +115,41 @@ void ModuleAnimation::Stop(AnimInstanceID id)
 	RELEASE(_instances[id]);
 }
 
-bool ModuleAnimation::GetTransform(AnimInstanceID instance, const char* channelName, aiVector3D& position, aiQuaternion& rotation) const
+bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const
 {
-	for (NodeAnim* channel : _instances[instance]->anim->Channels)
+	AnimInstance* instance = _instances[id];
+	Anim* animation = _instances[id]->anim;
+	NodeAnim* node = nullptr;
+	for (NodeAnim* channel : _instances[id]->anim->Channels)
 	{
 		if (channel->NodeName == channelName)
-			channel->Positions;//Continue
+			node = channel;
 	}
+
+	if (!node)
+		return false;
+	
+	float posKey = float(instance->time * (node->Positions.size() - 1)) / float(animation->Duration);
+	float rotKey = float(instance->time * (node->Rotations.size() - 1)) / float(animation->Duration);
+
+	unsigned posIndex = unsigned(posKey);
+	unsigned rotIndex = unsigned(rotKey);
+
+	float posLambda = posKey - float(posIndex);
+	float rotLambda = rotKey - float(rotIndex);
+
+	position = InterpVector3D(*node->Positions[posIndex], *node->Positions[posIndex + 1], posLambda);
+	rotation = InterpQuaternion(*node->Rotations[rotIndex], *node->Rotations[rotIndex + 1], rotLambda);
+
+	return true;
 }
 
-aiVector3D ModuleAnimation::InterpVector3D(const aiVector3D& first, const aiVector3D& second, float lambda) const
+float3 ModuleAnimation::InterpVector3D(const float3& first, const float3& second, float lambda)
 {
 	return first*(1.0f - lambda) + second*lambda;
 }
 
-aiQuaternion ModuleAnimation::InterpQuaternion(const aiQuaternion& first, const aiQuaternion& second, float lambda) const
+Quat ModuleAnimation::InterpQuaternion(const Quat& first, const Quat& second, float lambda)
 {
 	aiQuaternion result;
 
@@ -137,5 +170,7 @@ aiQuaternion ModuleAnimation::InterpQuaternion(const aiQuaternion& first, const 
 		result.w = first.w*(1.0f - lambda) + second.w*-lambda;
 	}
 
-	return result;
+	result.Normalize();
+
+	return Quat(result.x, result.y, result.z, result.w);
 }

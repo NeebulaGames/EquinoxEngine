@@ -51,6 +51,8 @@ private:
 	void drawHierachy(GameObject* node);
 
 	void cleanUpNodes(GameObject* node);
+
+	static void transformNodes(GameObject* node);
 };
 
 #endif // __LEVEL_H__

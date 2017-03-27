@@ -9,6 +9,8 @@
 #include "ModuleWindow.h"
 #include "IMGUI/imgui.h"
 #include "ModuleEditor.h"
+#include "ModuleAnimation.h"
+#include "AnimationComponent.h"
 #include "Quadtree.h"
 #include "ModuleEditorCamera.h"
 
@@ -85,6 +87,11 @@ void Level::Update(float dt)
 
 	if(App->editor->DrawQuadtree)
 		quadtree->DrawQuadtree();
+}
+
+void Level::Update()
+{
+	transformNodes(root);
 }
 
 void Level::DrawUI()
@@ -300,5 +307,18 @@ void Level::cleanUpNodes(GameObject* node)
 		child->CleanUp();
 		cleanUpNodes(child);
 		RELEASE(child);
+	}
+}
+
+void Level::transformNodes(GameObject* node)
+{
+	for (GameObject* child : node->GetChilds())
+	{
+		AnimationComponent* animComponent = static_cast<AnimationComponent*>(child->GetComponentByName("Animation"));
+		if (!animComponent)
+			App->animator->GetTransform(animComponent->AnimInstanceID, child->Name.c_str(), 
+				child->GetTransform()->Position, child->GetTransform()->Rotation);
+		
+		transformNodes(child);
 	}
 }

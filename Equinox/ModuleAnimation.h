@@ -29,11 +29,12 @@ struct AnimInstance
 	unsigned blend_time = 0;
 };
 
+typedef unsigned AnimInstanceID;
 
 class ModuleAnimation : public Module
 {
 public:
-	typedef unsigned AnimInstanceID;
+	
 
 	ModuleAnimation(bool start_enabled = true);
 	~ModuleAnimation();
@@ -46,12 +47,14 @@ public:
 	AnimInstanceID Play(const char* name);
 	void Stop(AnimInstanceID id);
 
-	bool GetTransform(AnimInstanceID instance, const char* channelName, aiVector3D& position, aiQuaternion& rotation) const;
+	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const;
 
-	aiVector3D InterpVector3D(const aiVector3D& first, const aiVector3D& second, float lambda) const;
-	aiQuaternion InterpQuaternion(const aiQuaternion& first, const aiQuaternion& second, float lambda) const;
+	
 
 private:
+	static float3 InterpVector3D(const float3& first, const float3& second, float lambda);
+	static Quat InterpQuaternion(const Quat& first, const Quat& second, float lambda);
+
 	typedef std::map<std::string, Anim*> AnimMap;
 	typedef std::vector<AnimInstance*> InstanceList;
 	typedef std::vector<AnimInstanceID> HoleList;
