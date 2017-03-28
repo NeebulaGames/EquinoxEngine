@@ -9,10 +9,20 @@
 #include "ModuleWindow.h"
 #include "IMGUI/imgui.h"
 #include "ModuleEditor.h"
+#include "Quadtree.h"
 
 Level::Level()
 {
 	root = new GameObject;
+
+	vec minPoint = vec(-10000, -10000, -10000);
+	vec maxPoint = vec(10000, 10000, 10000);
+
+	AABB limits = AABB(minPoint, maxPoint);
+
+	quadtree = new Quadtree(limits);
+
+	quadtree->Insert(root);
 }
 
 Level::~Level()
@@ -91,6 +101,8 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 		return;
 
 	GameObject* children = new GameObject;
+
+	quadtree->Insert(children);
 
 	children->Name = originalNode->mName.C_Str();
 	children->SetParent(node);
@@ -234,7 +246,7 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 void Level::drawNode(GameObject* node)
 {
 	node->Update();
-
+	
 	if (App->editor->DrawHierachy)
 		node->DrawHierachy();
 }

@@ -33,7 +33,7 @@ public:
 	}
 
 	template<typename TYPE>
-	void CollectIntersections(std::vector<GameObject*> objects, const TYPE& primitive) const
+	void CollectIntersections(std::vector<GameObject*> &objects, const TYPE& primitive) const
 	{
 		if (primitive.Intersects(box))
 		{
@@ -120,7 +120,7 @@ public:
 	}
 
 	template<typename TYPE>
-	void CollectIntersections(std::vector<GameObject*> objects, const TYPE& primitive) const
+	void CollectIntersections(std::vector<GameObject*> &objects, const TYPE& primitive) const
 	{
 		root->CollectIntersections(objects, primitive);
 	}
