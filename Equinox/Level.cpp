@@ -89,11 +89,6 @@ void Level::Update(float dt)
 		quadtree->DrawQuadtree();
 }
 
-void Level::Update()
-{
-	transformNodes(root);
-}
-
 void Level::DrawUI()
 {
 	int w, h;
@@ -112,7 +107,7 @@ void Level::DrawUI()
 
 GameObject* Level::FindGameObject(const char* name)
 {
-	return nullptr;
+	return FindNodes(root, name);
 }
 
 void Level::LinkGameObject(GameObject* node, GameObject* destination)
@@ -310,15 +305,18 @@ void Level::cleanUpNodes(GameObject* node)
 	}
 }
 
-void Level::transformNodes(GameObject* node)
+GameObject * Level::FindNodes(GameObject * node, const char * name)
 {
 	for (GameObject* child : node->GetChilds())
 	{
-		AnimationComponent* animComponent = static_cast<AnimationComponent*>(child->GetComponentByName("Animation"));
-		if (!animComponent)
-			App->animator->GetTransform(animComponent->AnimInstanceID, child->Name.c_str(), 
-				child->GetTransform()->Position, child->GetTransform()->Rotation);
-		
-		transformNodes(child);
+		if (child->Name == name)
+			return child;
+
+		GameObject* found = FindNodes(child, name);
+
+		if (found)
+			return found;
 	}
+
+	return nullptr;
 }

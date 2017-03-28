@@ -30,12 +30,12 @@ Engine::Engine()
 	modules.push_back(editorCamera = new ModuleEditorCamera());
 
 	modules.push_back(editor = new ModuleEditor());
+	modules.push_back(animator = new ModuleAnimation());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(lighting = new ModuleLighting());
 	modules.push_back(audio = new ModuleAudio());
 	modules.push_back(settings = new ModuleSettings());
-	modules.push_back(animator = new ModuleAnimation());
 	modules.push_back(stats = new ModuleStats);
 
 	// Game Modules
@@ -45,6 +45,7 @@ Engine::Engine()
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(timer = new ModuleTimer());
 
+	DeltaTime = 0.f;
 	App = this;
 }
 

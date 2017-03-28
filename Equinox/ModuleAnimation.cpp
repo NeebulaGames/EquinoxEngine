@@ -44,7 +44,7 @@ update_status ModuleAnimation::Update()
 {
 	for (AnimInstance* animInstance : _instances)
 		if(animInstance != nullptr)
-			animInstance->time += App->DeltaTime;
+			animInstance->time = fmod(animInstance->time + App->DeltaTime,float(animInstance->anim->Duration));
 
 	return UPDATE_CONTINUE;
 }
@@ -138,15 +138,17 @@ bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, f
 	float posLambda = posKey - float(posIndex);
 	float rotLambda = rotKey - float(rotIndex);
 
-	position = InterpVector3D(*node->Positions[posIndex], *node->Positions[posIndex + 1], posLambda);
-	rotation = InterpQuaternion(*node->Rotations[rotIndex], *node->Rotations[rotIndex + 1], rotLambda);
+	if (node->Positions.size() > 1)
+		position = float3::Lerp(*node->Positions[posIndex], *node->Positions[posIndex + 1], posLambda);
+	else
+		position = *node->Positions[posIndex];
+
+	if(node->Rotations.size() > 1)
+		rotation = InterpQuaternion(*node->Rotations[rotIndex], *node->Rotations[rotIndex + 1], rotLambda);
+	else
+		rotation = *node->Rotations[rotIndex];
 
 	return true;
-}
-
-float3 ModuleAnimation::InterpVector3D(const float3& first, const float3& second, float lambda)
-{
-	return first*(1.0f - lambda) + second*lambda;
 }
 
 Quat ModuleAnimation::InterpQuaternion(const Quat& first, const Quat& second, float lambda)

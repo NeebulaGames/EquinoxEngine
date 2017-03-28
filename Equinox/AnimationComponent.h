@@ -11,6 +11,11 @@ public:
 	AnimationComponent();
 	~AnimationComponent();
 
+	void Update() override;
+
+	void TransformChild(GameObject* parent) const;
+
+public:
 	AnimInstanceID AnimInstanceID;
 };
 

@@ -22,6 +22,7 @@
 #include "IL/ilu.h"
 #include "ModuleTextures.h"
 #include "Level.h"
+#include "AnimationComponent.h"
 #include "ParticleEmitter.h"
 #include "TransformComponent.h"
 
@@ -102,6 +103,10 @@ bool ModuleRender::Start()
 		goPS->Name = "ParticleSystem";
 		goPS->AddComponent(transform);
 		goPS->AddComponent(peComponent);
+
+		AnimationComponent* animComponent = new AnimationComponent();
+		animComponent->AnimInstanceID = App->animator->Play("Idle");
+		_scene->FindGameObject("RootFrame")->AddComponent(animComponent);
 
 		_scene->AddToScene(goPS);
 
