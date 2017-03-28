@@ -19,9 +19,9 @@ void GameObject::SetParent(GameObject* new_parent)
 	if(_parent != nullptr)
 	{
 		_parent->RemoveChild(this);
-		new_parent->_childs.push_back(this);
-		_parent = new_parent;
 	}
+	new_parent->_childs.push_back(this);
+	_parent = new_parent;
 }
 
 GameObject* GameObject::GetParent() const
@@ -38,10 +38,7 @@ void GameObject::AddChild(GameObject* child)
 {
 	if (child != nullptr)
 	{
-		if(child->_parent != nullptr)
-			child->_parent->RemoveChild(this);
-		child->_parent = this;
-		_childs.push_back(child);
+		child->SetParent(this);
 	}
 }
 
