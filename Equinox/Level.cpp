@@ -94,7 +94,6 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	children->Name = originalNode->mName.C_Str();
 	children->SetParent(node);
-	node->AddChild(children);
 
 	aiVector3D position;
 	aiVector3D scale;
