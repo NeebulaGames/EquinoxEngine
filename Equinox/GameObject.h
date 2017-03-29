@@ -15,6 +15,7 @@ public:
 	std::string Name = "GameObject";
 	bool Enabled = true;
 	AABB BoundingBox;
+	bool VisibleOnCamera = false;
 	
 private:
 	GameObject* _parent = nullptr;

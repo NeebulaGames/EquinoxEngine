@@ -146,3 +146,8 @@ float* ModuleEditorCamera::GetViewMatrix() const
 {
 	return _cameraComponent->GetViewMatrix();
 }
+
+CameraComponent* ModuleEditorCamera::GetCamera() const
+{
+	return _cameraComponent;
+}

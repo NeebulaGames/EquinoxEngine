@@ -10,6 +10,7 @@
 #include "IMGUI/imgui.h"
 #include "ModuleEditor.h"
 #include "Quadtree.h"
+#include "ModuleEditorCamera.h"
 
 Level::Level()
 {
@@ -245,6 +246,16 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 
 void Level::drawNode(GameObject* node)
 {
+	std::vector<GameObject*> visibleObjects;
+	quadtree->CollectIntersections(visibleObjects, App->editorCamera->GetCamera()->GetFrustumAABB());
+
+	if (std::find(visibleObjects.begin(), visibleObjects.end(), node) != visibleObjects.end()) {
+		node->VisibleOnCamera = true;
+	}
+	else {
+		node->VisibleOnCamera = false;
+	}
+
 	node->Update();
 	
 	if (App->editor->DrawHierachy)

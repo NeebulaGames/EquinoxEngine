@@ -26,9 +26,7 @@ public:
 	void SetPos(const vec &pos);
 	const vec& GetUp() const;
 	vec GetWorldRight() const;
-
-
-
+	AABB GetFrustumAABB();
 
 private:
 	math::Frustum _frustum;

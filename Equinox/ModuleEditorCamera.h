@@ -24,6 +24,8 @@ public:
 	float* GetProjectionMatrix() const;
 	float* GetViewMatrix() const;
 
+	CameraComponent* GetCamera() const;
+
 private:
 	CameraComponent* _cameraComponent;
 };

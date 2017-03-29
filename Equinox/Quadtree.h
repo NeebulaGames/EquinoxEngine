@@ -43,8 +43,11 @@ public:
 					objects.push_back(*it);
 			}
 
-			for (int i = 0; i < 4; ++i)
-				if (childs[i] != nullptr) childs[i]->CollectIntersections(objects, primitive);
+			if (!childs.empty())
+			{
+				for (int i = 0; i < 4; ++i)
+					if (childs[i] != nullptr) childs[i]->CollectIntersections(objects, primitive);
+			}	
 		}
 	}
 
