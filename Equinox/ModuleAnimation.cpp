@@ -123,7 +123,10 @@ bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, f
 	for (NodeAnim* channel : _instances[id]->anim->Channels)
 	{
 		if (channel->NodeName == channelName)
+		{
 			node = channel;
+			break;
+		}
 	}
 
 	if (!node)
