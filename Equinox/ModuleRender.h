@@ -20,9 +20,9 @@ public:
 
 	bool Init();
 	bool Start();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate(float DeltaTime);
+	update_status Update(float DeltaTime);
+	update_status PostUpdate(float DeltaTime);
 	bool CleanUp();
 
 public:

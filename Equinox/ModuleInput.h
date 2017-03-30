@@ -54,7 +54,7 @@ public:
 	bool Start();
 
 	// Called each loop iteration
-	update_status PreUpdate();
+	update_status PreUpdate(float DeltaTime);
 
 	// Called before quitting
 	bool CleanUp();

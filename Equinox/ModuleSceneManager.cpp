@@ -52,19 +52,19 @@ bool ModuleSceneManager::Start()
 	return _currentScene ? (_currentScene->IsEnabled() ? _currentScene->Start() : _currentScene->Enable()) : true;
 }
 
-update_status ModuleSceneManager::PreUpdate()
+update_status ModuleSceneManager::PreUpdate(float DeltaTime)
 {
-	return _currentScene ? _currentScene->PreUpdate() : UPDATE_CONTINUE;
+	return _currentScene ? _currentScene->PreUpdate(0) : UPDATE_CONTINUE;
 }
 
-update_status ModuleSceneManager::Update()
+update_status ModuleSceneManager::Update(float DeltaTime)
 {
-	return _currentScene ? _currentScene->Update() : UPDATE_CONTINUE;
+	return _currentScene ? _currentScene->Update(0) : UPDATE_CONTINUE;
 }
 
-update_status ModuleSceneManager::PostUpdate()
+update_status ModuleSceneManager::PostUpdate(float DeltaTime)
 {
-	return _currentScene ? _currentScene->PostUpdate() : UPDATE_CONTINUE;
+	return _currentScene ? _currentScene->PostUpdate(0) : UPDATE_CONTINUE;
 }
 
 bool ModuleSceneManager::CleanUp()

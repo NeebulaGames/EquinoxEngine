@@ -76,14 +76,14 @@ private:
 
 	std::list<Module*> modules;
 
-	Uint64 _total_frames;
+	float _total_frames;
 	ComplexTimer _total_complex_time;
 	SimpleTimer _total_simple_time;
 
-	double _current_avg = 0;
-	double _current_fps = 0;
+	float _current_avg = 0;
+	float _current_fps = 0;
 
-	double _timeFromLastFrame = 0;
+	float _timeFromLastFrame = 0;
 };
 
 extern Engine* App;

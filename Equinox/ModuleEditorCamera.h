@@ -12,7 +12,7 @@ public:
 	ModuleEditorCamera();
 	~ModuleEditorCamera();
 
-	update_status Update() override;
+	update_status Update(float DeltaTime) override;
 	bool CleanUp() override;
 
 	void SetFOV(float fov) const;

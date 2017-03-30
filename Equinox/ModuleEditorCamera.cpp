@@ -15,7 +15,7 @@ ModuleEditorCamera::~ModuleEditorCamera()
 }
 
 
-update_status ModuleEditorCamera::Update()
+update_status ModuleEditorCamera::Update(float DeltaTime)
 {
 	float3 movement = float3::zero;
 	
