@@ -24,7 +24,6 @@ Level::Level()
 	quadtree = new Quadtree(limits);
 
 	//quadtree->Insert(root);
-
 }
 
 Level::~Level()
@@ -68,7 +67,16 @@ bool Level::CleanUp()
 
 void Level::Draw()
 {
+	std::vector<GameObject*> visibleObjects;
+	quadtree->CollectIntersections(visibleObjects, App->editorCamera->GetCamera()->GetFrustumAABB());
+
+	for (GameObject* go : visibleObjects)
+		go->VisibleOnCamera = true;
+
 	drawNode(root);
+
+	for (GameObject* go : visibleObjects)
+		go->VisibleOnCamera = false;
 }
 
 void Level::DrawUI()
@@ -247,16 +255,6 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 
 void Level::drawNode(GameObject* node)
 {
-	std::vector<GameObject*> visibleObjects;
-	quadtree->CollectIntersections(visibleObjects, App->editorCamera->GetCamera()->GetFrustumAABB());
-
-	if (std::find(visibleObjects.begin(), visibleObjects.end(), node) != visibleObjects.end()) {
-		node->VisibleOnCamera = true;
-	}
-	else {
-		node->VisibleOnCamera = false;
-	}
-
 	node->Update();
 	
 	if (App->editor->DrawHierachy)

@@ -174,8 +174,6 @@ void GameObject::Update()
 	glEnd();
 
 	glPopMatrix();
-
-	VisibleOnCamera = false;
 }
 
 bool GameObject::CleanUp()

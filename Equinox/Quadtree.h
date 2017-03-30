@@ -2,7 +2,7 @@
 #include <MathGeoLib/include/Geometry/AABB.h>
 #include "GameObject.h"
 
-#define MAX_BUCKET_SIZE 4
+#define MAX_BUCKET_SIZE 20
 
 class QuadtreeNode
 {
