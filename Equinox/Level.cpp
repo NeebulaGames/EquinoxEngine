@@ -23,7 +23,8 @@ Level::Level()
 
 	quadtree = new Quadtree(limits);
 
-	quadtree->Insert(root);
+	//quadtree->Insert(root);
+
 }
 
 Level::~Level()
@@ -103,8 +104,6 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	GameObject* children = new GameObject;
 
-	quadtree->Insert(children);
-
 	children->Name = originalNode->mName.C_Str();
 	children->SetParent(node);
 
@@ -148,6 +147,8 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 	children->BoundingBox.SetNegativeInfinity();
 	if (!vertex_boundingbox.empty())
 		children->BoundingBox.Enclose(reinterpret_cast<float3*>(&vertex_boundingbox[0]), originalNode->mNumMeshes * 8);
+
+	quadtree->Insert(children);
 	
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
 	{

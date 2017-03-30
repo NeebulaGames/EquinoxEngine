@@ -150,10 +150,6 @@ void GameObject::DrawHierachy(const float4x4& transformMatrix)
 		child->DrawHierachy(localMatrix);
 }
 
-void GameObject::Render()
-{
-
-}
 
 void GameObject::Update()
 {

@@ -45,8 +45,6 @@ public:
 	void DrawBoundingBox();
 	void DrawHierachy();
 	void DrawHierachy(const float4x4& transformMatrix);
-
-	void Render();
 	
 	void Update();
 
