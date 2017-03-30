@@ -92,6 +92,7 @@ bool ModuleRender::Start()
 		_scene = new Level();
 		_scene->Load("Models/street/", "Street.obj");
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
+		App->animator->Load("Run_Forwards", "Models/ArmyPilot/Animations/ArmyPilot_Run_Forwards.fbx");
 		
 		////////////
 		GameObject* goPS = new GameObject;
@@ -105,7 +106,7 @@ bool ModuleRender::Start()
 		goPS->AddComponent(peComponent);
 
 		AnimationComponent* animComponent = new AnimationComponent();
-		animComponent->AnimInstanceID = App->animator->Play("Idle");
+		animComponent->AnimInstanceID = App->animator->Play("Run_Forwards");
 		_scene->FindGameObject("RootFrame")->AddComponent(animComponent);
 
 		_scene->AddToScene(goPS);

@@ -14,7 +14,7 @@ struct NodeAnim
 
 struct Anim
 {
-	double Duration = 0.f;
+	unsigned Duration = 0;
 	std::vector<NodeAnim*> Channels;
 };
 
@@ -34,8 +34,6 @@ typedef unsigned AnimInstanceID;
 class ModuleAnimation : public Module
 {
 public:
-	
-
 	ModuleAnimation(bool start_enabled = true);
 	~ModuleAnimation();
 
@@ -48,8 +46,6 @@ public:
 	void Stop(AnimInstanceID id);
 
 	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const;
-
-	
 
 private:
 	static float3 InterpVector3D(const float3& first, const float3& second, float lambda);

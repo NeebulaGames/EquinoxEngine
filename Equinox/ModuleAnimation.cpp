@@ -44,7 +44,7 @@ update_status ModuleAnimation::Update()
 {
 	for (AnimInstance* animInstance : _instances)
 		if(animInstance != nullptr)
-			animInstance->time = fmod(animInstance->time + App->DeltaTime,float(animInstance->anim->Duration));
+			animInstance->time = fmod(animInstance->time + App->DeltaTime * 1E3,float(animInstance->anim->Duration));
 
 	return UPDATE_CONTINUE;
 }
@@ -60,7 +60,7 @@ void ModuleAnimation::Load(const char* name, const char* file)
 	aiAnimation** animations = scene->mAnimations;
 
 	Anim* anim = new Anim();
-	anim->Duration = animations[0]->mDuration;
+	anim->Duration = animations[0]->mDuration / animations[0]->mTicksPerSecond * 1E3;
 	anim->Channels = std::vector<NodeAnim*>(animations[0]->mNumChannels);
 
 	for (unsigned int i = 0; i < animations[0]->mNumChannels; ++i)
