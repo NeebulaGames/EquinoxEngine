@@ -15,8 +15,8 @@ ModuleAnimation::~ModuleAnimation()
 
 bool ModuleAnimation::CleanUp()
 {
-	AnimMap::iterator it = _animations.begin();
-	for (std::pair<std::string, Anim*> element : _animations)
+	AnimMap::iterator it = Animations.begin();
+	for (std::pair<std::string, Anim*> element : Animations)
 	{
 		for (NodeAnim* channel : element.second->Channels)
 		{
@@ -35,7 +35,7 @@ bool ModuleAnimation::CleanUp()
 	for (AnimInstance* animInstance : _instances)
 		RELEASE(animInstance);
 
-	_animations.clear();
+	Animations.clear();
 
 	return true;
 }
@@ -83,14 +83,14 @@ void ModuleAnimation::Load(const char* name, const char* file)
 		}
 	}
 
-	_animations[name] = anim;
+	Animations[name] = anim;
 	aiReleaseImport(scene);
 }
 
 AnimInstanceID ModuleAnimation::Play(const char* name)
 {
 	AnimInstance* animInstance = new AnimInstance();
-	animInstance->anim = _animations[name];
+	animInstance->anim = Animations[name];
 	unsigned pos;
 
 	if(_holes.empty())

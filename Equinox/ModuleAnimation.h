@@ -30,6 +30,7 @@ struct AnimInstance
 };
 
 typedef unsigned AnimInstanceID;
+typedef std::map<std::string, Anim*> AnimMap;
 
 class ModuleAnimation : public Module
 {
@@ -47,15 +48,16 @@ public:
 
 	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const;
 
+public:
+	AnimMap Animations;
+
 private:
 	static float3 InterpVector3D(const float3& first, const float3& second, float lambda);
 	static Quat InterpQuaternion(const Quat& first, const Quat& second, float lambda);
-
-	typedef std::map<std::string, Anim*> AnimMap;
+	
 	typedef std::vector<AnimInstance*> InstanceList;
 	typedef std::vector<AnimInstanceID> HoleList;
 
-	AnimMap _animations;
 	InstanceList _instances;
 	HoleList _holes;
 };

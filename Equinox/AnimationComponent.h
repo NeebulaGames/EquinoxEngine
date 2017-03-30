@@ -12,6 +12,7 @@ public:
 	~AnimationComponent();
 
 	void Update() override;
+	void DrawUI() override;
 
 	void TransformChild(GameObject* parent) const;
 
