@@ -2,7 +2,7 @@
 #include <MathGeoLib/include/Geometry/AABB.h>
 #include "GameObject.h"
 
-#define MAX_BUCKET_SIZE 20
+#define MAX_BUCKET_SIZE 8
 
 class QuadtreeNode
 {
@@ -51,6 +51,16 @@ public:
 		}
 	}
 
+	std::vector<QuadtreeNode*> GetChilds() const
+	{
+		return childs;
+	}
+
+	AABB GetBox() const
+	{
+		return box;
+	}
+
 private:
 	void Partition()
 	{
@@ -65,15 +75,15 @@ private:
 		float maxZ = box.MaxZ();
 
 		// Top
-		AABB box1(vec(minX, minY, minZ), vec(minX + size.x, minY + size.y, maxZ));
+		AABB box1(vec(minX, minY, minZ), vec(minX + size.x, maxY, minZ + size.z));
 		childs.push_back(new QuadtreeNode(box1));
-		AABB box2(vec(minX + size.x, minY, minZ), vec(maxX, minY + size.y, maxZ));
+		AABB box2(vec(minX + size.x, minY, minZ), vec(maxX, maxY, minZ + size.z));
 		childs.push_back(new QuadtreeNode(box2));
 
 		// Bottom
-		AABB box3(vec(minX, minY + size.y, minZ), vec(minX + size.x, maxY, maxZ));
+		AABB box3(vec(minX, minY, minZ + size.z), vec(minX + size.x, maxY, maxZ));
 		childs.push_back(new QuadtreeNode(box3));
-		AABB box4(vec(minX + size.x, minY + size.y, minZ), vec(maxX, maxY, maxZ));
+		AABB box4(vec(minX + size.x, minY, minZ + size.z), vec(maxX, maxY, maxZ));
 		childs.push_back(new QuadtreeNode(box4));
 
 		for (GameObject* obj : bucket)
@@ -128,7 +138,25 @@ public:
 		root->CollectIntersections(objects, primitive);
 	}
 
+	void DrawQuadtree()
+	{
+		for (QuadtreeNode* node : root->GetChilds())
+		{
+			DrawNodeAABB(node);
+		}
+	}
+
 private:
+
+	void DrawNodeAABB(QuadtreeNode* node)
+	{
+		::DrawBoundingBox(node->GetBox());
+		for (QuadtreeNode* qn : node->GetChilds())
+		{
+			DrawNodeAABB(qn);
+		}
+	}
+	
 	void Clear(QuadtreeNode* node)
 	{
 
