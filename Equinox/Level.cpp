@@ -22,8 +22,6 @@ Level::Level()
 	AABB limits = AABB(minPoint, maxPoint);
 
 	quadtree = new Quadtree(limits);
-
-	//quadtree->Insert(root);
 }
 
 Level::~Level()
@@ -82,7 +80,7 @@ void Level::Draw()
 	for (GameObject* go : visibleObjects)
 		go->VisibleOnCamera = false;
 
-	if(App->editor->DraQuadtree)
+	if(App->editor->DrawQuadtree)
 		quadtree->DrawQuadtree();
 }
 

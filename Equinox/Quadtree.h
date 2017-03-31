@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __QUADTREE_H__
+#define __QUADTREE_H__
+
 #include <MathGeoLib/include/Geometry/AABB.h>
 #include "GameObject.h"
 
@@ -169,3 +171,4 @@ private:
 	QuadtreeNode* root;
 };
 
+#endif
