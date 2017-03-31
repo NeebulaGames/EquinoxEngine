@@ -19,6 +19,7 @@ public:
 	GameObject* SelectedGameObject = nullptr;
 
 	bool DrawHierachy = false;
+	bool DraQuadtree = false;
 
 private:
 	bool _wireframe = false;

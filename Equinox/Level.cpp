@@ -82,7 +82,8 @@ void Level::Draw()
 	for (GameObject* go : visibleObjects)
 		go->VisibleOnCamera = false;
 
-	quadtree->DrawQuadtree();
+	if(App->editor->DraQuadtree)
+		quadtree->DrawQuadtree();
 }
 
 void Level::DrawUI()
