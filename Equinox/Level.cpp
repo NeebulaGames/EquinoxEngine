@@ -16,8 +16,8 @@ Level::Level()
 {
 	root = new GameObject;
 
-	vec minPoint = vec(-10000, -10000, -10000);
-	vec maxPoint = vec(10000, 10000, 10000);
+	vec minPoint = vec(-10000, -100, -10000);
+	vec maxPoint = vec(10000, 100, 10000);
 
 	AABB limits = AABB(minPoint, maxPoint);
 
@@ -59,6 +59,10 @@ bool Level::CleanUp()
 	}
 
 	cleanUpNodes(root);
+
+	quadtree->Clear();
+
+	RELEASE(quadtree);
 
 	RELEASE(root);
 

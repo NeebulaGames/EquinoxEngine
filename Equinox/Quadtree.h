@@ -159,7 +159,11 @@ private:
 	
 	void Clear(QuadtreeNode* node)
 	{
-
+		for (QuadtreeNode* qn : node->GetChilds())
+		{
+			Clear(qn);
+		}
+		RELEASE(node);
 	}
 
 	QuadtreeNode* root;
