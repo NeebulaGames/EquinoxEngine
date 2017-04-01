@@ -13,11 +13,16 @@ public:
 
 	void Update() override;
 	void DrawUI() override;
+	void CleanUp() override;
 
 	void TransformChild(GameObject* parent) const;
 
 public:
 	AnimInstanceID AnimInstanceID;
+
+private:
+	void GetAnimationNames(char* animNames);
+	char* animationNames;
 };
 
 #endif
