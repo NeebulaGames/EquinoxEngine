@@ -15,8 +15,8 @@ ModuleAnimation::~ModuleAnimation()
 
 bool ModuleAnimation::CleanUp()
 {
-	AnimMap::iterator it = Animations.begin();
-	for (std::pair<std::string, Anim*> element : Animations)
+	AnimMap::iterator it = _animations.begin();
+	for (std::pair<std::string, Anim*> element : _animations)
 	{
 		for (NodeAnim* channel : element.second->Channels)
 		{
@@ -35,7 +35,9 @@ bool ModuleAnimation::CleanUp()
 	for (AnimInstance* animInstance : _instances)
 		RELEASE(animInstance);
 
-	Animations.clear();
+	_animations.clear();
+
+	free(_animationNames);
 
 	return true;
 }
@@ -83,14 +85,14 @@ void ModuleAnimation::Load(const char* name, const char* file)
 		}
 	}
 
-	Animations[name] = anim;
+	_animations[name] = anim;
 	aiReleaseImport(scene);
 }
 
 AnimInstanceID ModuleAnimation::Play(const char* name)
 {
 	AnimInstance* animInstance = new AnimInstance();
-	animInstance->anim = Animations[name];
+	animInstance->anim = _animations[name];
 	unsigned pos;
 
 	if(_holes.empty())
@@ -152,6 +154,58 @@ bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, f
 		rotation = *node->Rotations[rotIndex];
 
 	return true;
+}
+
+char* ModuleAnimation::GetAnimationLabels()
+{
+	char combo[256] = { "None" };
+	size_t totalSize = 5;
+
+	for (AnimMap::iterator it = _animations.begin(); it != _animations.end(); ++it)
+	{
+		std::string animName(it->first, '\0');
+		size_t lenght = animName.size();
+		memcpy(combo + totalSize, animName.c_str(), totalSize + lenght + 1);
+		totalSize += lenght + 1;
+	}
+
+	_animationNames = static_cast<char*>(malloc(totalSize + 1));
+	_animationNames[totalSize] = '\0';
+	memcpy(_animationNames, combo, totalSize);
+
+	return _animationNames;
+}
+
+int ModuleAnimation::GetLabelByInstance(AnimInstanceID animInstance)
+{
+	if (animInstance == -1)
+		return 0;
+
+	int i = 1;
+	for (AnimMap::iterator it = _animations.begin(); it != _animations.end(); ++it)
+	{
+		if (_instances[animInstance]->anim == static_cast<Anim*>(it->second))
+			return i;
+		++i;
+	}
+	return 0;
+}
+
+Anim* ModuleAnimation::GetAnimByLabel(int label)
+{
+	int i = 1;
+	for (AnimMap::iterator it = _animations.begin(); it != _animations.end(); ++it)
+	{
+		if (i == label)
+			return static_cast<Anim*>(it->second);
+		++i;
+	}
+	return nullptr;
+}
+
+bool ModuleAnimation::isAnimInstanceOfAnim(AnimInstanceID animInstance, Anim* anim)
+{
+	return _instances[animInstance]->anim == anim;
 }
 
 Quat ModuleAnimation::InterpQuaternion(const Quat& first, const Quat& second, float lambda)
