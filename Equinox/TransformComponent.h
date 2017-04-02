@@ -7,6 +7,8 @@
 class TransformComponent :
 	public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION;
+
 public:
 	float3 Position = float3(0, 0, 0);
 	Quat Rotation = Quat(0, 0, 0, 1);
@@ -18,11 +20,8 @@ public:
 
 	float4x4 GetTransformMatrix() const;
 
-
-	void BeginPlay() override;
 	void Update(float dt) override;
 	void EditorUpdate(float dt) override;
-	void EndPlay() override;
 	void DrawUI() override;
 };
 

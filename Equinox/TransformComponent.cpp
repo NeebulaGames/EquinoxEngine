@@ -17,11 +17,6 @@ float4x4 TransformComponent::GetTransformMatrix() const
 	return float4x4::FromTRS(Position, Rotation, Scale);
 }
 
-void TransformComponent::BeginPlay()
-{
-	CreateBackup(this);
-}
-
 void TransformComponent::Update(float dt)
 {	
 	float4x4 transformMatrix = GetTransformMatrix().Transposed();
@@ -31,11 +26,6 @@ void TransformComponent::Update(float dt)
 void TransformComponent::EditorUpdate(float dt)
 {
 	Update(dt);
-}
-
-void TransformComponent::EndPlay()
-{
-	RestoreBackup(this);
 }
 
 void TransformComponent::DrawUI()

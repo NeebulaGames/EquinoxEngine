@@ -169,6 +169,7 @@ void GameObject::Update(float dt)
 				else // TODO: When serialization is available, back up gameobject tree to disk
 				{
 					_isPlaying = true;
+					BaseComponent::CreateBackup(baseComponent);
 					baseComponent->BeginPlay();
 				}
 			}
@@ -178,6 +179,7 @@ void GameObject::Update(float dt)
 				{
 					_isPlaying = false;
 					baseComponent->EndPlay();
+					BaseComponent::RestoreBackup(baseComponent);
 				}
 				else
 					baseComponent->EditorUpdate(App->editor->IsPaused() ? 0 : dt);

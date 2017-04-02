@@ -23,6 +23,7 @@ struct Mesh
 class MeshComponent :
 	public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION;
 public:
 	std::list<Mesh*> Meshes;
 	MaterialComponent* MaterialComponent;

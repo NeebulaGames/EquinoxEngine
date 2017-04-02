@@ -7,6 +7,7 @@
 class CameraComponent :
 	public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION;
 public:
 	CameraComponent();
 	~CameraComponent();
