@@ -98,3 +98,7 @@ vec CameraComponent::GetWorldRight() const
 	return _frustum.WorldRight();
 }
 
+AABB CameraComponent::GetFrustumAABB()
+{
+	return _frustum.MinimalEnclosingAABB();
+}

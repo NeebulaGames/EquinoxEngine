@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "MeshComponent.h"
 #include "MaterialComponent.h"
+#include "Quadtree.h"
 
 class Level : public Primitive
 {
@@ -14,6 +15,7 @@ public:
 	~Level();
 
 	GameObject* root = nullptr;
+	Quadtree* quadtree = nullptr;
 
 	std::vector<Mesh*> meshes;
 	std::vector<Material*> materials;

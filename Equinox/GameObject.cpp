@@ -113,66 +113,7 @@ TransformComponent* GameObject::GetTransform() const
 
 void GameObject::DrawBoundingBox()
 {
-	glPushMatrix();
-
-	GLboolean light = glIsEnabled(GL_LIGHTING);
-	glDisable(GL_LIGHTING);
-
-	if (BoundingBox.IsFinite())
-	{
-		glLineWidth(3.f);
-		glBegin(GL_LINES);
-		glColor3f(0.f, 1.f, 0.f);
-		vec points[8];
-		BoundingBox.GetCornerPoints(points);
-		
-		// LEFT SIDE
-		glVertex3fv(&points[0][0]);
-		glVertex3fv(&points[1][0]);
-
-		glVertex3fv(&points[0][0]);
-		glVertex3fv(&points[2][0]);
-
-		glVertex3fv(&points[2][0]);
-		glVertex3fv(&points[3][0]);
-
-		glVertex3fv(&points[3][0]);
-		glVertex3fv(&points[1][0]);
-
-		// BACK SIDE
-		glVertex3fv(&points[0][0]);
-		glVertex3fv(&points[4][0]);
-
-		glVertex3fv(&points[2][0]);
-		glVertex3fv(&points[6][0]);
-
-		glVertex3fv(&points[4][0]);
-		glVertex3fv(&points[6][0]);
-
-		// RIGHT SIDE
-		glVertex3fv(&points[6][0]);
-		glVertex3fv(&points[7][0]);
-
-		glVertex3fv(&points[4][0]);
-		glVertex3fv(&points[5][0]);
-
-		glVertex3fv(&points[7][0]);
-		glVertex3fv(&points[5][0]);
-
-		// FRONT SIDE
-		glVertex3fv(&points[1][0]);
-		glVertex3fv(&points[5][0]);
-
-		glVertex3fv(&points[3][0]);
-		glVertex3fv(&points[7][0]);
-
-		glEnd();
-	}
-
-	if (light)
-		glEnable(GL_LIGHTING);
-
-	glPopMatrix();
+	::DrawBoundingBox(BoundingBox);
 }
 
 void GameObject::DrawHierachy()
@@ -208,6 +149,7 @@ void GameObject::DrawHierachy(const float4x4& transformMatrix)
 	for (GameObject* child : _childs)
 		child->DrawHierachy(localMatrix);
 }
+
 
 void GameObject::Update()
 {

@@ -9,10 +9,19 @@
 #include "ModuleWindow.h"
 #include "IMGUI/imgui.h"
 #include "ModuleEditor.h"
+#include "Quadtree.h"
+#include "ModuleEditorCamera.h"
 
 Level::Level()
 {
 	root = new GameObject;
+
+	vec minPoint = vec(-10000, -100, -10000);
+	vec maxPoint = vec(10000, 100, 10000);
+
+	AABB limits = AABB(minPoint, maxPoint);
+
+	quadtree = new Quadtree(limits);
 }
 
 Level::~Level()
@@ -49,6 +58,10 @@ bool Level::CleanUp()
 
 	cleanUpNodes(root);
 
+	quadtree->Clear();
+
+	RELEASE(quadtree);
+
 	RELEASE(root);
 
 	return true;
@@ -56,7 +69,19 @@ bool Level::CleanUp()
 
 void Level::Draw()
 {
+	std::vector<GameObject*> visibleObjects;
+	quadtree->CollectIntersections(visibleObjects, App->editorCamera->GetCamera()->GetFrustumAABB());
+
+	for (GameObject* go : visibleObjects)
+		go->VisibleOnCamera = true;
+
 	drawNode(root);
+
+	for (GameObject* go : visibleObjects)
+		go->VisibleOnCamera = false;
+
+	if(App->editor->DrawQuadtree)
+		quadtree->DrawQuadtree();
 }
 
 void Level::DrawUI()
@@ -135,6 +160,8 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 	children->BoundingBox.SetNegativeInfinity();
 	if (!vertex_boundingbox.empty())
 		children->BoundingBox.Enclose(reinterpret_cast<float3*>(&vertex_boundingbox[0]), originalNode->mNumMeshes * 8);
+
+	quadtree->Insert(children);
 	
 	for (int i = 0; i < originalNode->mNumChildren; ++i)
 	{
@@ -234,7 +261,7 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 void Level::drawNode(GameObject* node)
 {
 	node->Update();
-
+	
 	if (App->editor->DrawHierachy)
 		node->DrawHierachy();
 }

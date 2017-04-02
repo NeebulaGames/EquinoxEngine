@@ -71,6 +71,7 @@ update_status ModuleEditor::Update()
 		}
 
 		ImGui::Checkbox("Draw hierachy", &DrawHierachy);
+		ImGui::Checkbox("Draw quadtree", &DrawQuadtree);
 	}
 	ImGui::End();
 
