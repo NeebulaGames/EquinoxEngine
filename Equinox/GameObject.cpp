@@ -163,9 +163,25 @@ void GameObject::Update(float dt)
 		if (baseComponent->Enabled)
 		{
 			if (App->editor->IsPlaying())
-				baseComponent->Update(dt);
+			{
+				if (_isPlaying)
+					baseComponent->Update(dt);
+				else // TODO: When serialization is available, back up gameobject tree to disk
+				{
+					_isPlaying = true;
+					baseComponent->BeginPlay();
+				}
+			}
 			else
-				baseComponent->EditorUpdate(App->editor->IsPaused() ? 0 : dt);
+			{
+				if (_isPlaying) // TODO: When serialization is available, restore gameobject tree from disk
+				{
+					_isPlaying = false;
+					baseComponent->EndPlay();
+				}
+				else
+					baseComponent->EditorUpdate(App->editor->IsPaused() ? 0 : dt);
+			}
 		}
 	}
 

@@ -22,6 +22,7 @@ private:
 	TransformComponent* _transform = nullptr;
 	std::vector<GameObject*> _childs;
 	std::list<BaseComponent*> _components;
+	bool _isPlaying = false;
 
 public:
 	GameObject();

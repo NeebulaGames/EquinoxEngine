@@ -18,8 +18,11 @@ public:
 
 	float4x4 GetTransformMatrix() const;
 
+
+	void BeginPlay() override;
 	void Update(float dt) override;
 	void EditorUpdate(float dt) override;
+	void EndPlay() override;
 	void DrawUI() override;
 };
 
