@@ -35,13 +35,15 @@ update_status ModuleEditor::Update(float DeltaTime)
 	int w, h;
 	SDL_GetWindowSize(App->window->window, &w, &h);
 
-	ImVec2 playPosition(w / 2, 100);
+	ImGui::SetNextWindowSize(ImVec2(120, 10), ImGuiSetCond_Always);
+	ImVec2 playPosition(w / 2 - 60, 10);
 	ImGui::SetNextWindowPos(playPosition, ImGuiSetCond_Always);
-	if (ImGui::Begin("Editor Status", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_Modal | ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin("Editor Status", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_Modal | ImGuiWindowFlags_NoResize | ImGuiAlign_Center))
 	{
+		
 		if (ImGui::Button(_isPlaying ? "Stop" : "Play"))
 		{
-			_isPlaying = !_isPlaying;
+			_isPlaying = !_isPlaying; // TODO: Convert this to a state machine
 		}
 
 		ImGui::SameLine();
