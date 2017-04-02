@@ -14,7 +14,8 @@ AnimationComponent::~AnimationComponent()
 
 void AnimationComponent::Update()
 {
-	TransformChild(Parent);
+	if(AnimInstanceID >= 0)
+		TransformChild(Parent);
 }
 
 void AnimationComponent::DrawUI()

@@ -29,7 +29,7 @@ struct AnimInstance
 	unsigned blend_time = 0;
 };
 
-typedef unsigned AnimInstanceID;
+typedef int AnimInstanceID;
 
 class ModuleAnimation : public Module
 {
