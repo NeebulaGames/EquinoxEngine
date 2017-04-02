@@ -39,16 +39,16 @@ update_status ModuleEditor::Update(float DeltaTime)
 	ImGui::SetNextWindowPos(playPosition, ImGuiSetCond_Always);
 	if (ImGui::Begin("Editor Status", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_Modal | ImGuiWindowFlags_NoResize))
 	{
-		if (ImGui::Button("Play"))
+		if (ImGui::Button(_isPlaying ? "Stop" : "Play"))
 		{
-			
+			_isPlaying = !_isPlaying;
 		}
 
 		ImGui::SameLine();
 
-		if (ImGui::Button("Pause"))
+		if (ImGui::Button(_isPaused ? "Unpause" : "Pause"))
 		{
-
+			_isPaused = !_isPaused;
 		}
 	}
 	ImGui::End();

@@ -31,7 +31,8 @@ public:
 	MeshComponent();
 	~MeshComponent();
 
-	void Update() override;
+	void Update(float dt) override;
+	void EditorUpdate(float dt) override;
 	void DrawUI() override;
 
 	const GLfloat DEFAULT_GL_AMBIENT[4] = { 0.2f, 0.2f, 0.2f, 1.f };

@@ -11,7 +11,7 @@ public:
 	CameraComponent();
 	~CameraComponent();
 
-	void Update() override;
+	void Update(float dt) override;
 
 	void SetFOV(float fov);
 	void SetAspectRatio(float ratio);

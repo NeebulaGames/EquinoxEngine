@@ -156,7 +156,7 @@ update_status Engine::Update()
 	float currentFrameTime = float(_total_simple_time.Read() / 1E3);
 	DeltaTime = float(currentFrameTime - _timeFromLastFrame);
 	
-	_current_fps = _total_frames / currentFrameTime;
+	_current_fps = 1 / DeltaTime;
 	LOG("Current FPS: %f", _current_fps);
 
 	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
@@ -180,8 +180,8 @@ bool Engine::CleanUp()
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->CleanUp();
 	LOG("Total Time: %f microseconds", _total_complex_time.Stop());
-	LOG("Total Time: %f miliseconds", _total_simple_time.Stop());
-	LOG("Total Frames: %d", _total_frames);
+	LOG("Total Time: %i miliseconds", _total_simple_time.Stop());
+	LOG("Total Frames: %f", _total_frames);
 	LOG("Average FPS: %f", _current_avg);
 	return ret;
 }

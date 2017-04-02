@@ -46,7 +46,7 @@ public:
 	void DrawHierachy();
 	void DrawHierachy(const float4x4& transformMatrix);
 	
-	void Update();
+	void Update(float dt);
 
 	bool CleanUp();
 

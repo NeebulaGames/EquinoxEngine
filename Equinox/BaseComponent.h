@@ -16,7 +16,9 @@ public:
 	
 	virtual ~BaseComponent() {};
 
-	virtual void Update() {};
+	virtual void Update(float dt) {};
+
+	virtual void EditorUpdate(float dt) {};
 
 	virtual void DrawUI() {};
 

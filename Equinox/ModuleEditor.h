@@ -16,6 +16,9 @@ public:
 	update_status PostUpdate(float DeltaTime) override;
 	bool CleanUp() override;
 
+	bool IsPlaying() const { return _isPlaying; }
+	bool IsPaused() const { return _isPaused; }
+
 	GameObject* SelectedGameObject = nullptr;
 
 	bool DrawHierachy = false;
@@ -23,6 +26,8 @@ public:
 
 private:
 	bool _wireframe = false;
+	bool _isPlaying = false;
+	bool _isPaused = false;
 	std::list<float> _fpsValues;
 
 	static float ListGetter(void* data, int id);

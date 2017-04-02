@@ -17,10 +17,15 @@ float4x4 TransformComponent::GetTransformMatrix() const
 	return float4x4::FromTRS(Position, Rotation, Scale);
 }
 
-void TransformComponent::Update()
+void TransformComponent::Update(float dt)
 {	
 	float4x4 transformMatrix = GetTransformMatrix().Transposed();
 	glMultMatrixf(reinterpret_cast<GLfloat*>(&transformMatrix));
+}
+
+void TransformComponent::EditorUpdate(float dt)
+{
+	Update(dt);
 }
 
 void TransformComponent::DrawUI()

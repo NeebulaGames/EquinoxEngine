@@ -126,7 +126,7 @@ update_status ModuleRender::Update(float DeltaTime)
 {
 	bool ret = true;
 
-	_scene->Draw();
+	_scene->Update(DeltaTime);
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 		(*it)->Draw();

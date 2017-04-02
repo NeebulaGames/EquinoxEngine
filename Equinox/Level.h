@@ -8,7 +8,7 @@
 #include "MaterialComponent.h"
 #include "Quadtree.h"
 
-class Level : public Primitive
+class Level
 {
 public:
 	Level();
@@ -21,8 +21,8 @@ public:
 	std::vector<Material*> materials;
 
 	void Load(const char* path, const char* file);
-	bool CleanUp() override;
-	void Draw() override;
+	bool CleanUp();
+	void Update(float dt);
 
 	void DrawUI();
 
@@ -46,7 +46,6 @@ private:
 
 	void loadMeshes(const aiScene* scene, const char* path);
 
-	void drawNode(GameObject* node);
 	void drawHierachy(GameObject* node);
 
 	void cleanUpNodes(GameObject* node);

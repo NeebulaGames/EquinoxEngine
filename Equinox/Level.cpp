@@ -67,7 +67,7 @@ bool Level::CleanUp()
 	return true;
 }
 
-void Level::Draw()
+void Level::Update(float dt)
 {
 	std::vector<GameObject*> visibleObjects;
 	quadtree->CollectIntersections(visibleObjects, App->editorCamera->GetCamera()->GetFrustumAABB());
@@ -75,7 +75,10 @@ void Level::Draw()
 	for (GameObject* go : visibleObjects)
 		go->VisibleOnCamera = true;
 
-	drawNode(root);
+	root->Update(dt);
+
+	if (App->editor->DrawHierachy)
+		root->DrawHierachy();
 
 	for (GameObject* go : visibleObjects)
 		go->VisibleOnCamera = false;
@@ -256,14 +259,6 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 		
 		materials.push_back(material);
 	}
-}
-
-void Level::drawNode(GameObject* node)
-{
-	node->Update();
-	
-	if (App->editor->DrawHierachy)
-		node->DrawHierachy();
 }
 
 void Level::drawHierachy(GameObject* node)

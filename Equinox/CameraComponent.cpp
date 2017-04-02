@@ -19,7 +19,7 @@ CameraComponent::~CameraComponent()
 {
 }
 
-void CameraComponent::Update()
+void CameraComponent::Update(float dt)
 {
 }
 
