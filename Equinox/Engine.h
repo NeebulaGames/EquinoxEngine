@@ -12,6 +12,7 @@
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
+class ModuleStats;
 class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
@@ -65,6 +66,7 @@ public:
 	ModuleSettings* settings;
 	ModuleLighting* lighting;
 	ModuleAnimation* animator;
+	ModuleStats* stats;
 
 	// Game modules ---
 	ModuleSceneManager* scene_manager;
@@ -75,13 +77,6 @@ private:
 	State state;
 
 	std::list<Module*> modules;
-
-	float _total_frames;
-	ComplexTimer _total_complex_time;
-	SimpleTimer _total_simple_time;
-
-	float _current_avg = 0;
-	float _current_fps = 0;
 
 	float _timeFromLastFrame = 0;
 };
