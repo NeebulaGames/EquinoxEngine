@@ -60,7 +60,7 @@ public:
 		return StartAllEntities();
 	}
 
-	update_status PreUpdate() override
+	update_status PreUpdate(float DeltaTime) override
 	{
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 			if ((*it)->IsEnabled())
@@ -77,7 +77,7 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
-	update_status Update() override
+	update_status Update(float DeltaTime) override
 	{
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 			if ((*it)->IsEnabled())
@@ -94,7 +94,7 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
-	update_status PostUpdate() override
+	update_status PostUpdate(float DeltaTime) override
 	{
 		for (auto it = _entities.begin(); it != _entities.end(); ++it)
 			if ((*it)->IsEnabled())

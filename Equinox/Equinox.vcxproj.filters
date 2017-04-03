@@ -184,6 +184,9 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleStats.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">

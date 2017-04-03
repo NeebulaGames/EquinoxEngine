@@ -14,6 +14,7 @@
 #include "ModuleLighting.h"
 #include "ModuleSettings.h"
 #include "ModuleAnimation.h"
+#include "ModuleStats.h"
 
 using namespace std;
 
@@ -21,7 +22,6 @@ Engine* App;
 
 Engine::Engine()
 {
-	_total_frames = 0;
 	state = State::CREATION;
 
 	// Order matters: they will init/start/pre/update/post in this order
@@ -37,6 +37,7 @@ Engine::Engine()
 	modules.push_back(audio = new ModuleAudio());
 	modules.push_back(settings = new ModuleSettings());
 	modules.push_back(animator = new ModuleAnimation());
+	modules.push_back(stats = new ModuleStats);
 
 	// Game Modules
 	modules.push_back(scene_manager = new ModuleSceneManager());
@@ -117,7 +118,8 @@ int Engine::Loop()
 
 bool Engine::Init()
 {
-	_total_complex_time.Start();
+	stats->_total_complex_time.Start();
+	stats->_total_simple_time.Start();
 	bool ret = true;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
@@ -140,31 +142,32 @@ update_status Engine::Update()
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->PreUpdate();
+			ret = (*it)->PreUpdate(DeltaTime);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->Update();
+			ret = (*it)->Update(DeltaTime);
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		if((*it)->IsEnabled() == true) 
-			ret = (*it)->PostUpdate();
+			ret = (*it)->PostUpdate(DeltaTime);
 
-	++_total_frames;
+	++stats->_total_frames;
 
-	float currentFrameTime = float(_total_complex_time.Read() / 1E6);
+	float currentFrameTime = float(stats->_total_simple_time.Read() / 1E3);
 	DeltaTime = float(currentFrameTime - _timeFromLastFrame);
-	_timeFromLastFrame = currentFrameTime;
 	
-	_current_fps = _total_frames / currentFrameTime;
+	stats->_current_fps = 1 / DeltaTime;
 
-	_current_avg = _current_avg ? (_current_avg + _current_fps) / 2 : _current_fps;
+	stats->_current_avg = stats->_current_avg ? (stats->_current_avg + stats->_current_fps) / 2 : stats->_current_fps;
 
-	if (_current_fps >= settings->MaxFps) {
+	if (stats->_current_fps >= settings->MaxFps) {
 		double aSecond = 1E3;
-		Uint32 timeToDelay = Uint32(aSecond - (settings->MaxFps*aSecond / _current_fps));
+		Uint32 timeToDelay = (aSecond / settings->MaxFps) - DeltaTime;
 		SDL_Delay(timeToDelay);
 	}
+
+	_timeFromLastFrame = currentFrameTime;
 
 	return ret;
 }
@@ -173,12 +176,14 @@ bool Engine::CleanUp()
 {
 	bool ret = true;
 
+	LOG("Total Time: %f microseconds", stats->_total_complex_time.Stop());
+	LOG("Total Time: %i miliseconds", stats->_total_simple_time.Stop());
+	LOG("Total Frames: %f", stats->_total_frames);
+	LOG("Average FPS: %f", stats->_current_avg);
+
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		if((*it)->IsEnabled() == true) 
 			ret = (*it)->CleanUp();
-	LOG("Total Time: %f microseconds", _total_complex_time.Stop());
-	LOG("Total Frames: %d", _total_frames);
-	LOG("Average FPS: %f", _current_avg);
 	return ret;
 }
 

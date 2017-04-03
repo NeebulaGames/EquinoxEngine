@@ -25,7 +25,7 @@ ModuleCollision::ModuleCollision()
 ModuleCollision::~ModuleCollision()
 {}
 
-update_status ModuleCollision::PreUpdate()
+update_status ModuleCollision::PreUpdate(float DeltaTime)
 {
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
@@ -42,7 +42,7 @@ update_status ModuleCollision::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleCollision::Update()
+update_status ModuleCollision::Update(float DeltaTime)
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
 	{

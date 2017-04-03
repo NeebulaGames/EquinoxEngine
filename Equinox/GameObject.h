@@ -22,6 +22,7 @@ private:
 	TransformComponent* _transform = nullptr;
 	std::vector<GameObject*> _childs;
 	std::list<BaseComponent*> _components;
+	bool _isPlaying = false;
 
 public:
 	GameObject();
@@ -46,7 +47,7 @@ public:
 	void DrawHierachy();
 	void DrawHierachy(const float4x4& transformMatrix);
 	
-	void Update();
+	void Update(float dt);
 
 	bool CleanUp();
 

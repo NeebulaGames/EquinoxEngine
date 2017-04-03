@@ -136,6 +136,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="ModuleTimer.h" />
     <ClInclude Include="SimpleTimer.h" />
+    <ClInclude Include="ModuleStats.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>

@@ -20,9 +20,9 @@ public:
 	BaseFactory<Entity>* GetEntityFactory() const;
 
 	bool Start() override;
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	update_status PreUpdate(float DeltaTime) override;
+	update_status Update(float DeltaTime) override;
+	update_status PostUpdate(float DeltaTime) override;
 	bool CleanUp() override;
 
 private:

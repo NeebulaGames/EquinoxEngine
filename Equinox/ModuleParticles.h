@@ -36,8 +36,8 @@ public:
 
 	bool Start();
 
-	update_status PreUpdate();
-	update_status Update();
+	update_status PreUpdate(float DeltaTime);
+	update_status Update(float DeltaTime);
 	bool CleanUp();
 
 	SDL_Texture* GetGraphics() const;

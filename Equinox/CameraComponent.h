@@ -7,11 +7,12 @@
 class CameraComponent :
 	public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION;
 public:
 	CameraComponent();
 	~CameraComponent();
 
-	void Update() override;
+	void Update(float dt) override;
 
 	void SetFOV(float fov);
 	void SetAspectRatio(float ratio);

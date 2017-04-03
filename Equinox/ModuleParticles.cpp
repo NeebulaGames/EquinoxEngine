@@ -23,7 +23,7 @@ bool ModuleParticles::Start()
 	return true;
 }
 
-update_status ModuleParticles::PreUpdate()
+update_status ModuleParticles::PreUpdate(float DeltaTime)
 {
 	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{
@@ -61,7 +61,7 @@ SDL_Texture* ModuleParticles::GetGraphics() const
 }
 
 // Update: draw background
-update_status ModuleParticles::Update()
+update_status ModuleParticles::Update(float DeltaTime)
 {
 	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{

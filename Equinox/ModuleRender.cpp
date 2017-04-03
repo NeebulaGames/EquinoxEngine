@@ -95,7 +95,7 @@ bool ModuleRender::Start()
 	return ret;
 }
 
-update_status ModuleRender::PreUpdate()
+update_status ModuleRender::PreUpdate(float DeltaTime)
 {	
 	ModuleEditorCamera* camera = App->editorCamera;
 
@@ -122,11 +122,11 @@ update_status ModuleRender::PreUpdate()
 }
 
 // Called every draw update
-update_status ModuleRender::Update()
+update_status ModuleRender::Update(float DeltaTime)
 {
 	bool ret = true;
 
-	_scene->Draw();
+	_scene->Update(DeltaTime);
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 		(*it)->Draw();
@@ -136,7 +136,7 @@ update_status ModuleRender::Update()
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }
 
-update_status ModuleRender::PostUpdate()
+update_status ModuleRender::PostUpdate(float DeltaTime)
 {
 	SDL_GL_SwapWindow(App->window->window);
 

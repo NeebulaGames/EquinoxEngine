@@ -41,12 +41,12 @@ bool ModuleLighting::Start()
 	return true;
 }
 
-update_status ModuleLighting::PreUpdate()
+update_status ModuleLighting::PreUpdate(float DeltaTime)
 {
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleLighting::Update()
+update_status ModuleLighting::Update(float DeltaTime)
 {
 	//TODO: it will be nice to add something similar to a gizmod to "see" the light source object in the editor.
 	glEnable(GL_LIGHTING);	
@@ -87,7 +87,7 @@ update_status ModuleLighting::Update()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleLighting::PostUpdate()
+update_status ModuleLighting::PostUpdate(float DeltaTime)
 {
 	return UPDATE_CONTINUE;
 }

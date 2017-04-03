@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include "TransformComponent.h"
 #include <MathGeoLib/include/Math/float4x4.h>
+#include "Engine.h"
+#include "ModuleEditor.h"
 
 GameObject::GameObject()
 {
@@ -151,15 +153,38 @@ void GameObject::DrawHierachy(const float4x4& transformMatrix)
 }
 
 
-void GameObject::Update()
+void GameObject::Update(float dt)
 {
 	glPushMatrix();
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	for (BaseComponent* baseComponent : _components)
 	{
-		if(baseComponent->Enabled)
-			baseComponent->Update();
+		if (baseComponent->Enabled)
+		{
+			if (App->editor->IsPlaying())
+			{
+				if (_isPlaying)
+					baseComponent->Update(dt);
+				else // TODO: When serialization is available, back up gameobject tree to disk
+				{
+					_isPlaying = true;
+					BaseComponent::CreateBackup(baseComponent);
+					baseComponent->BeginPlay();
+				}
+			}
+			else
+			{
+				if (_isPlaying) // TODO: When serialization is available, restore gameobject tree from disk
+				{
+					_isPlaying = false;
+					baseComponent->EndPlay();
+					BaseComponent::RestoreBackup(baseComponent);
+				}
+				else
+					baseComponent->EditorUpdate(App->editor->IsPaused() ? 0 : dt);
+			}
+		}
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -168,10 +193,8 @@ void GameObject::Update()
 
 	for (GameObject* child : _childs)
 	{
-		child->Update();
+		child->Update(dt);
 	}
-
-	glEnd();
 
 	glPopMatrix();
 }

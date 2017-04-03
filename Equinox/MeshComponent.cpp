@@ -14,7 +14,7 @@ MeshComponent::~MeshComponent()
 {
 }
 
-void MeshComponent::Update()
+void MeshComponent::Update(float dt)
 {
 	if (Parent->VisibleOnCamera)
 	{
@@ -72,6 +72,11 @@ void MeshComponent::Update()
 		glDisable(GL_COLOR_MATERIAL);
 		glDisable(GL_LIGHTING);
 	}
+}
+
+void MeshComponent::EditorUpdate(float dt)
+{
+	Update(dt);
 }
 
 void MeshComponent::DrawUI()

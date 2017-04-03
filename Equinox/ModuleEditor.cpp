@@ -23,18 +23,39 @@ bool ModuleEditor::Start()
 	return true;
 }
 
-update_status ModuleEditor::PreUpdate()
+update_status ModuleEditor::PreUpdate(float DeltaTime)
 {
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
 
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::Update()
+update_status ModuleEditor::Update(float DeltaTime)
 {
-	ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiSetCond_Always);
 	int w, h;
 	SDL_GetWindowSize(App->window->window, &w, &h);
+
+	ImGui::SetNextWindowSize(ImVec2(120, 10), ImGuiSetCond_Always);
+	ImVec2 playPosition(w / 2 - 60, 10);
+	ImGui::SetNextWindowPos(playPosition, ImGuiSetCond_Always);
+	if (ImGui::Begin("Editor Status", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_Modal | ImGuiWindowFlags_NoResize | ImGuiAlign_Center))
+	{
+		
+		if (ImGui::Button(_isPlaying ? "Stop" : "Play"))
+		{
+			_isPlaying = !_isPlaying; // TODO: Convert this to a state machine
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button(_isPaused ? "Unpause" : "Pause"))
+		{
+			_isPaused = !_isPaused;
+		}
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiSetCond_Always);
 	ImVec2 windowPosition(0, h - 100);
 	ImGui::SetNextWindowPos(windowPosition, ImGuiSetCond_Always);
 	if (ImGui::Begin("Engine Stats", nullptr, ImGuiWindowFlags_AlwaysUseWindowPadding))
@@ -152,7 +173,7 @@ update_status ModuleEditor::Update()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::PostUpdate()
+update_status ModuleEditor::PostUpdate(float DeltaTime)
 {
 	ImGui::Render();
 
