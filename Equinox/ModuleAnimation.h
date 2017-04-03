@@ -44,6 +44,7 @@ public:
 
 	AnimInstanceID Play(const char* name);
 	void Stop(AnimInstanceID id);
+	void BlendTo(AnimInstanceID id, const char* name, unsigned blend_time);
 
 	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const;
 	char* GetAnimationLabels();

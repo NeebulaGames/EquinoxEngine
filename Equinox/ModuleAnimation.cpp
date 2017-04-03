@@ -121,6 +121,11 @@ void ModuleAnimation::Stop(AnimInstanceID id)
 	}
 }
 
+void ModuleAnimation::BlendTo(AnimInstanceID id, const char* name, unsigned blend_time)
+{
+	
+}
+
 bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const
 {
 	AnimInstance* instance = _instances[id];
