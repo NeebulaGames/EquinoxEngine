@@ -91,10 +91,10 @@ void ModuleAnimation::Load(const char* name, const char* file)
 
 AnimInstanceID ModuleAnimation::Play(const char* name)
 {
-	AnimInstance* animInstance = new AnimInstance();
-	int pos;
+	int pos = -1;
 	if (_animations.find(name) != _animations.end())
 	{
+		AnimInstance* animInstance = new AnimInstance();
 		animInstance->anim = _animations[name];
 		if (_holes.empty())
 		{
@@ -108,9 +108,6 @@ AnimInstanceID ModuleAnimation::Play(const char* name)
 			_holes.pop_back();
 		}
 	}
-	else
-		pos = -1;
-
 	return pos;
 }
 
@@ -176,6 +173,7 @@ char* ModuleAnimation::GetAnimationLabels()
 		totalSize += lenght + 1;
 	}
 
+	free(_animationNames);
 	_animationNames = static_cast<char*>(malloc(totalSize + 1));
 	_animationNames[totalSize] = '\0';
 	memcpy(_animationNames, combo, totalSize);

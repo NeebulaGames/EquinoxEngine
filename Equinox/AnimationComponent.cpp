@@ -29,10 +29,10 @@ void AnimationComponent::DrawUI()
 		AnimInstanceID,
 		animator->GetAnimByName(animator->GetNameAnimByLabel(current_type))))
 	{
-		const char* name = animator->GetNameAnimByLabel(current_type).c_str();
-		LOG("IT HAS CHANGED TO %s", name);
+		std::string name = animator->GetNameAnimByLabel(current_type);
+		LOG("IT HAS CHANGED TO %s", name.c_str());
 		int id = this->AnimInstanceID;
-		this->AnimInstanceID = animator->Play(name);
+		this->AnimInstanceID = animator->Play(name.c_str());
 		animator->Stop(id);
 	}
 }
