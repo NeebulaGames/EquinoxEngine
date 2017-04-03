@@ -48,7 +48,8 @@ public:
 	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const;
 	char* GetAnimationLabels();
 	int GetLabelByInstance(AnimInstanceID animInstance);
-	Anim* ModuleAnimation::GetAnimByLabel(int label);
+	std::string ModuleAnimation::GetNameAnimByLabel(int label);
+	Anim* GetAnimByName(std::string);
 	bool isAnimInstanceOfAnim(AnimInstanceID animInstance, Anim* anim);
 public:
 	

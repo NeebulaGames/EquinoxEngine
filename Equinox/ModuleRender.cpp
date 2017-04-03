@@ -90,7 +90,8 @@ bool ModuleRender::Start()
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
     
 		_scene = new Level();
-		_scene->Load("Models/street/", "Street.obj");
+		//_scene->Load("Models/street/", "Street.obj");
+		_scene->Load("Models/ArmyPilot/", "ArmyPilot.dae");
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
 		App->animator->Load("Run_Forwards", "Models/ArmyPilot/Animations/ArmyPilot_Run_Forwards.fbx");
 		
@@ -107,7 +108,9 @@ bool ModuleRender::Start()
 
 		AnimationComponent* animComponent = new AnimationComponent();
 		//animComponent->AnimInstanceID = App->animator->Play("Idle");
-		_scene->FindGameObject("RootFrame")->AddComponent(animComponent);
+		GameObject* rootFrame = _scene->FindGameObject("RootFrame");
+		if(rootFrame)
+			rootFrame->AddComponent(animComponent);
 
 		_scene->AddToScene(goPS);
 

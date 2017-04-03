@@ -92,20 +92,24 @@ void ModuleAnimation::Load(const char* name, const char* file)
 AnimInstanceID ModuleAnimation::Play(const char* name)
 {
 	AnimInstance* animInstance = new AnimInstance();
-	animInstance->anim = _animations[name];
-	unsigned pos;
-
-	if(_holes.empty())
+	int pos;
+	if (_animations.find(name) != _animations.end())
 	{
-		_instances.push_back(animInstance);
-		pos = _instances.size() - 1;
+		animInstance->anim = _animations[name];
+		if (_holes.empty())
+		{
+			_instances.push_back(animInstance);
+			pos = _instances.size() - 1;
+		}
+		else
+		{
+			pos = _holes.at(_holes.size() - 1);
+			_instances.at(pos) = animInstance;
+			_holes.pop_back();
+		}
 	}
 	else
-	{
-		pos = _holes.at(_holes.size() - 1);
-		_instances.at(pos) = animInstance;
-		_holes.pop_back();
-	}
+		pos = -1;
 
 	return pos;
 }
@@ -113,8 +117,11 @@ AnimInstanceID ModuleAnimation::Play(const char* name)
 
 void ModuleAnimation::Stop(AnimInstanceID id)
 {
-	_holes.push_back(id);
-	RELEASE(_instances[id]);
+	if(id >= 0)
+	{
+		_holes.push_back(id);
+		RELEASE(_instances[id]);
+	}
 }
 
 bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const
@@ -191,20 +198,31 @@ int ModuleAnimation::GetLabelByInstance(AnimInstanceID animInstance)
 	return 0;
 }
 
-Anim* ModuleAnimation::GetAnimByLabel(int label)
+std::string ModuleAnimation::GetNameAnimByLabel(int label)
 {
 	int i = 1;
 	for (AnimMap::iterator it = _animations.begin(); it != _animations.end(); ++it)
 	{
 		if (i == label)
-			return static_cast<Anim*>(it->second);
+			return static_cast<std::string>(it->first);
 		++i;
 	}
-	return nullptr;
+	return std::string("None");
+}
+
+Anim* ModuleAnimation::GetAnimByName(std::string name)
+{
+	if (_animations.find(name) == _animations.end())
+		return nullptr;
+
+	return _animations[name];
 }
 
 bool ModuleAnimation::isAnimInstanceOfAnim(AnimInstanceID animInstance, Anim* anim)
 {
+	if (animInstance < 0)
+		return anim == nullptr;
+	
 	return _instances[animInstance]->anim == anim;
 }
 

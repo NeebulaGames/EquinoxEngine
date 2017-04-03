@@ -20,15 +20,20 @@ void AnimationComponent::Update()
 
 void AnimationComponent::DrawUI()
 {
-	char* animationNames = App->animator->GetAnimationLabels();
+	ModuleAnimation* animator = App->animator;
+	char* animationNames = animator->GetAnimationLabels();
 
-	int current_type = App->animator->GetLabelByInstance(AnimInstanceID);
+	int current_type = animator->GetLabelByInstance(AnimInstanceID);
 	ImGui::Combo("Anim instance", &current_type, animationNames);
-	if (!App->animator->isAnimInstanceOfAnim(
+	if (!animator->isAnimInstanceOfAnim(
 		AnimInstanceID,
-		App->animator->GetAnimByLabel(current_type)))
+		animator->GetAnimByName(animator->GetNameAnimByLabel(current_type))))
 	{
-		LOG("IT HAS CHANGED");
+		const char* name = animator->GetNameAnimByLabel(current_type).c_str();
+		LOG("IT HAS CHANGED TO %s", name);
+		int id = this->AnimInstanceID;
+		this->AnimInstanceID = animator->Play(name);
+		animator->Stop(id);
 	}
 }
 
