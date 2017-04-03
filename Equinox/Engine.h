@@ -19,7 +19,6 @@ class ModuleTextures;
 class ModuleInput;
 class ModuleAudio;
 class ModuleCollision;
-class ModuleParticles;
 class ModuleSceneManager;
 class ModuleTimer;
 class ModuleEditorCamera;
@@ -59,7 +58,6 @@ public:
 	ModuleInput* input;
 	ModuleAudio* audio;
 	ModuleCollision* collision;
-	ModuleParticles* particles;
 	ModuleTimer* timer;
 	ModuleEditorCamera* editorCamera;
 	ModuleEditor* editor;

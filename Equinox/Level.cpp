@@ -113,6 +113,14 @@ void Level::LinkGameObject(GameObject* node, GameObject* destination)
 	destination->AddChild(node);
 }
 
+void Level::AddToScene(GameObject* go)
+{
+	if (go != nullptr)
+	{
+		LinkGameObject(go, root);
+	}
+}
+
 void Level::loadNodes(aiNode* originalNode, GameObject* node)
 {
 	if (originalNode == nullptr)

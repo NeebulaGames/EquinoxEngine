@@ -22,6 +22,8 @@
 #include "IL/ilu.h"
 #include "ModuleTextures.h"
 #include "Level.h"
+#include "ParticleEmitter.h"
+#include "TransformComponent.h"
 
 ModuleRender::ModuleRender()
 {
@@ -89,6 +91,17 @@ bool ModuleRender::Start()
 		_scene = new Level();
 		_scene->Load("Models/street/", "Street.obj");
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
+		
+		////////////
+		GameObject* goPS = new GameObject;
+		TransformComponent* transform = new TransformComponent;
+		ParticleEmitter* peComponent = new ParticleEmitter(float2(50.f, 50.f));
+		goPS->Name = "ParticleSystem";
+		goPS->AddComponent(transform);
+		goPS->AddComponent(peComponent);
+		_scene->AddToScene(goPS);
+
+		////////////
 
 		objects.push_back(new CoordinateArrows());
 	}
