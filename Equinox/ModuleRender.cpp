@@ -96,9 +96,13 @@ bool ModuleRender::Start()
 		GameObject* goPS = new GameObject;
 		TransformComponent* transform = new TransformComponent;
 		ParticleEmitter* peComponent = new ParticleEmitter(200, float2(50.f, 50.f), 20.f, 1.2f, 15.f);
+		unsigned rainTex = App->textures->Load("Models/rainSprite.tga");
+		//unsigned snowTex = App->textures->Load("Models/simpleflake.tga");
+		peComponent->SetTexture(rainTex);
 		goPS->Name = "ParticleSystem";
 		goPS->AddComponent(transform);
 		goPS->AddComponent(peComponent);
+
 		_scene->AddToScene(goPS);
 
 		////////////
