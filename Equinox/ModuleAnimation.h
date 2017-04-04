@@ -38,7 +38,7 @@ public:
 	~ModuleAnimation();
 
 	bool CleanUp() override;
-	update_status Update() override;
+	update_status Update(float DeltaTime) override;
 
 	void Load(const char* name, const char* file);
 
@@ -52,8 +52,6 @@ public:
 	std::string ModuleAnimation::GetNameAnimByLabel(int label);
 	Anim* GetAnimByName(std::string);
 	bool isAnimInstanceOfAnim(AnimInstanceID animInstance, Anim* anim);
-public:
-	
 
 private:
 	static Quat InterpQuaternion(const Quat& first, const Quat& second, float lambda);

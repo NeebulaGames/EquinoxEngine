@@ -42,7 +42,7 @@ bool ModuleAnimation::CleanUp()
 	return true;
 }
 
-update_status ModuleAnimation::Update()
+update_status ModuleAnimation::Update(float DeltaTime)
 {
 	for (AnimInstance* animInstance : _instances)
 		if(animInstance != nullptr)

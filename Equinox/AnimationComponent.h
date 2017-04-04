@@ -7,11 +7,12 @@
 class AnimationComponent :
 	public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION;
 public:
 	AnimationComponent();
 	~AnimationComponent();
 
-	void Update() override;
+	void Update(float DeltaTime) override;
 	void DrawUI() override;
 
 	void TransformChild(GameObject* parent) const;

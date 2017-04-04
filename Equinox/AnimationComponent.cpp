@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "TransformComponent.h"
 #include "IMGUI/imgui.h"
+#include "GameObject.h"
 
 AnimationComponent::AnimationComponent()
 {
@@ -12,7 +13,7 @@ AnimationComponent::~AnimationComponent()
 {
 }
 
-void AnimationComponent::Update()
+void AnimationComponent::Update(float DeltaTime)
 {
 	if(AnimInstanceID >= 0)
 		TransformChild(Parent);
