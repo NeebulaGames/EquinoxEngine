@@ -107,7 +107,7 @@ bool ModuleRender::Start()
 		goPS->AddComponent(peComponent);
 
 		AnimationComponent* animComponent = new AnimationComponent();
-		//animComponent->AnimInstanceID = App->animator->Play("Idle");
+		animComponent->AnimInstanceID = App->animator->Play("Idle");
 		GameObject* rootFrame = _scene->FindGameObject("RootFrame");
 		if(rootFrame)
 			rootFrame->AddComponent(animComponent);

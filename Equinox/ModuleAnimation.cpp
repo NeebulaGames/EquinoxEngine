@@ -45,8 +45,18 @@ bool ModuleAnimation::CleanUp()
 update_status ModuleAnimation::Update(float DeltaTime)
 {
 	for (AnimInstance* animInstance : _instances)
-		if(animInstance != nullptr)
-			animInstance->time = fmod(animInstance->time + App->DeltaTime * 1E3,float(animInstance->anim->Duration));
+	{
+		if (animInstance != nullptr)
+		{
+			animInstance->time = fmod(animInstance->time + App->DeltaTime * 1E3, float(animInstance->anim->Duration));
+			if(animInstance->next)
+			{
+				AnimInstance* nextAnimInstance = animInstance->next;
+				nextAnimInstance->time = fmod(nextAnimInstance->time + App->DeltaTime * 1E3, float(nextAnimInstance->anim->Duration));
+				animInstance->blend_time += App->DeltaTime * 1E3;
+			}
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -123,10 +133,17 @@ void ModuleAnimation::Stop(AnimInstanceID id)
 
 void ModuleAnimation::BlendTo(AnimInstanceID id, const char* name, unsigned blend_time)
 {
+	if (!(_animations.find(name) != _animations.end()))
+		return Stop(id);
+
+	AnimInstance* animInstance = new AnimInstance();
+	animInstance->anim = _animations[name];
 	
+	_instances[id]->next = animInstance;
+	_instances[id]->blend_duration = blend_time;
 }
 
-bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const
+bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) 
 {
 	AnimInstance* instance = _instances[id];
 	Anim* animation = _instances[id]->anim;
@@ -161,6 +178,59 @@ bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, f
 		rotation = InterpQuaternion(*node->Rotations[rotIndex], *node->Rotations[rotIndex + 1], rotLambda);
 	else
 		rotation = *node->Rotations[rotIndex];
+
+
+	if (instance->next)
+	{
+		NodeAnim* nodeNext = nullptr;
+		AnimInstance* nextAnimInstance = _instances[id]->next;
+		Anim* nextAnimation = nextAnimInstance->anim;
+		for (NodeAnim* channel : nextAnimInstance->anim->Channels)
+		{
+			if (channel->NodeName == channelName)
+			{
+				nodeNext = channel;
+				break;
+			}
+		}
+
+		if (!nodeNext)
+			return false;
+
+		float posKeyNext = float(nextAnimInstance->time * (nodeNext->Positions.size() - 1)) / float(animation->Duration);
+		float rotKeyNext = float(nextAnimInstance->time * (nodeNext->Rotations.size() - 1)) / float(animation->Duration);
+
+		unsigned posIndexNext = unsigned(posKeyNext);
+		unsigned rotIndexNext = unsigned(rotKeyNext);
+
+		float posLambdaNext = posKeyNext - float(posIndexNext);
+		float rotLambdaNext = rotKeyNext - float(rotIndexNext);
+
+		float3 positionNext;
+		Quat rotationNext;
+		if (nodeNext->Positions.size() > 1)
+			positionNext = float3::Lerp(*nodeNext->Positions[posIndexNext], *nodeNext->Positions[posIndexNext + 1], posLambdaNext);
+		else
+			positionNext = *nodeNext->Positions[posIndexNext];
+
+		if (nodeNext->Rotations.size() > 1)
+			rotationNext = InterpQuaternion(*nodeNext->Rotations[rotIndexNext], *nodeNext->Rotations[rotIndexNext + 1], rotLambdaNext);
+		else
+			rotationNext = *nodeNext->Rotations[rotIndexNext];
+		
+		float lambda = float(_instances[id]->blend_time) / _instances[id]->blend_duration;
+
+		if(lambda <= 1)
+		{
+			position = float3::Lerp(position, positionNext, lambda);
+			rotation = InterpQuaternion(rotation, rotationNext, lambda);
+		}
+		else
+		{
+			RELEASE(_instances[id]);
+			_instances[id] = nextAnimInstance;
+		}
+	}
 
 	return true;
 }

@@ -46,7 +46,7 @@ public:
 	void Stop(AnimInstanceID id);
 	void BlendTo(AnimInstanceID id, const char* name, unsigned blend_time);
 
-	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) const;
+	bool GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation);
 	char* GetAnimationLabels();
 	int GetLabelByInstance(AnimInstanceID animInstance);
 	std::string ModuleAnimation::GetNameAnimByLabel(int label);
