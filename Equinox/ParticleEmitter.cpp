@@ -2,60 +2,38 @@
 #include <GL/glew.h>
 #include "Globals.h"
 
-ParticleEmitter::ParticleEmitter(float2 EmitArea)
+ParticleEmitter::ParticleEmitter(int MaxParticles, float2 EmitArea, float FallHeight, float FallSpeed, float LifeTime)
 {
-	NumParticles = 100;
+	this->MaxParticles = MaxParticles;
 	this->EmitArea = EmitArea;
-	this->FallHeight = 30.f;
-	Init();
-}
-
-ParticleEmitter::ParticleEmitter(int NumParticles, float2 EmitArea)
-{
-	this->NumParticles = NumParticles;
-	this->EmitArea = EmitArea;
-	this->FallHeight = 30.f;
-
-	Init();
+	this->FallHeight = FallHeight;
+	this->FallSpeed = FallSpeed;
+	this->LifeTime = LifeTime;
 }
 
 ParticleEmitter::~ParticleEmitter()
 {
 }
 
-void ParticleEmitter::Init()
+void ParticleEmitter::Update(float dt)
 {
-	for (int i = 0; i < NumParticles; ++i)
-		ParticlePool.push_back(new Particle);
-}
+	GenerateParticles();
 
-void ParticleEmitter::Update()
-{
 	for (Particle* particle : ParticlePool)
 	{
 		if (particle->IsAlive)
 		{
 			DrawParticle(particle);
-			// Update particle position;
-			particle->Position = particle->Position + particle->Velocity;
 
-			// When lifetime finish, kill particle / for now limit with height
-			if (particle->Position.y <= 0)
+			// Update particle position & time;
+			particle->Position = particle->Position + particle->Velocity * dt;
+			particle->LifeTime -= dt;
+
+			// When lifetime finish, kill particle
+			if (particle->LifeTime < dt)
 			{
 				particle->IsAlive = false;
 			}
-		}
-		else
-		{
-			float rand_x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / EmitArea.x));
-			float rand_z = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / EmitArea.y));
-
-			particle->Position = float3(rand_x, FallHeight, rand_z);
-			// fixed speed for testing
-			particle->Velocity = float3(0.0f, -0.51f, 0.0f);
-
-			particle->LifeTime = LifeTime;
-			particle->IsAlive = true;
 		}
 	}
 }
@@ -91,4 +69,28 @@ void ParticleEmitter::DrawParticle(Particle* particle)
 	glDisable(GL_ALPHA_TEST);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_LIGHTING);
+}
+
+void ParticleEmitter::GenerateParticles()
+{
+	int particlesToGen = MaxParticles / LifeTime;
+
+	for (int i = 0; i < particlesToGen; ++i)
+	{
+		Particle* particle = new Particle;
+
+		particle->IsAlive = true;
+
+		float rand_x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / EmitArea.x));
+		float rand_z = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / EmitArea.y));
+
+		particle->Position = float3(rand_x, FallHeight, rand_z);
+		particle->Velocity = float3(0.0f, -FallSpeed, 0.0f);
+
+		particle->LifeTime = LifeTime;
+
+		ParticlePool.push_back(particle);
+	}
+
+
 }

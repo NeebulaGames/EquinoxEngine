@@ -95,7 +95,7 @@ bool ModuleRender::Start()
 		////////////
 		GameObject* goPS = new GameObject;
 		TransformComponent* transform = new TransformComponent;
-		ParticleEmitter* peComponent = new ParticleEmitter(float2(50.f, 50.f));
+		ParticleEmitter* peComponent = new ParticleEmitter(200, float2(50.f, 50.f), 20.f, 1.2f, 15.f);
 		goPS->Name = "ParticleSystem";
 		goPS->AddComponent(transform);
 		goPS->AddComponent(peComponent);

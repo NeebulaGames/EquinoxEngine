@@ -14,23 +14,26 @@ struct Particle
 
 class ParticleEmitter : public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION;
 public:
-	ParticleEmitter(float2 EmitArea);
-	ParticleEmitter(int NumParticles, float2 EmitArea);
+	ParticleEmitter(int MaxParticles, float2 EmitArea, float FallHeight, float FallSpeed, float LifeTime);
 	~ParticleEmitter();
-
-	void Init();
-
-	void Update() override;
+	
+	void Update(float dt) override;
 	void CleanUp() override;
-	void DrawParticle(Particle* particle);
 
 	std::vector<Particle*> ParticlePool;
 	float2 EmitArea;
-	int NumParticles;
+	int MaxParticles;
 
 	float FallHeight;
+	float FallSpeed;
 	float LifeTime;
+
+private:
+
+	void DrawParticle(Particle* particle);
+	void GenerateParticles();
 };
 
 #endif
