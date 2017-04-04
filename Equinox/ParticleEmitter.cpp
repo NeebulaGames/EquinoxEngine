@@ -105,7 +105,6 @@ void ParticleEmitter::drawParticle(Particle* particle)
 	glDisable(GL_LIGHTING);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1f);
-	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);
 
 	glColor3f(1.f, 1.f, 1.f);
@@ -153,7 +152,6 @@ void ParticleEmitter::drawParticle(Particle* particle)
 	//glPopMatrix();
 
 	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
 	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_LIGHTING);
 }
