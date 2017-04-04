@@ -1,9 +1,14 @@
 ﻿#include "ParticleEmitter.h"
 #include <GL/glew.h>
 #include "Globals.h"
+#include "IMGUI/imgui.h"
+#include "Engine.h"
+#include "ModuleEditor.h"
 
 ParticleEmitter::ParticleEmitter(int MaxParticles, float2 EmitArea, float FallHeight, float FallSpeed, float LifeTime)
 {
+	Name = "Particle System";
+
 	this->MaxParticles = MaxParticles;
 	this->EmitArea = EmitArea;
 	this->FallHeight = FallHeight;
@@ -38,6 +43,23 @@ void ParticleEmitter::Update(float dt)
 	}
 }
 
+void ParticleEmitter::EditorUpdate(float dt)
+{
+	if (_editorSimulation && !App->editor->IsPlaying())
+		Update(dt);
+}
+
+void ParticleEmitter::DrawUI()
+{
+	ImGui::Checkbox("Simulate On Editor", &_editorSimulation);
+
+	ImGui::InputFloat2("Emit Area", &EmitArea[0], -1, ImGuiInputTextFlags_CharsDecimal);
+	ImGui::InputInt("Max Particles", &MaxParticles, -1);
+	ImGui::InputFloat("Fall Height", &FallHeight, -1, ImGuiInputTextFlags_CharsDecimal);
+	ImGui::InputFloat("Fall Speed", &FallSpeed, -1, ImGuiInputTextFlags_CharsDecimal);
+	ImGui::InputFloat("Particle's LifeTime", &LifeTime, -1, ImGuiInputTextFlags_CharsDecimal);
+}
+
 void ParticleEmitter::CleanUp()
 {
 	for (Particle* particle : ParticlePool)
@@ -64,7 +86,6 @@ void ParticleEmitter::DrawParticle(Particle* particle)
 	glEnd();
 
 	glPopMatrix();
-
 
 	glDisable(GL_ALPHA_TEST);
 	glDepthMask(GL_TRUE);

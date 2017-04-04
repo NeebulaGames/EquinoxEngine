@@ -20,6 +20,8 @@ public:
 	~ParticleEmitter();
 	
 	void Update(float dt) override;
+	void EditorUpdate(float dt) override;
+	void DrawUI() override;
 	void CleanUp() override;
 
 	std::vector<Particle*> ParticlePool;
@@ -31,6 +33,7 @@ public:
 	float LifeTime;
 
 private:
+	bool _editorSimulation = false;
 
 	void DrawParticle(Particle* particle);
 	void GenerateParticles();
