@@ -48,12 +48,17 @@ update_status ModuleAnimation::Update(float DeltaTime)
 	{
 		if (animInstance != nullptr)
 		{
-			animInstance->time = fmod(animInstance->time + App->DeltaTime * 1E3, float(animInstance->anim->Duration));
+			animInstance->time = 
+				static_cast<unsigned>(
+					fmod(animInstance->time + App->DeltaTime * 1E3, float(animInstance->anim->Duration))
+				);
+
 			if(animInstance->next)
 			{
 				AnimInstance* nextAnimInstance = animInstance->next;
-				nextAnimInstance->time = fmod(nextAnimInstance->time + App->DeltaTime * 1E3, float(nextAnimInstance->anim->Duration));
-				animInstance->blend_time += App->DeltaTime * 1E3;
+				nextAnimInstance->time = 
+					static_cast<unsigned>(fmod(nextAnimInstance->time + App->DeltaTime * 1E3, float(nextAnimInstance->anim->Duration)));
+				animInstance->blend_time += static_cast<unsigned>(App->DeltaTime * 1E3);
 			}
 		}
 	}
@@ -72,7 +77,7 @@ void ModuleAnimation::Load(const char* name, const char* file)
 	aiAnimation** animations = scene->mAnimations;
 
 	Anim* anim = new Anim();
-	anim->Duration = animations[0]->mDuration / animations[0]->mTicksPerSecond * 1E3;
+	anim->Duration = static_cast<unsigned>(animations[0]->mDuration / animations[0]->mTicksPerSecond * 1E3);
 	anim->Channels = std::vector<NodeAnim*>(animations[0]->mNumChannels);
 
 	for (unsigned int i = 0; i < animations[0]->mNumChannels; ++i)
@@ -141,82 +146,24 @@ void ModuleAnimation::BlendTo(AnimInstanceID id, const char* name, unsigned blen
 	
 	_instances[id]->next = animInstance;
 	_instances[id]->blend_duration = blend_time;
+
+	//To Change without blend
+	//RELEASE(_instances[id]);
+	//AnimInstance* animInstance = new AnimInstance();
+	//animInstance->anim = _animations[name];
+	//_instances[id] = animInstance;
 }
 
 bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) 
 {
-	AnimInstance* instance = _instances[id];
-	Anim* animation = _instances[id]->anim;
-	NodeAnim* node = nullptr;
-	for (NodeAnim* channel : _instances[id]->anim->Channels)
+	UpdateTransform(_instances[id], channelName, position, rotation);
+
+	if (_instances[id]->next && _instances[id]->blend_duration != 0)
 	{
-		if (channel->NodeName == channelName)
-		{
-			node = channel;
-			break;
-		}
-	}
-
-	if (!node)
-		return false;
-	
-	float posKey = float(instance->time * (node->Positions.size() - 1)) / float(animation->Duration);
-	float rotKey = float(instance->time * (node->Rotations.size() - 1)) / float(animation->Duration);
-
-	unsigned posIndex = unsigned(posKey);
-	unsigned rotIndex = unsigned(rotKey);
-
-	float posLambda = posKey - float(posIndex);
-	float rotLambda = rotKey - float(rotIndex);
-
-	if (node->Positions.size() > 1)
-		position = float3::Lerp(*node->Positions[posIndex], *node->Positions[posIndex + 1], posLambda);
-	else
-		position = *node->Positions[posIndex];
-
-	if(node->Rotations.size() > 1)
-		rotation = InterpQuaternion(*node->Rotations[rotIndex], *node->Rotations[rotIndex + 1], rotLambda);
-	else
-		rotation = *node->Rotations[rotIndex];
-
-
-	if (instance->next)
-	{
-		NodeAnim* nodeNext = nullptr;
-		AnimInstance* nextAnimInstance = _instances[id]->next;
-		Anim* nextAnimation = nextAnimInstance->anim;
-		for (NodeAnim* channel : nextAnimInstance->anim->Channels)
-		{
-			if (channel->NodeName == channelName)
-			{
-				nodeNext = channel;
-				break;
-			}
-		}
-
-		if (!nodeNext)
-			return false;
-
-		float posKeyNext = float(nextAnimInstance->time * (nodeNext->Positions.size() - 1)) / float(animation->Duration);
-		float rotKeyNext = float(nextAnimInstance->time * (nodeNext->Rotations.size() - 1)) / float(animation->Duration);
-
-		unsigned posIndexNext = unsigned(posKeyNext);
-		unsigned rotIndexNext = unsigned(rotKeyNext);
-
-		float posLambdaNext = posKeyNext - float(posIndexNext);
-		float rotLambdaNext = rotKeyNext - float(rotIndexNext);
-
 		float3 positionNext;
 		Quat rotationNext;
-		if (nodeNext->Positions.size() > 1)
-			positionNext = float3::Lerp(*nodeNext->Positions[posIndexNext], *nodeNext->Positions[posIndexNext + 1], posLambdaNext);
-		else
-			positionNext = *nodeNext->Positions[posIndexNext];
-
-		if (nodeNext->Rotations.size() > 1)
-			rotationNext = InterpQuaternion(*nodeNext->Rotations[rotIndexNext], *nodeNext->Rotations[rotIndexNext + 1], rotLambdaNext);
-		else
-			rotationNext = *nodeNext->Rotations[rotIndexNext];
+		AnimInstance* nextAnimInstance = _instances[id]->next;
+		UpdateTransform(nextAnimInstance, channelName, positionNext, rotationNext);
 		
 		float lambda = float(_instances[id]->blend_time) / _instances[id]->blend_duration;
 
@@ -231,6 +178,44 @@ bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, f
 			_instances[id] = nextAnimInstance;
 		}
 	}
+
+	return true;
+}
+
+bool ModuleAnimation::UpdateTransform(AnimInstance* instance, const char* channelName, float3& position, Quat& rotation) const
+{
+	Anim* animation = instance->anim;
+	NodeAnim* node = nullptr;
+	for (NodeAnim* channel : instance->anim->Channels)
+	{
+		if (channel->NodeName == channelName)
+		{
+			node = channel;
+			break;
+		}
+	}
+
+	if (!node)
+		return false;
+
+	float posKey = float(instance->time * (node->Positions.size() - 1)) / float(animation->Duration);
+	float rotKey = float(instance->time * (node->Rotations.size() - 1)) / float(animation->Duration);
+
+	unsigned posIndex = unsigned(posKey);
+	unsigned rotIndex = unsigned(rotKey);
+
+	float posLambda = posKey - float(posIndex);
+	float rotLambda = rotKey - float(rotIndex);
+
+	if (node->Positions.size() > 1)
+		position = float3::Lerp(*node->Positions[posIndex], *node->Positions[posIndex + 1], posLambda);
+	else
+		position = *node->Positions[posIndex];
+
+	if (node->Rotations.size() > 1)
+		rotation = InterpQuaternion(*node->Rotations[rotIndex], *node->Rotations[rotIndex + 1], rotLambda);
+	else
+		rotation = *node->Rotations[rotIndex];
 
 	return true;
 }

@@ -32,8 +32,7 @@ void AnimationComponent::DrawUI()
 	{
 		std::string name = animator->GetNameAnimByLabel(current_type);
 		LOG("IT HAS CHANGED TO %s", name.c_str());
-		int id = this->AnimInstanceID;
-		animator->BlendTo(id, name.c_str(), 1500);
+		animator->BlendTo(this->AnimInstanceID, name.c_str(), 1500);
 	}
 }
 
