@@ -156,27 +156,26 @@ void ModuleAnimation::BlendTo(AnimInstanceID id, const char* name, unsigned blen
 
 bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) 
 {
+	float lambda = float(_instances[id]->blend_time) / _instances[id]->blend_duration;
+	AnimInstance* nextAnimInstance = _instances[id]->next;
+
+	if(lambda > 1)
+	{
+		RELEASE(_instances[id]);
+		_instances[id] = nextAnimInstance;
+	}
+
 	UpdateTransform(_instances[id], channelName, position, rotation);
 
 	if (_instances[id]->next && _instances[id]->blend_duration != 0)
 	{
 		float3 positionNext;
 		Quat rotationNext;
-		AnimInstance* nextAnimInstance = _instances[id]->next;
-		UpdateTransform(nextAnimInstance, channelName, positionNext, rotationNext);
 		
-		float lambda = float(_instances[id]->blend_time) / _instances[id]->blend_duration;
-
-		if(lambda <= 1)
-		{
-			position = float3::Lerp(position, positionNext, lambda);
-			rotation = InterpQuaternion(rotation, rotationNext, lambda);
-		}
-		else
-		{
-			RELEASE(_instances[id]);
-			_instances[id] = nextAnimInstance;
-		}
+		UpdateTransform(nextAnimInstance, channelName, positionNext, rotationNext);		
+	
+		position = float3::Lerp(position, positionNext, lambda);
+		rotation = InterpQuaternion(rotation, rotationNext, lambda);
 	}
 
 	return true;
