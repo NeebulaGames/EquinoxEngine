@@ -5,11 +5,13 @@
 class BillboardComponent :
 	public BaseComponent
 {
+	DEFAULT_COMPONENT_IMPLEMENTATION
 public:
 	BillboardComponent();
 	~BillboardComponent();
 
-	void Update() override;
+	void Update(float dt) override;
+	void EditorUpdate(float dt) override;
 	void DrawUI() override;
 
 	void SetTexture(unsigned textureId);
