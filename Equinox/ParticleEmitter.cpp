@@ -142,15 +142,6 @@ void ParticleEmitter::drawParticle(Particle* particle)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	//// Draw just points for now.
-	//glPushMatrix();
-
-	//glBegin(GL_POINTS);
-	//glVertex3fv(reinterpret_cast<const GLfloat*>(&particle->Position));
-	//glEnd();
-
-	//glPopMatrix();
-
 	glDisable(GL_BLEND);
 	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_LIGHTING);
