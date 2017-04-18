@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "ModuleEditorCamera.h"
 #include "MathGeoLib/include/Math/float3x3.h"
+#include "GameObject.h"
 
 BillboardComponent::BillboardComponent()
 {
@@ -15,7 +16,7 @@ BillboardComponent::~BillboardComponent()
 {
 }
 
-void BillboardComponent::Update()
+void BillboardComponent::Update(float dt)
 {
 	if (_texture != 0)
 	{
@@ -57,6 +58,11 @@ void BillboardComponent::Update()
 
 		glDisable(GL_BLEND);
 	}
+}
+
+void BillboardComponent::EditorUpdate(float dt)
+{
+	Update(dt);
 }
 
 void BillboardComponent::DrawUI()
