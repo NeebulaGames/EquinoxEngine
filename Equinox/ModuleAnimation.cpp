@@ -146,12 +146,6 @@ void ModuleAnimation::BlendTo(AnimInstanceID id, const char* name, unsigned blen
 	
 	_instances[id]->next = animInstance;
 	_instances[id]->blend_duration = blend_time;
-
-	//To Change without blend
-	//RELEASE(_instances[id]);
-	//AnimInstance* animInstance = new AnimInstance();
-	//animInstance->anim = _animations[name];
-	//_instances[id] = animInstance;
 }
 
 bool ModuleAnimation::GetTransform(AnimInstanceID id, const char* channelName, float3& position, Quat& rotation) 
