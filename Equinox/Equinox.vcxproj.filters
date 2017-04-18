@@ -190,6 +190,12 @@
     <ClInclude Include="BillboardComponent.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Billboard.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BillboardGridComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -290,6 +296,12 @@
     </ClCompile>
     <ClCompile Include="BillboardComponent.cpp">
       <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BillboardGridComponent.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Billboard.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

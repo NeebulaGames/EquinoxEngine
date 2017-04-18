@@ -2,6 +2,8 @@
 #include "BaseComponent.h"
 #include "CameraComponent.h"
 
+class Billboard;
+
 class BillboardComponent :
 	public BaseComponent
 {
@@ -14,11 +16,10 @@ public:
 	void EditorUpdate(float dt) override;
 	void DrawUI() override;
 
-	void SetTexture(unsigned textureId);
+	void SetTexture(unsigned textureId) const;
 
 private:
-	unsigned _texture = 0;
-	float _width, _height;
+	Billboard* _billboard;
 
 	void ComputeQuad(const CameraComponent& camera, float3& up, float3& right) const;
 };

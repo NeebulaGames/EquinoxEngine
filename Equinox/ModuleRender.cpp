@@ -25,6 +25,7 @@
 #include "ParticleEmitter.h"
 #include "TransformComponent.h"
 #include "BillboardComponent.h"
+#include "BillboardGridComponent.h"
 
 ModuleRender::ModuleRender()
 {
@@ -108,8 +109,10 @@ bool ModuleRender::Start()
 		GameObject* grass = new GameObject;
 		grass->AddComponent(new TransformComponent);
 		unsigned grassTex = App->textures->Load("Models/billboardgrass.png");
-		BillboardComponent* grassBill = new BillboardComponent;
+		BillboardGridComponent* grassBill = new BillboardGridComponent;
 		grassBill->SetTexture(grassTex);
+		grassBill->m = 5;
+		grassBill->n = 5;
 		grass->AddComponent(grassBill);
 		_scene->LinkGameObject(grass, _scene->GetRootNode());
 
