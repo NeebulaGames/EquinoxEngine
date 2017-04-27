@@ -177,7 +177,7 @@
     </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Utils</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="AnimationComponent.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
@@ -186,6 +186,9 @@
     </ClInclude>
     <ClInclude Include="ParticleEmitter.h">
       <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSkinning.h">
+      <Filter>Core Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSkinning.cpp">
+      <Filter>Core Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
