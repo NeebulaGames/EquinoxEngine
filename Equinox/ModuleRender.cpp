@@ -111,8 +111,8 @@ bool ModuleRender::Start()
 		unsigned grassTex = App->textures->Load("Models/billboardgrass.png");
 		BillboardGridComponent* grassBill = new BillboardGridComponent;
 		grassBill->SetTexture(grassTex);
-		grassBill->m = 5;
-		grassBill->n = 5;
+		grassBill->m = 10;
+		grassBill->n = 10;
 		grass->AddComponent(grassBill);
 		_scene->LinkGameObject(grass, _scene->GetRootNode());
 
