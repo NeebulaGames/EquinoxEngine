@@ -6,7 +6,6 @@
 #include "ModuleAudio.h"
 #include "ModuleSceneManager.h"
 #include "ModuleCollision.h"
-#include "ModuleParticles.h"
 #include "ModuleTimer.h"
 #include "ComplexTimer.h"
 #include "ModuleEditorCamera.h"
@@ -44,7 +43,6 @@ Engine::Engine()
 
 	// Modules to draw on top of game logic
 	modules.push_back(collision = new ModuleCollision());
-	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(timer = new ModuleTimer());
 
 	App = this;

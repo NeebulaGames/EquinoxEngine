@@ -41,6 +41,8 @@ public:
 	GameObject* FindGameObject(const char* name);
 	void LinkGameObject(GameObject* node, GameObject* destination);
 
+	void AddToScene(GameObject* go);
+
 private:
 	void loadNodes(aiNode* originalNode, GameObject* node);
 

@@ -83,7 +83,12 @@ unsigned ModuleTextures::Load(const string& path)
 		iluFlipImage();
 	}
 
-	ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+	int channels = ilGetInteger(IL_IMAGE_CHANNELS);
+
+	if (channels == 3)
+		ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+	else if (channels == 4)
+		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 	int width = ilGetInteger(IL_IMAGE_WIDTH);
 	int height = ilGetInteger(IL_IMAGE_HEIGHT);
