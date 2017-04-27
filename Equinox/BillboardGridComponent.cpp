@@ -30,8 +30,8 @@ void BillboardGridComponent::Update(float dt)
 			billboard.GetSize(w, h);
 			
 			float3 position = objPosition;
-			position.x = position.x - n / 2 * w + w * i;
-			position.z = position.z - m / 2 + j;
+			position.x = position.x - n / 2 * float(w / 2.f) + float(w / 2.f) * i;
+			position.z = position.z - m / 2 + j / 2.f;
 
 			ComputeQuad(position, App->editorCamera->GetCamera()->Position(), up, right);
 			billboard.Draw(position, up, right);
