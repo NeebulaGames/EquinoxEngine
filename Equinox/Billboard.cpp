@@ -31,6 +31,7 @@ void Billboard::Draw(const float3& position, const float3& up, const float3& rig
 	{
 		glColor3f(1.f, 1.f, 1.f);
 		glEnable(GL_BLEND);
+		glEnable(GL_ALPHA_TEST);
 
 		float halfX = (_height * 0.5f) / _height;
 		float halfY = (_width * 0.5f) / _width;
@@ -60,6 +61,7 @@ void Billboard::Draw(const float3& position, const float3& up, const float3& rig
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glDisable(GL_BLEND);
+		glDisable(GL_ALPHA_TEST);
 	}
 }
 

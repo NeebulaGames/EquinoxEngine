@@ -108,6 +108,7 @@ bool ModuleRender::Start()
 		goPS->AddComponent(peComponent);
 		GameObject* grass = new GameObject;
 		grass->AddComponent(new TransformComponent);
+		grass->GetTransform()->Position = float3(0.f, 0.3f, 0.f);
 		unsigned grassTex = App->textures->Load("Models/billboardgrass.png");
 		BillboardGridComponent* grassBill = new BillboardGridComponent;
 		grassBill->SetTexture(grassTex);
