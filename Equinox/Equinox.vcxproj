@@ -119,7 +119,6 @@
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleSettings.h" />
-    <ClInclude Include="ModuleSkinning.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Notifiable.h" />
@@ -133,6 +132,7 @@
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Rectangle3.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Skinning.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="ModuleTimer.h" />
@@ -165,7 +165,6 @@
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleSettings.cpp" />
-    <ClCompile Include="ModuleSkinning.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="ModuleSceneManager.cpp" />
@@ -173,6 +172,7 @@
     <ClCompile Include="parson.c" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Skinning.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>

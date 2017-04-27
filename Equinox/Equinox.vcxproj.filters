@@ -26,6 +26,9 @@
     <Filter Include="GameObject\Components">
       <UniqueIdentifier>{68192a36-02bc-4de9-9e93-6dc57eeecade}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\Animation">
+      <UniqueIdentifier>{4ec70f41-a74d-498a-9d22-27b980afdaae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleRender.h">
@@ -187,8 +190,8 @@
     <ClInclude Include="ParticleEmitter.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSkinning.h">
-      <Filter>Core Modules</Filter>
+    <ClInclude Include="Skinning.h">
+      <Filter>Utils\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -291,8 +294,8 @@
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSkinning.cpp">
-      <Filter>Core Modules</Filter>
+    <ClCompile Include="Skinning.cpp">
+      <Filter>Utils\Animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
