@@ -3,6 +3,8 @@
 
 #include <MathGeoLib/include/Math/float4x4.h>
 
+struct aiScene;
+
 struct BoneWeight
 {
 	unsigned Vertex = 0;
@@ -22,6 +24,8 @@ class Skinning
 public:
 	Skinning();
 	~Skinning();
+
+	void Load(const aiScene* scene);
 
 
 

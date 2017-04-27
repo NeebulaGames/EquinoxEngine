@@ -4,6 +4,7 @@
 #include "Module.h"
 #include <map>
 #include <MathGeoLib/include/Math/float3.h>
+#include "Skinning.h"
 
 struct NodeAnim
 {
@@ -66,6 +67,8 @@ private:
 	HoleList _holes;
 
 	char* _animationNames = nullptr;
+
+	Skinning skinning;
 };
 
 #endif // __MODULEANIMATION_H__

@@ -5,6 +5,7 @@
 #include <assimp/vector3.h>
 #include <list>
 #include "MaterialComponent.h"
+#include "Skinning.h"
 
 struct Mesh
 {
@@ -18,6 +19,7 @@ struct Mesh
 	unsigned num_vertices = 0;
 	unsigned num_indices = 0;
 	AABB boundingBox;
+	std::vector<Bone*> Bones;
 };
 
 class MeshComponent :
