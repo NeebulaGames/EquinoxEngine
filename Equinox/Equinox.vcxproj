@@ -41,10 +41,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\SDL\include;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\SDL\include;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\DevIL\include;$(SolutionDir)External\Bullet\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\SDL\include;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\DevIL\include;$(SolutionDir)External\Bullet\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -58,7 +58,7 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)External\MathGeoLib\$(PlatformTarget)\$(ConfigurationName)\MathGeoLib.lib;opengl32.lib;$(SolutionDir)External\glew-2.0.0\$(PlatformTarget)\glew32.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\DevIL.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILU.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILUT.lib;$(SolutionDir)External\Assimp\$(PlatformTarget)\assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)External\MathGeoLib\$(PlatformTarget)\$(ConfigurationName)\MathGeoLib.lib;opengl32.lib;$(SolutionDir)External\glew-2.0.0\$(PlatformTarget)\glew32.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\DevIL.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILU.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILUT.lib;$(SolutionDir)External\Assimp\$(PlatformTarget)\assimp-vc140-mt.lib;$(SolutionDir)External\Bullet\libx86\BulletDynamics_debug.lib;$(SolutionDir)External\Bullet\libx86\BulletCollision_debug.lib;$(SolutionDir)External\Bullet\libx86\LinearMath_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <CustomBuildStep>
       <Command>
@@ -120,6 +120,7 @@
     <ClInclude Include="ModuleEditorCamera.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleLighting.h" />
+    <ClInclude Include="ModulePhysics.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleSettings.h" />
     <ClInclude Include="ModuleTextures.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="ModuleEditorCamera.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
+    <ClCompile Include="ModulePhysics.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleSettings.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
