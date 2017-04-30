@@ -11,6 +11,7 @@
 #include "ModuleEditor.h"
 #include "Quadtree.h"
 #include "ModuleEditorCamera.h"
+#include "Engine.h"
 
 Level::Level()
 {

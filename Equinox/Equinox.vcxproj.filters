@@ -55,9 +55,6 @@
     <ClInclude Include="MemLeaks.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCollision.h">
-      <Filter>Core Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Notifiable.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -217,9 +214,6 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="ModuleInput.cpp">
-      <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleCollision.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
