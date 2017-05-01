@@ -1,5 +1,6 @@
 #include "btBulletDynamicsCommon.h"
 #include "ModulePhysics.h"
+#include "DebugDrawer.h"
 
 ModulePhysics::ModulePhysics()
 {
@@ -10,22 +11,61 @@ ModulePhysics::~ModulePhysics()
 {
 }
 
+btRigidBody* ModulePhysics::AddBody(float boxSize)
+{
+#pragma push_macro("new")
+#undef new
+	//float mass = 1.0f; // 0.0f would create a static or inmutable body
+	//
+	//btCollisionShape* colShape = new btBoxShape(boxSize); // regular box
+	//shapes.push_back(colShape);
+
+	//btVector3 localInertia(0.f, 0.f, 0.f);
+	//if (mass != 0.f) 
+	//	colShape->calculateLocalInertia(mass, localInertia);
+	//
+	//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
+	//btRigidBody* body = new btRigidBody(rbInfo);
+	//
+	//_world->addRigidBody(body);
+	//return body;
+	return nullptr;
+#pragma pop_macro("new")
+}
+
 bool ModulePhysics::Init()
 {
-	collision_conf = new btDefaultCollisionConfiguration();
-	dispatcher = new btCollisionDispatcher(collision_conf);
-	broad_phase = new btDbvtBroadphase();
+	_collision_conf = new btDefaultCollisionConfiguration();
+	_dispatcher = new btCollisionDispatcher(_collision_conf);
+	_broad_phase = new btDbvtBroadphase();
 #pragma push_macro("new") // Bullet uses optimized new definitions, we need to remove the new redefinition in debug mode
 #undef new
-	solver = new btSequentialImpulseConstraintSolver;
-	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
+	_solver = new btSequentialImpulseConstraintSolver;
+	_world = new btDiscreteDynamicsWorld(_dispatcher, _broad_phase, _solver, _collision_conf);
 #pragma pop_macro("new")
-	world->setGravity(btVector3(0.0f, -10.0f, 0.0f));
+	_world->setGravity(btVector3(0.0f, -10.0f, 0.0f));
+
+	_debug_drawer = new DebugDrawer;
+	_world->setDebugDrawer(_debug_drawer);
+
 	return true;
 }
 
 update_status ModulePhysics::PreUpdate(float DeltaTime)
 {
-	world->stepSimulation(DeltaTime, 15);
+	_world->debugDrawWorld();
+	_world->stepSimulation(DeltaTime, 15);
 	return UPDATE_CONTINUE;
+}
+
+bool ModulePhysics::CleanUp()
+{
+	RELEASE(_debug_drawer);
+	RELEASE(_collision_conf);
+	RELEASE(_dispatcher);
+	RELEASE(_broad_phase);
+	RELEASE(_solver);
+	RELEASE(_world);
+
+	return true;
 }
