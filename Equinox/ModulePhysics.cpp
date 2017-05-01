@@ -1,6 +1,8 @@
 #include "btBulletDynamicsCommon.h"
 #include "ModulePhysics.h"
 #include "DebugDrawer.h"
+#include "Engine.h"
+#include "ModuleEditor.h"
 
 ModulePhysics::ModulePhysics()
 {
@@ -53,8 +55,11 @@ bool ModulePhysics::Init()
 
 update_status ModulePhysics::PreUpdate(float DeltaTime)
 {
-	_world->debugDrawWorld();
-	_world->stepSimulation(DeltaTime, 15);
+	if (App->editor->IsPlaying())
+	{
+		_world->debugDrawWorld();
+		_world->stepSimulation(DeltaTime, 15);
+	}
 	return UPDATE_CONTINUE;
 }
 
