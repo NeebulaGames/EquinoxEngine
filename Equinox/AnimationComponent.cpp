@@ -26,13 +26,21 @@ void AnimationComponent::DrawUI()
 
 	int current_type = animator->GetLabelByInstance(AnimInstanceID);
 	ImGui::Combo("Anim instance", &current_type, animationNames);
+
+	if(current_type == 0)
+		AnimInstanceID = -1;
+
 	if (!animator->isAnimInstanceOfAnim(
 		AnimInstanceID,
 		animator->GetAnimByName(animator->GetNameAnimByLabel(current_type))))
 	{
-		std::string name = animator->GetNameAnimByLabel(current_type);
-		LOG("IT HAS CHANGED TO %s", name.c_str());
-		animator->BlendTo(this->AnimInstanceID, name.c_str(), 1500);
+		if(AnimInstanceID == -1)
+			AnimInstanceID = animator->Play(animator->GetNameAnimByLabel(current_type).c_str());
+		else
+		{
+			std::string animName = animator->GetNameAnimByLabel(current_type);
+			animator->BlendTo(this->AnimInstanceID, animName.c_str(), 1500);
+		}
 	}
 }
 

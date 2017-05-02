@@ -95,6 +95,12 @@ bool ModuleRender::Start()
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
 		App->animator->Load("Run_Forwards", "Models/ArmyPilot/Animations/ArmyPilot_Run_Forwards.fbx");
 		
+		AnimationComponent* animComponent = new AnimationComponent();
+		animComponent->AnimInstanceID = App->animator->Play("Idle");
+		GameObject* rootFrame = _scene->FindGameObject("RootFrame");
+		if (rootFrame)
+			rootFrame->AddComponent(animComponent);
+
 		////////////
 		GameObject* goPS = new GameObject;
 		TransformComponent* transform = new TransformComponent;
@@ -105,12 +111,6 @@ bool ModuleRender::Start()
 		goPS->Name = "ParticleSystem";
 		goPS->AddComponent(transform);
 		goPS->AddComponent(peComponent);
-
-		AnimationComponent* animComponent = new AnimationComponent();
-		animComponent->AnimInstanceID = App->animator->Play("Idle");
-		GameObject* rootFrame = _scene->FindGameObject("RootFrame");
-		if(rootFrame)
-			rootFrame->AddComponent(animComponent);
 
 		_scene->AddToScene(goPS);
 

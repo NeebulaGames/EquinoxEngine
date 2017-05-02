@@ -33,7 +33,11 @@ bool ModuleAnimation::CleanUp()
 	}
 
 	for (AnimInstance* animInstance : _instances)
+	{
+		RELEASE(animInstance->next);
 		RELEASE(animInstance);
+	}
+		
 
 	_animations.clear();
 
@@ -252,13 +256,19 @@ int ModuleAnimation::GetLabelByInstance(AnimInstanceID animInstance)
 std::string ModuleAnimation::GetNameAnimByLabel(int label)
 {
 	int i = 1;
+	std::string none = std::string("None");
+
+	if (label == 0)
+		return none;
+	
 	for (AnimMap::iterator it = _animations.begin(); it != _animations.end(); ++it)
 	{
 		if (i == label)
 			return static_cast<std::string>(it->first);
 		++i;
 	}
-	return std::string("None");
+
+	return none;
 }
 
 Anim* ModuleAnimation::GetAnimByName(std::string name)
