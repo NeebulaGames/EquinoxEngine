@@ -25,6 +25,7 @@ public:
 	float* GetViewMatrix() const;
 
 	CameraComponent* GetCamera() const;
+	bool FrustumCollingEnabled() const;
 
 private:
 	CameraComponent* _cameraComponent;

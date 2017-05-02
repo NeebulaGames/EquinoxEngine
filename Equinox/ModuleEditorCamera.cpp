@@ -151,3 +151,8 @@ CameraComponent* ModuleEditorCamera::GetCamera() const
 {
 	return _cameraComponent;
 }
+
+bool ModuleEditorCamera::FrustumCollingEnabled() const
+{
+	return _cameraComponent->FrustumCullingEnabled;
+}

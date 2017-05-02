@@ -4,6 +4,7 @@
 #include "BaseComponent.h"
 #include <MathGeoLib/include/Geometry/Frustum.h>
 
+
 class CameraComponent :
 	public BaseComponent
 {
@@ -28,6 +29,9 @@ public:
 	const vec& GetUp() const;
 	vec GetWorldRight() const;
 	AABB GetFrustumAABB();
+	
+	bool FrustumCullingEnabled = true;
+	bool containsAABB(GameObject* go);
 
 private:
 	math::Frustum _frustum;

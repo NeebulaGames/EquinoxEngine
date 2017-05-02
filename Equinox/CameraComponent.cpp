@@ -1,4 +1,6 @@
 ﻿#include "CameraComponent.h"
+#include "GameObject.h"
+#include "MathGeoLib/include/Geometry/Plane.h"
 
 CameraComponent::CameraComponent()
 {
@@ -101,4 +103,46 @@ vec CameraComponent::GetWorldRight() const
 AABB CameraComponent::GetFrustumAABB()
 {
 	return _frustum.MinimalEnclosingAABB();
+}
+
+//void CameraComponent::CheckInsideFrustrum(std::vector<GameObject*> objectsInScene)
+//{
+//	for (GameObject* go : objectsInScene)
+//	{
+//		if (containsAABB(go))
+//			go->VisibleOnCamera = true;
+//		else
+//			go->VisibleOnCamera = false;
+//	}
+//}
+
+bool CameraComponent::containsAABB(GameObject* go)
+{
+
+	// TODO: CHECK FRUSTUM CULLING
+	vec vCorner[8];
+	int iTotalIn = 0;
+	go->BoundingBox.GetCornerPoints(vCorner);
+
+	Plane frustumPlanes[6];
+	_frustum.GetPlanes(frustumPlanes);
+
+	// test 8 corners against 6 sides
+	for (int p = 0; p < 6; ++p) {
+		int iInCount = 8;
+		int iPtIn = 1;
+		for (int i = 0; i < 8; ++i) {
+			if (frustumPlanes[i].SignedDistance(vCorner[i]) > 0)
+			{
+				iPtIn = 0;
+				--iInCount;
+			}
+		}
+		if (iInCount == 0)
+			return false; // all paints outside plane p
+		iTotalIn += iPtIn;
+	}
+	if (iTotalIn == 6)
+		return true;
+	return false;
 }

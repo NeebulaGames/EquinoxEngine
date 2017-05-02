@@ -6,6 +6,7 @@
 #include <MathGeoLib/include/Math/float4x4.h>
 #include "Engine.h"
 #include "ModuleEditor.h"
+#include "ModuleEditorCamera.h"
 
 GameObject::GameObject()
 {
@@ -157,6 +158,12 @@ void GameObject::Update(float dt)
 {
 	glPushMatrix();
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	if (App->editorCamera->FrustumCollingEnabled())
+		if (App->editorCamera->GetCamera()->containsAABB(this))
+			this->VisibleOnCamera = true;
+		else
+			this->VisibleOnCamera = false;
 
 	for (BaseComponent* baseComponent : _components)
 	{
