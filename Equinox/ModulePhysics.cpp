@@ -13,25 +13,24 @@ ModulePhysics::~ModulePhysics()
 {
 }
 
-btRigidBody* ModulePhysics::AddBody(float boxSize)
+btRigidBody* ModulePhysics::AddBody(const float3& box, btMotionState* component)
 {
 #pragma push_macro("new")
 #undef new
-	//float mass = 1.0f; // 0.0f would create a static or inmutable body
-	//
-	//btCollisionShape* colShape = new btBoxShape(boxSize); // regular box
-	//shapes.push_back(colShape);
+	float mass = 1.0f; // 0.0f would create a static or inmutable body
+	
+	btCollisionShape* colShape = new btBoxShape(btVector3(box.x, box.y, box.z)); // regular box
+	shapes.push_back(colShape);
 
-	//btVector3 localInertia(0.f, 0.f, 0.f);
-	//if (mass != 0.f) 
-	//	colShape->calculateLocalInertia(mass, localInertia);
-	//
-	//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
-	//btRigidBody* body = new btRigidBody(rbInfo);
-	//
-	//_world->addRigidBody(body);
-	//return body;
-	return nullptr;
+	btVector3 localInertia(0.f, 0.f, 0.f);
+	if (mass != 0.f) 
+		colShape->calculateLocalInertia(mass, localInertia);
+	
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
+	btRigidBody* body = new btRigidBody(rbInfo);
+	
+	_world->addRigidBody(body);
+	return body;
 #pragma pop_macro("new")
 }
 
@@ -65,6 +64,11 @@ update_status ModulePhysics::PreUpdate(float DeltaTime)
 
 bool ModulePhysics::CleanUp()
 {
+	for (auto it = shapes.begin(); it != shapes.end(); ++it)
+		RELEASE(*it);
+
+	shapes.clear();
+
 	RELEASE(_debug_drawer);
 	RELEASE(_collision_conf);
 	RELEASE(_dispatcher);

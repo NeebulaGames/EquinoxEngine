@@ -2,6 +2,11 @@
 #define __MODULEPHYSICS_H__
 
 #include "Module.h"
+#include <list>
+
+class btRigidBody;
+class btMotionState;
+class btCollisionShape;
 
 class ModulePhysics :
 	public Module
@@ -10,13 +15,15 @@ public:
 	ModulePhysics();
 	~ModulePhysics();
 
-	btRigidBody* AddBody(float boxSize);
+	btRigidBody* AddBody(const float3& box, btMotionState* component);
 
 	bool Init() override;
 	update_status PreUpdate(float DeltaTime) override;
 	bool CleanUp() override;
 
 private:
+
+	std::list<class btCollisionShape*> shapes;
 
 	class DebugDrawer* _debug_drawer = nullptr;
 
