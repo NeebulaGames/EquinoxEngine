@@ -5,6 +5,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include <MathGeoLib/include/Math/float4.h>
+#include <Brofiler.h>
 
 ModuleLighting::ModuleLighting()
 {
@@ -42,12 +43,12 @@ bool ModuleLighting::Start()
 }
 
 update_status ModuleLighting::PreUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PreUpdateLighting", Profiler::Color::Beige)
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleLighting::Update(float DeltaTime)
-{
+{ BROFILER_CATEGORY("UpdateLighting", Profiler::Color::Bisque)
 	//TODO: it will be nice to add something similar to a gizmod to "see" the light source object in the editor.
 	glEnable(GL_LIGHTING);	
 
@@ -88,7 +89,7 @@ update_status ModuleLighting::Update(float DeltaTime)
 }
 
 update_status ModuleLighting::PostUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PostUpdateLighting", Profiler::Color::Black)
 	return UPDATE_CONTINUE;
 }
 

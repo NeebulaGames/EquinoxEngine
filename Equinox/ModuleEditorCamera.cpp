@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "ModuleInput.h"
 #include <MathGeoLib/include/Math/Quat.h>
+#include <Brofiler.h>
 
 using namespace math;
 
@@ -16,7 +17,7 @@ ModuleEditorCamera::~ModuleEditorCamera()
 
 
 update_status ModuleEditorCamera::Update(float DeltaTime)
-{
+{ BROFILER_CATEGORY("UpdateEditorCamera", Profiler::Color::Aquamarine)
 	float3 movement = float3::zero;
 	
 	float rotateUp = 0;

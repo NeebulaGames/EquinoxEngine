@@ -24,6 +24,7 @@
 #include "Level.h"
 #include "ParticleEmitter.h"
 #include "TransformComponent.h"
+#include <Brofiler.h>
 
 ModuleRender::ModuleRender()
 {
@@ -113,7 +114,7 @@ bool ModuleRender::Start()
 }
 
 update_status ModuleRender::PreUpdate(float DeltaTime)
-{	
+{ BROFILER_CATEGORY("PreUpdateRender", Profiler::Color::BlanchedAlmond)
 	ModuleEditorCamera* camera = App->editorCamera;
 
 	glMatrixMode(GL_PROJECTION);
@@ -140,7 +141,7 @@ update_status ModuleRender::PreUpdate(float DeltaTime)
 
 // Called every draw update
 update_status ModuleRender::Update(float DeltaTime)
-{
+{ BROFILER_CATEGORY("UpdateRender", Profiler::Color::Blue)
 	bool ret = true;
 
 	_scene->Update(DeltaTime);
@@ -154,7 +155,7 @@ update_status ModuleRender::Update(float DeltaTime)
 }
 
 update_status ModuleRender::PostUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PostUpdateRender", Profiler::Color::BlueViolet)
 	SDL_GL_SwapWindow(App->window->window);
 
 	return UPDATE_CONTINUE;
