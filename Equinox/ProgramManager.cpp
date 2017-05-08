@@ -19,12 +19,26 @@ bool ProgramManager::Init()
 
 bool ProgramManager::CleanUp()
 {
+	// TODO: Clean all shaders, programs and finally ShaderProgram pointers.
 	return true;
 }
 
-void ProgramManager::Load(const std::string &name, const char* filepath, const GLenum shaderType)
+void ProgramManager::CreateProgram(const std::string& name)
 {
 	if (programs.find(name) == programs.end())
+	{
+		GLuint shaderProgramId = glCreateProgram();
+		ShaderProgram* shaderProgram = new ShaderProgram;
+		shaderProgram->id = shaderProgramId;
+		shaderProgram->shaders.clear();
+		programs.insert(std::pair<std::string, ShaderProgram*>(name, shaderProgram));
+	}
+}
+
+void ProgramManager::AddShaderToProgram(const std::string& name, const char* filepath, const GLenum shaderType) const
+{
+	ShaderProgram* itShader = GetProgramByName(name);
+	if (itShader != nullptr)
 	{
 		FILE* shaderFile = fopen(filepath, "r");
 		int fileSize = 0;
@@ -35,75 +49,93 @@ void ProgramManager::Load(const std::string &name, const char* filepath, const G
 		fileSize = ftell(shaderFile);
 		rewind(shaderFile);
 
-		//move to new
 		shaderSource = new char[fileSize + 1];
 		fread(shaderSource, sizeof(char), fileSize, shaderFile);
 		shaderSource[fileSize] = '\0';
 		fclose(shaderFile);
 
 		unsigned int shader = glCreateShader(shaderType);
-		glShaderSource(shader, 1, const_cast<const GLchar**>(&shaderSource), NULL);
+		glShaderSource(shader, 1, const_cast<const GLchar**>(&shaderSource), nullptr);
 
-		glCompileShader(shader);
-
-		logShaderCompiler(shader);
-
-		unsigned int shaderProgram = glCreateProgram();
-		glAttachShader(shaderProgram, shader);
-		glLinkProgram(shaderProgram);
-
-		logProgramLinker(shaderProgram);
+		itShader->shaders.push_back(shader);
 
 		delete[] shaderSource;
-
-		programs.insert(std::pair<std::string, GLuint>(name, shaderProgram));
-
-	}
-	else
-	{
-		//TODO: show some kind of error because program with that name already exists.
 	}
 }
 
-GLuint ProgramManager::GetProgramByName(const std::string &name) const
+ShaderProgram* ProgramManager::GetProgramByName(const std::string &name) const
 {
 	auto it = programs.find(name);
-	return it != programs.end() ? it->second : 0;
+	return it != programs.end() ? it->second : nullptr;
 }
 
 void ProgramManager::UseProgram(const std::string &name) const
 {
-	glUseProgram(GetProgramByName(name));
+	ShaderProgram* itShader = GetProgramByName(name);
+	if (itShader != nullptr)
+	{
+		compileAndAttachProgramShaders(itShader);
+
+		GLint isLinked = 0;
+		glGetProgramiv(itShader->id, GL_LINK_STATUS, &isLinked);
+		if (isLinked == GL_FALSE)
+		{
+			logProgramLinker(itShader);
+		}
+
+		glUseProgram(GetProgramByName(name)->id);
+	}
 }
 
 void ProgramManager::logShaderCompiler(const GLuint shader) const
 {
-	int log_size;
-	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_size);
+	GLint maxLength = 0;
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
-	char* compiler_log = new char[log_size + 1];
-	int logger_size;
-	glGetShaderInfoLog(shader, log_size + 1, &logger_size, reinterpret_cast<GLchar*>(&compiler_log));
+	// The maxLength includes the NULL character
+	std::vector<GLchar> errorLog(maxLength);
+	glGetShaderInfoLog(shader, maxLength, &maxLength, &errorLog[0]);
 
-	compiler_log[logger_size] = '\0';
+	// Delete to avoid leak
+	glDeleteShader(shader);
 
 	LOG("SHADER COMPILER LOG START");
-	LOG(compiler_log);
+	LOG(&errorLog[0]);
 	LOG("SHADER COMPILER LOG END");
 }
 
-void ProgramManager::logProgramLinker(const GLuint program) const
+void ProgramManager::logProgramLinker(const ShaderProgram* program) const
 {
-	int log_size;
-	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_size);
+	GLint maxLength = 0;
+	glGetProgramiv(program->id, GL_INFO_LOG_LENGTH, &maxLength);
 
-	char* compiler_log = new char[log_size + 1];
-	int logger_size;
-	glGetProgramInfoLog(program, log_size + 1, &logger_size, reinterpret_cast<GLchar*>(&compiler_log));
+	// The maxLength includes the NULL character
+	std::vector<GLchar> infoLog(maxLength);
+	glGetProgramInfoLog(program->id, maxLength, &maxLength, &infoLog[0]);
 
-	compiler_log[logger_size] = '\0';
+	// Delete to avoid leak
+	for (GLuint shader : program->shaders)
+		glDeleteShader(shader);
+
+	glDeleteProgram(program->id);
 
 	LOG("PROGRAM LINKER LOG START");
-	LOG(compiler_log);
+	LOG(&infoLog[0]);
 	LOG("PROGRAM LINKER LOG END");
+}
+
+void ProgramManager::compileAndAttachProgramShaders(const ShaderProgram* program) const
+{
+	for (GLuint shader : program->shaders) {
+		glCompileShader(shader);
+
+		GLint isCompiled = 0;
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE)
+		{
+			logShaderCompiler(shader);
+
+			glAttachShader(program->id, shader);
+		}
+	}
 }

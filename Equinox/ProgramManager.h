@@ -4,6 +4,12 @@
 #include "Module.h"
 #include <map>
 
+struct ShaderProgram
+{
+	GLuint id;
+	std::list<GLuint> shaders;
+};
+
 class ProgramManager : public Module
 {
 public:
@@ -13,16 +19,19 @@ public:
 	bool Init() override;
 	bool CleanUp() override;
 
-	void Load(const std::string &name, const char* filepath, const GLenum shaderType);
+	void CreateProgram(const std::string &name);
+	void AddShaderToProgram(const std::string &name, const char* filepath, const GLenum shaderType) const;
 
-	GLuint GetProgramByName(const std::string &name) const;
+	ShaderProgram* GetProgramByName(const std::string &name) const;
 	void UseProgram(const std::string &name) const;
 
 private:
-	std::map<std::string, GLuint> programs;
+	std::map<std::string, ShaderProgram*> programs;
 
 	void logShaderCompiler(const GLuint shader) const;
-	void logProgramLinker(const GLuint program) const;
+	void logProgramLinker(const ShaderProgram* program) const;
+
+	void compileAndAttachProgramShaders(const ShaderProgram* program) const;
 };
 
 #endif
