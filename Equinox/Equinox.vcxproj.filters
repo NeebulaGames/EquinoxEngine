@@ -296,10 +296,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleVertexShader.shader">
+    <None Include="SimpleFragmentShader.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="SimpleFragmentShader.shader">
+    <None Include="SimpleVertexShader.ver">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -176,8 +176,8 @@
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleVertexShader.shader" />
-    <None Include="SimpleFragmentShader.shader" />
+    <None Include="SimpleVertexShader.ver" />
+    <None Include="SimpleFragmentShader.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
