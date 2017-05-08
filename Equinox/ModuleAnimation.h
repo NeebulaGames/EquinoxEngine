@@ -55,6 +55,9 @@ public:
 	Anim* GetAnimByName(std::string);
 	bool isAnimInstanceOfAnim(AnimInstanceID animInstance, Anim* anim);
 
+public:
+	Skinning Skinning;
+
 private:
 	static Quat InterpQuaternion(const Quat& first, const Quat& second, float lambda);
 	
@@ -68,7 +71,7 @@ private:
 
 	char* _animationNames = nullptr;
 
-	Skinning skinning;
+	
 };
 
 #endif // __MODULEANIMATION_H__

@@ -37,11 +37,11 @@ bool ModuleAnimation::CleanUp()
 		RELEASE(animInstance->next);
 		RELEASE(animInstance);
 	}
-		
 
 	_animations.clear();
 
 	free(_animationNames);
+
 
 	return true;
 }
@@ -77,7 +77,6 @@ void ModuleAnimation::Load(const char* name, const char* file)
 	sprintf_s(filePath, "%s", file);
 
 	const aiScene* scene = aiImportFile(filePath, aiProcessPreset_TargetRealtime_MaxQuality);
-	skinning.Load(scene);
 
 	aiAnimation** animations = scene->mAnimations;
 

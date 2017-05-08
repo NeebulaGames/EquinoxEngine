@@ -3,7 +3,9 @@
 
 #include <MathGeoLib/include/Math/float4x4.h>
 
+struct Mesh;
 struct aiScene;
+struct aiMesh;
 
 struct BoneWeight
 {
@@ -14,7 +16,7 @@ struct BoneWeight
 struct Bone
 {
 	std::string Name;
-	BoneWeight* weights = nullptr;
+	BoneWeight* Weights = nullptr;
 	unsigned NumWeights = 0;
 	float4x4 Bind;
 };
@@ -25,7 +27,7 @@ public:
 	Skinning();
 	~Skinning();
 
-	void Load(const aiScene* scene);
+	static void Load(aiMesh* aiMesh, Mesh* mesh);
 
 
 

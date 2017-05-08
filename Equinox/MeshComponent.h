@@ -1,8 +1,8 @@
 ﻿#ifndef __COMPONENT_MESH_H__
 #define __COMPONENT_MESH_H__
+#include <assimp/vector3.h>
 #include "BaseComponent.h"
 #include <GL/glew.h>
-#include <assimp/vector3.h>
 #include <list>
 #include "MaterialComponent.h"
 #include "Skinning.h"

@@ -19,7 +19,7 @@ public:
 
 public:
 	AnimInstanceID AnimInstanceID = -1;
-
+	
 };
 
 #endif

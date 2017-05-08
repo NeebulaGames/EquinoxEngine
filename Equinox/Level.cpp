@@ -55,6 +55,12 @@ bool Level::CleanUp()
 	}
 	for (Mesh* mesh : meshes)
 	{
+		for(Bone* bone : mesh->Bones)
+		{
+			RELEASE_ARRAY(bone->Weights);
+			RELEASE(bone);
+		}
+
 		RELEASE(mesh);
 	}
 
@@ -188,6 +194,8 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 	{
 		Mesh* mesh = new Mesh;
 		aiMesh* aMesh = scene->mMeshes[i];
+
+		App->animator->Skinning.Load(aMesh, mesh);
 
 		mesh->num_vertices = aMesh->mNumVertices;
 		mesh->num_indices = aMesh->mNumFaces * 3;
