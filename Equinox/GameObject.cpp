@@ -73,6 +73,8 @@ void GameObject::AddComponent(BaseComponent* component)
 
 		if (component->Name == "Transform")
 			_transform = static_cast<TransformComponent*>(component);
+
+		component->Attached();
 	}
 }
 

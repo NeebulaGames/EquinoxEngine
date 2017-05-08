@@ -18,7 +18,7 @@ btRigidBody* ModulePhysics::AddBody(const float3& box, btMotionState* component)
 #pragma push_macro("new")
 #undef new
 	float mass = 1.0f; // 0.0f would create a static or inmutable body
-	
+
 	btCollisionShape* colShape = new btBoxShape(btVector3(box.x, box.y, box.z)); // regular box
 	shapes.push_back(colShape);
 
@@ -32,6 +32,16 @@ btRigidBody* ModulePhysics::AddBody(const float3& box, btMotionState* component)
 	_world->addRigidBody(body);
 	return body;
 #pragma pop_macro("new")
+}
+
+void ModulePhysics::RemoveBody(btRigidBody* rigidBody)
+{
+	if (rigidBody)
+	{
+		shapes.remove(rigidBody->getCollisionShape());
+		_world->removeRigidBody(rigidBody);
+		RELEASE(rigidBody);
+	}
 }
 
 bool ModulePhysics::Init()

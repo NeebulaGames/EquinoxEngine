@@ -199,6 +199,9 @@
     <ClInclude Include="DebugDrawer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBodyComponent.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -308,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="DebugDrawer.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp">
+      <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

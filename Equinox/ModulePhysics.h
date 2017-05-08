@@ -16,6 +16,7 @@ public:
 	~ModulePhysics();
 
 	btRigidBody* AddBody(const float3& box, btMotionState* component);
+	void RemoveBody(btRigidBody* rigidBody);
 
 	bool Init() override;
 	update_status PreUpdate(float DeltaTime) override;

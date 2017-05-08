@@ -91,6 +91,7 @@
     <ClInclude Include="Billboard.h" />
     <ClInclude Include="BillboardComponent.h" />
     <ClInclude Include="BillboardGridComponent.h" />
+    <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ComplexTimer.h" />
     <ClInclude Include="CoordinateArrows.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Billboard.cpp" />
     <ClCompile Include="BillboardComponent.cpp" />
     <ClCompile Include="BillboardGridComponent.cpp" />
+    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CoordinateArrows.cpp" />
     <ClCompile Include="Cube.cpp" />
