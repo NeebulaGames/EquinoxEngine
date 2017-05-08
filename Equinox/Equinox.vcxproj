@@ -129,6 +129,7 @@
     <ClInclude Include="ModuleSceneManager.h" />
     <ClInclude Include="Point3.h" />
     <ClInclude Include="Primitive.h" />
+    <ClInclude Include="ProgramManager.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Rectangle3.h" />
     <ClInclude Include="Scene.h" />
@@ -170,8 +171,13 @@
     <ClCompile Include="parson.c" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="ProgramManager.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleVertexShader.shader" />
+    <None Include="SimpleFragmentShader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
