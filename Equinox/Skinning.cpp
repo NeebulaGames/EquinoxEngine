@@ -32,3 +32,8 @@ void Skinning::Load(aiMesh* aiMesh , Mesh* mesh)
 		}
 	}
 }
+
+void Skinning::UpdateVertexs(Mesh* mesh)
+{
+
+}

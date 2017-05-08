@@ -28,7 +28,7 @@ public:
 	~Skinning();
 
 	static void Load(aiMesh* aiMesh, Mesh* mesh);
-
+	void UpdateVertexs(Mesh* mesh);
 
 
 };

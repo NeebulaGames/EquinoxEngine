@@ -13,10 +13,24 @@ AnimationComponent::~AnimationComponent()
 {
 }
 
+void AnimationComponent::BeginPlay()
+{
+	meshComponent = static_cast<MeshComponent*>(Parent->GetComponentByName("MeshComponent"));
+}
+
+
 void AnimationComponent::Update(float DeltaTime)
 {
 	if(AnimInstanceID >= 0)
 		TransformChild(Parent);
+
+	if(meshComponent)
+	{
+		for(Mesh* mesh : meshComponent->Meshes)
+		{
+			App->animator->Skinning.UpdateVertexs(mesh);
+		}
+	}
 }
 
 void AnimationComponent::DrawUI()

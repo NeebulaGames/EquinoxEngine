@@ -3,6 +3,7 @@
 
 #include "BaseComponent.h"
 #include "ModuleAnimation.h"
+#include "MeshComponent.h"
 
 class AnimationComponent :
 	public BaseComponent
@@ -12,6 +13,7 @@ public:
 	AnimationComponent();
 	~AnimationComponent();
 
+	void BeginPlay() override;
 	void Update(float DeltaTime) override;
 	void DrawUI() override;
 
@@ -19,7 +21,7 @@ public:
 
 public:
 	AnimInstanceID AnimInstanceID = -1;
-	
+	MeshComponent* meshComponent = nullptr;
 };
 
 #endif
