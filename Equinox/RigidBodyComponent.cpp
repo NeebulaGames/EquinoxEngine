@@ -29,6 +29,7 @@ void RigidBodyComponent::Attached()
 
 void RigidBodyComponent::BeginPlay()
 {
+	CreateBody();
 }
 
 void RigidBodyComponent::Update(float dt)
@@ -38,9 +39,16 @@ void RigidBodyComponent::Update(float dt)
 	_rigidBody->translate(btVector3(position.x, position.y, position.z));
 }
 
-void RigidBodyComponent::CleanUp()
+void RigidBodyComponent::EndPlay()
 {
 	App->physics->RemoveBody(_rigidBody);
+	_rigidBody = nullptr;
+}
+
+void RigidBodyComponent::CleanUp()
+{
+	if (_rigidBody != nullptr)
+		App->physics->RemoveBody(_rigidBody);
 	_rigidBody = nullptr;
 }
 
