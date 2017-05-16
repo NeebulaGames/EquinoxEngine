@@ -1,9 +1,10 @@
 ﻿#ifndef __COMPONENT_ANIMATION_H__
 #define __COMPONENT_ANIMATION_H__
 
+#include "MeshComponent.h"
 #include "BaseComponent.h"
 #include "ModuleAnimation.h"
-#include "MeshComponent.h"
+
 
 class AnimationComponent :
 	public BaseComponent
@@ -18,6 +19,7 @@ public:
 	void DrawUI() override;
 
 	void TransformChild(GameObject* parent) const;
+	void UpdateVertexChild(GameObject* parent, Mesh* mesh);
 
 public:
 	AnimInstanceID AnimInstanceID = -1;

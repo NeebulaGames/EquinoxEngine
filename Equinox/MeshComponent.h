@@ -1,11 +1,12 @@
 ﻿#ifndef __COMPONENT_MESH_H__
 #define __COMPONENT_MESH_H__
-#include <assimp/vector3.h>
+#include <assimp/mesh.h>
 #include "BaseComponent.h"
 #include <GL/glew.h>
 #include <list>
 #include "MaterialComponent.h"
 #include "Skinning.h"
+
 
 struct Mesh
 {
@@ -14,8 +15,10 @@ struct Mesh
 	GLuint normalID = 0;
 	GLuint textureCoordsID = 0;
 	int materialInComponent = 0;
-	aiVector3D** textureCoords;
+	float3* textureCoords[AI_MAX_NUMBER_OF_TEXTURECOORDS];
 	GLuint indexesID = 0;
+	float3* vertices;
+	float3* normals;
 	unsigned num_vertices = 0;
 	unsigned num_indices = 0;
 	AABB boundingBox;

@@ -28,7 +28,7 @@ public:
 	~Skinning();
 
 	static void Load(aiMesh* aiMesh, Mesh* mesh);
-	void UpdateVertexs(Mesh* mesh);
+	void UpdateVertexs(float4x4 globalMatrixBindPos, float4x4 gloabalMatrixPos, float weight);
 
 
 };

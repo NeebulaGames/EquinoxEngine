@@ -28,7 +28,7 @@ void AnimationComponent::Update(float DeltaTime)
 	{
 		for(Mesh* mesh : meshComponent->Meshes)
 		{
-			App->animator->Skinning.UpdateVertexs(mesh);
+			UpdateVertexChild(Parent, mesh);
 		}
 	}
 }
@@ -68,4 +68,21 @@ void AnimationComponent::TransformChild(GameObject* parent) const
 		
 		TransformChild(child);
 	}
+}
+
+void AnimationComponent::UpdateVertexChild(GameObject* parent, Mesh* mesh)
+{
+	for(GameObject* child : parent->GetChilds())
+	{
+		for(Bone* bone : mesh->Bones)
+		{
+			if (child->Name.compare(bone->Name) == 0)
+			{
+				//Use Skinning formula from Skinning.cpp to update each vertex
+				//Update vertex array of mesh
+			}
+		}
+		
+	}
+
 }

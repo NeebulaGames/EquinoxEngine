@@ -61,6 +61,12 @@ bool Level::CleanUp()
 			RELEASE(bone);
 		}
 
+		for (int i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++i)
+			RELEASE_ARRAY(mesh->textureCoords[i]);
+
+		RELEASE_ARRAY(mesh->vertices);
+		RELEASE_ARRAY(mesh->normals);
+
 		RELEASE(mesh);
 	}
 
@@ -199,6 +205,25 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 
 		mesh->num_vertices = aMesh->mNumVertices;
 		mesh->num_indices = aMesh->mNumFaces * 3;
+
+		mesh->vertices = new float3[mesh->num_vertices];
+		mesh->normals = new float3[mesh->num_vertices];
+		
+		for(int i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++i)
+		{
+			mesh->textureCoords[i] = new float3[mesh->num_vertices];
+		}
+
+		for(unsigned i = 0; i < mesh->num_vertices; ++i)
+		{
+			mesh->vertices[i] = float3(aMesh->mVertices[i].x, aMesh->mVertices[i].y, aMesh->mVertices[i].z);
+			mesh->normals[i] = float3(aMesh->mNormals[i].x, aMesh->mNormals[i].y, aMesh->mNormals[i].z);
+			for(unsigned j = 0; j < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++j)
+			{
+				if(aMesh->mTextureCoords[j] != nullptr)
+					mesh->textureCoords[j][i] = float3(aMesh->mTextureCoords[j][i].x, aMesh->mTextureCoords[j][i].y, aMesh->mTextureCoords[j][i].z);
+			}
+		}
 		
 		GLuint* indexes = new Uint32[aMesh->mNumFaces * 3];
 
@@ -213,25 +238,25 @@ void Level::loadMeshes(const aiScene* scene, const char* path)
 
 		mesh->material = aMesh->mMaterialIndex;
 
-		if (aMesh->mVertices != nullptr)
+		if (mesh->vertices != nullptr)
 		{
 			glGenBuffers(1, &mesh->vertexID);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexID);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->num_vertices * 3, &aMesh->mVertices[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * mesh->num_vertices, &mesh->vertices[0], GL_STATIC_DRAW);
 		}
 
-		if (aMesh->mNormals != nullptr)
+		if (mesh->normals != nullptr)
 		{
 			glGenBuffers(1, &mesh->normalID);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->normalID);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mesh->num_vertices * 3, &aMesh->mNormals[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * mesh->num_vertices, &mesh->normals[0], GL_STATIC_DRAW);
 		}
 		
-		if (aMesh->mTextureCoords[0] != nullptr)
+		if (mesh->textureCoords[0] != nullptr)
 		{
 			glGenBuffers(1, &mesh->textureCoordsID);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->textureCoordsID);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(aiVector3D) * mesh->num_vertices, &aMesh->mTextureCoords[0][0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * mesh->num_vertices, &mesh->textureCoords[0][0], GL_STATIC_DRAW);
 		}
 
 		glGenBuffers(1, &mesh->indexesID);
