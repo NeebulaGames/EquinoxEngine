@@ -26,9 +26,6 @@
     <Filter Include="GameObject\Components">
       <UniqueIdentifier>{68192a36-02bc-4de9-9e93-6dc57eeecade}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{829409d9-2a14-42da-9877-d878fcc379c4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleRender.h">
@@ -294,13 +291,5 @@
     <ClCompile Include="ProgramManager.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SimpleFragmentShader.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="SimpleVertexShader.ver">
-      <Filter>Shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>

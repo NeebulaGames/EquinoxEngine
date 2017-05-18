@@ -24,6 +24,9 @@
 #include "Level.h"
 #include "ParticleEmitter.h"
 #include "TransformComponent.h"
+#include "ProgramManager.h"
+
+struct ShaderProgram;
 
 ModuleRender::ModuleRender()
 {
@@ -106,6 +109,20 @@ bool ModuleRender::Start()
 		_scene->AddToScene(goPS);
 
 		////////////
+
+		/////////// SHADER TEST
+		ProgramManager* pManager = App->programManager;
+		ShaderProgram* program = pManager->CreateProgram("shaderTest");
+
+		pManager->AddShaderToProgram(program, "Shaders/SimpleFragmentShader.frag", GL_FRAGMENT_SHADER);
+		pManager->AddShaderToProgram(program, "Shaders/SimpleVertexShader.ver", GL_VERTEX_SHADER);
+
+		if(!pManager->UseProgram("shaderTest"))
+		{
+			LOG("Error using program.");
+		}
+
+		/////////// 
 
 		objects.push_back(new CoordinateArrows());
 	}
