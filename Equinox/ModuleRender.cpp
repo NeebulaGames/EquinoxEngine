@@ -26,6 +26,7 @@
 #include "TransformComponent.h"
 #include "BillboardComponent.h"
 #include "BillboardGridComponent.h"
+#include "RigidBodyComponent.h"
 
 ModuleRender::ModuleRender()
 {
@@ -116,6 +117,9 @@ bool ModuleRender::Start()
 		grassBill->n = 10;
 		grass->AddComponent(grassBill);
 		_scene->LinkGameObject(grass, _scene->GetRootNode());
+
+		GameObject* house = _scene->FindGameObject("g City_building_004");
+		house->AddComponent(new RigidBodyComponent);
 
 		_scene->AddToScene(goPS);
 

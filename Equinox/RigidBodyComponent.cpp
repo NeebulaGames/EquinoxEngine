@@ -1,4 +1,7 @@
+#pragma push_macro("new")
+#undef new
 #include <BulletDynamics/Dynamics/btRigidBody.h>
+#pragma pop_macro("new")
 #include "RigidBodyComponent.h"
 #include "GameObject.h"
 #include "Engine.h"
@@ -6,12 +9,12 @@
 #include "TransformComponent.h"
 #include <MathGeoLib/include/Math/float4x4.h>
 #include <MathGeoLib/include/Math/float3x3.h>
+#include "IMGUI/imgui.h"
 
 RigidBodyComponent::RigidBodyComponent()
 {
 	Name = "BoxCollider";
 }
-
 
 RigidBodyComponent::~RigidBodyComponent()
 {
@@ -19,24 +22,19 @@ RigidBodyComponent::~RigidBodyComponent()
 
 void RigidBodyComponent::Attached()
 {
-	if (!_defined)
-	{
-		AABB boundingBox = Parent->BoundingBox;
-		vec size = boundingBox.HalfSize();
-		SetSize(size);
-	}
+	AABB boundingBox = Parent->BoundingBox;
+	vec size = boundingBox.HalfSize();
+	_gravity = App->physics->GetGravity();
+	SetSize(size);
 }
 
 void RigidBodyComponent::BeginPlay()
 {
-	CreateBody();
+	createBody();
 }
 
 void RigidBodyComponent::Update(float dt)
 {
-	float3 position = Parent->GetTransform()->Position;
-
-	_rigidBody->translate(btVector3(position.x, position.y, position.z));
 }
 
 void RigidBodyComponent::EndPlay()
@@ -50,6 +48,15 @@ void RigidBodyComponent::CleanUp()
 	if (_rigidBody != nullptr)
 		App->physics->RemoveBody(_rigidBody);
 	_rigidBody = nullptr;
+}
+
+void RigidBodyComponent::DrawUI()
+{
+	float3 gravity = _gravity;
+	ImGui::InputFloat3("Gravity", &gravity[0], -1, ImGuiInputTextFlags_CharsDecimal);
+
+	if (!gravity.Equals(_gravity))
+		SetGravity(gravity);
 }
 
 void RigidBodyComponent::getWorldTransform(btTransform& worldTrans) const
@@ -69,7 +76,7 @@ void RigidBodyComponent::setWorldTransform(const btTransform& worldTrans)
 	float4x4 new_global(Quat(rot.x(), rot.y(), rot.z(), rot.w()), float3(pos.x(), pos.y(), pos.z()));
 
 	// now find out our new local transformation in order to meet the global one from physics
-	float4x4 new_local = new_global * Parent->GetTransform()->GetTransformMatrix().Inverted();
+	float4x4 new_local = new_global * Parent->GetParent()->GetTransform()->GetTransformMatrix().Inverted();
 	float3 translation, scale;
 	Quat rotation;
 
@@ -79,9 +86,10 @@ void RigidBodyComponent::setWorldTransform(const btTransform& worldTrans)
 	Parent->GetTransform()->Scale = scale;
 }
 
-void RigidBodyComponent::CreateBody()
+void RigidBodyComponent::createBody()
 {
 	_rigidBody = App->physics->AddBody(_box, this);
+	_rigidBody->setGravity(btVector3(_gravity.x, _gravity.y, _gravity.z));
 }
 
 void RigidBodyComponent::SetSize(float x, float y, float z)
@@ -89,7 +97,20 @@ void RigidBodyComponent::SetSize(float x, float y, float z)
 	SetSize(float3(x, y, z));
 }
 
-void RigidBodyComponent::SetSize(float3 halfSize)
+void RigidBodyComponent::SetSize(const float3& halfSize)
 {
 	_box = halfSize;
+}
+
+float3 RigidBodyComponent::GetGravity() const
+{
+	return _gravity;
+}
+
+void RigidBodyComponent::SetGravity(const float3& gravity)
+{
+	_gravity = gravity;
+
+	if (_rigidBody)
+		_rigidBody->setGravity(btVector3(_gravity.x, _gravity.y, _gravity.z));
 }

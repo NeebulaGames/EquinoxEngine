@@ -40,8 +40,14 @@ void ModulePhysics::RemoveBody(btRigidBody* rigidBody)
 	{
 		shapes.remove(rigidBody->getCollisionShape());
 		_world->removeRigidBody(rigidBody);
-		RELEASE(rigidBody);
+		//RELEASE(rigidBody);
 	}
+}
+
+float3 ModulePhysics::GetGravity() const
+{
+	btVector3 gravity = _world->getGravity();
+	return float3(&gravity[0]);
 }
 
 bool ModulePhysics::Init()

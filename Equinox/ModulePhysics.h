@@ -17,6 +17,7 @@ public:
 
 	btRigidBody* AddBody(const float3& box, btMotionState* component);
 	void RemoveBody(btRigidBody* rigidBody);
+	float3 GetGravity() const;
 
 	bool Init() override;
 	update_status PreUpdate(float DeltaTime) override;

@@ -104,9 +104,9 @@ void Level::DrawUI()
 	ImGui::End();
 }
 
-GameObject* Level::FindGameObject(const char* name)
+GameObject* Level::FindGameObject(const char* name) const
 {
-	return nullptr;
+	return findGameObject(name, root);
 }
 
 void Level::LinkGameObject(GameObject* node, GameObject* destination)
@@ -120,6 +120,21 @@ void Level::AddToScene(GameObject* go)
 	{
 		LinkGameObject(go, root);
 	}
+}
+
+GameObject* Level::findGameObject(const char* name, GameObject* node) const
+{
+	if (node->Name == name)
+		return node;
+
+	for(GameObject* child : node->GetChilds())
+	{
+		GameObject* res = findGameObject(name, child);
+		if (res) 
+			return res;
+	}
+
+	return nullptr;
 }
 
 void Level::loadNodes(aiNode* originalNode, GameObject* node)
