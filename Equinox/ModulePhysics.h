@@ -15,7 +15,11 @@ public:
 	ModulePhysics();
 	~ModulePhysics();
 
-	btRigidBody* AddBody(const float3& box, btMotionState* component);
+	btRigidBody* AddBody(btCollisionShape* shape, btMotionState* component);
+	btRigidBody* AddBoxBody(const float3& halfExtent, btMotionState* component);
+	btRigidBody* AddCapsuleBody(float radius, float height, btMotionState* component);
+	btRigidBody* AddSphereBody(float radius, btMotionState* component);
+	btRigidBody* AddCylinderBody(const float3& halfExtent, btMotionState* component);
 	void RemoveBody(btRigidBody* rigidBody);
 	float3 GetGravity() const;
 

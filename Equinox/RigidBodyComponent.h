@@ -12,6 +12,14 @@ class RigidBodyComponent :
 {
 	DEFAULT_COMPONENT_IMPLEMENTATION;
 
+	enum ColliderShape : int
+	{
+		BOX = 0,
+		SPHERE,
+		CAPSULE,
+		CYLINDER
+	};
+
 public:
 	RigidBodyComponent();
 	~RigidBodyComponent();
@@ -34,7 +42,9 @@ public:
 private:
 	void createBody();
 
-	float3 _box;
+	ColliderShape _shape = BOX;
+	float3 _colliderConfig;
+
 	float3 _gravity;
 	class btRigidBody* _rigidBody = nullptr;
 };

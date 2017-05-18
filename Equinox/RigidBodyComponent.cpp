@@ -52,6 +52,24 @@ void RigidBodyComponent::CleanUp()
 
 void RigidBodyComponent::DrawUI()
 {
+	int colliderShape = _shape;
+	ImGui::Combo("Collider shape", &colliderShape, "Box\0Sphere\0Capsule\0Cylinder\0");
+	_shape = static_cast<ColliderShape>(colliderShape);
+
+	switch (_shape)
+	{
+	case BOX:
+	case CYLINDER:
+		ImGui::InputFloat3("Size", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
+		break;
+	case SPHERE:
+		ImGui::InputFloat("Radius", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
+		break;
+	case CAPSULE:
+		ImGui::InputFloat2("Extents", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
+		break;
+	}
+
 	float3 gravity = _gravity;
 	ImGui::InputFloat3("Gravity", &gravity[0], -1, ImGuiInputTextFlags_CharsDecimal);
 
@@ -88,7 +106,22 @@ void RigidBodyComponent::setWorldTransform(const btTransform& worldTrans)
 
 void RigidBodyComponent::createBody()
 {
-	_rigidBody = App->physics->AddBody(_box, this);
+	switch (_shape)
+	{
+	case BOX:
+		_rigidBody = App->physics->AddBoxBody(_colliderConfig, this);
+		break;
+	case SPHERE:
+		_rigidBody = App->physics->AddSphereBody(_colliderConfig.x, this);
+		break;
+	case CAPSULE:
+		_rigidBody = App->physics->AddCapsuleBody(_colliderConfig.x, _colliderConfig.y, this);
+		break;
+	case CYLINDER:
+		_rigidBody = App->physics->AddCylinderBody(_colliderConfig, this);
+		break;
+	}
+	
 	_rigidBody->setGravity(btVector3(_gravity.x, _gravity.y, _gravity.z));
 }
 
@@ -97,9 +130,9 @@ void RigidBodyComponent::SetSize(float x, float y, float z)
 	SetSize(float3(x, y, z));
 }
 
-void RigidBodyComponent::SetSize(const float3& halfSize)
+void RigidBodyComponent::SetSize(const float3& colliderSize)
 {
-	_box = halfSize;
+	_colliderConfig = colliderSize;
 }
 
 float3 RigidBodyComponent::GetGravity() const

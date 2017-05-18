@@ -13,26 +13,52 @@ ModulePhysics::~ModulePhysics()
 {
 }
 
-btRigidBody* ModulePhysics::AddBody(const float3& box, btMotionState* component)
-{
 #pragma push_macro("new")
 #undef new
+
+btRigidBody* ModulePhysics::AddBody(btCollisionShape* shape, btMotionState* component)
+{
 	float mass = 1.0f; // 0.0f would create a static or inmutable body
 
-	btCollisionShape* colShape = new btBoxShape(btVector3(box.x, box.y, box.z)); // regular box
-	shapes.push_back(colShape);
+	shapes.push_back(shape);
 
 	btVector3 localInertia(0.f, 0.f, 0.f);
-	if (mass != 0.f) 
-		colShape->calculateLocalInertia(mass, localInertia);
-	
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, colShape, localInertia);
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, component, shape, localInertia);
 	btRigidBody* body = new btRigidBody(rbInfo);
-	
+
 	_world->addRigidBody(body);
 	return body;
-#pragma pop_macro("new")
 }
+
+btRigidBody* ModulePhysics::AddBoxBody(const float3& halfExtent, btMotionState* component)
+{
+
+	btCollisionShape* colShape = new btBoxShape(btVector3(halfExtent.x, halfExtent.y, halfExtent.z)); // regular halfExtent
+	return AddBody(colShape, component);
+}
+
+btRigidBody* ModulePhysics::AddCapsuleBody(float radius, float height, btMotionState* component)
+{
+	btCollisionShape* colShape = new btCapsuleShape(radius, height);
+	return AddBody(colShape, component);
+}
+
+btRigidBody* ModulePhysics::AddSphereBody(float radius, btMotionState* component)
+{
+	btCollisionShape* colShape = new btSphereShape(radius);
+	return AddBody(colShape, component);
+}
+
+btRigidBody* ModulePhysics::AddCylinderBody(const float3& halfExtent, btMotionState* component)
+{
+	btCollisionShape* colShape = new btCylinderShape(btVector3(halfExtent.x, halfExtent.y, halfExtent.z));
+	return AddBody(colShape, component);
+}
+
+#pragma pop_macro("new")
 
 void ModulePhysics::RemoveBody(btRigidBody* rigidBody)
 {
@@ -70,9 +96,9 @@ bool ModulePhysics::Init()
 
 update_status ModulePhysics::PreUpdate(float DeltaTime)
 {
+	_world->debugDrawWorld();
 	if (App->editor->IsPlaying())
 	{
-		_world->debugDrawWorld();
 		_world->stepSimulation(DeltaTime, 15);
 	}
 	return UPDATE_CONTINUE;

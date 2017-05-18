@@ -14,9 +14,9 @@ DebugDrawer::~DebugDrawer()
 
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
-	glDisable(GL_LIGHTING);
+ 	glDisable(GL_LIGHTING);
 
-	glBegin(GL_LINE);
+	glBegin(GL_LINES);
 	glColor3f(color.x(), color.y(), color.z());
 	glVertex3fv(from.get128().m128_f32);
 	glVertex3fv(to.get128().m128_f32);
@@ -43,5 +43,5 @@ void DebugDrawer::setDebugMode(int debugMode)
 
 int DebugDrawer::getDebugMode() const
 {
-	return 0;
+	return btIDebugDraw::DebugDrawModes::DBG_MAX_DEBUG_DRAW_MODE;
 }
