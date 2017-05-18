@@ -121,6 +121,12 @@ bool ModuleRender::Start()
 		GameObject* house = _scene->FindGameObject("g City_building_004");
 		house->AddComponent(new RigidBodyComponent);
 
+		house = _scene->FindGameObject("g City_building_038");
+		house->AddComponent(new RigidBodyComponent);
+
+		GameObject* plane = _scene->FindGameObject("g Plane001");
+		plane->AddComponent(new RigidBodyComponent);
+
 		_scene->AddToScene(goPS);
 
 		////////////
