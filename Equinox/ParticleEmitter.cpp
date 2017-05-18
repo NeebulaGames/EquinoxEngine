@@ -31,33 +31,37 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::Update(float dt)
 {
-	checkValues();
-
-	generateParticles();
-
-	for (Particle* particle : ParticlePool)
+	if (_editorSimulation || App->editor->IsPlaying())
 	{
-		if (particle->IsAlive)
+		checkValues();
+
+		generateParticles();
+
+		for (Particle* particle : ParticlePool)
 		{
-			drawParticle(particle);
-
-			// Update particle position & time;
-			particle->Position = particle->Position + particle->Velocity * dt;
-			particle->LifeTime -= dt;
-
-			// When lifetime finish, kill particle
-			if (particle->LifeTime < dt)
+			if (particle->IsAlive)
 			{
-				particle->IsAlive = false;
+				drawParticle(particle);
+
+				// Update particle position & time;
+				particle->Position = particle->Position + particle->Velocity * dt;
+				particle->LifeTime -= dt;
+
+				// When lifetime finish, kill particle
+				if (particle->LifeTime < dt)
+				{
+					particle->IsAlive = false;
+				}
 			}
 		}
 	}
+	else
+		restart();
 }
 
 void ParticleEmitter::EditorUpdate(float dt)
 {
-	if (_editorSimulation && !App->editor->IsPlaying())
-		Update(dt);
+	Update(dt);
 }
 
 void ParticleEmitter::DrawUI()
