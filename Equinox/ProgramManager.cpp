@@ -29,6 +29,8 @@ bool ProgramManager::CleanUp()
 
 		RELEASE(program);
 	}
+
+	programs.clear();
 	
 	return true;
 }
@@ -45,6 +47,8 @@ ShaderProgram* ProgramManager::CreateProgram(const std::string& name)
 
 		return shaderProgram;
 	}
+
+	return nullptr;
 }
 
 void ProgramManager::AddShaderToProgram(ShaderProgram* program, const char* filepath, const GLenum shaderType) const
@@ -99,10 +103,9 @@ bool ProgramManager::UseProgram(const std::string &name) const
 		else
 		{
 			LOG("PROGRAM COMPILED: OK");
+			glUseProgram(GetProgramByName(name)->id);
 			return true;
 		}
-
-		glUseProgram(GetProgramByName(name)->id);
 	}
 }
 
@@ -118,9 +121,9 @@ void ProgramManager::logShaderCompiler(const GLuint shader) const
 	// Delete to avoid leak
 	glDeleteShader(shader);
 
-	LOG("SHADER COMPILER LOG START");
+	LOG("Shader Compiler LOG Start");
 	LOG(&errorLog[0]);
-	LOG("SHADER COMPILER LOG END");
+	LOG("Shader Compiler LOG End");
 }
 
 void ProgramManager::logProgramLinker(const ShaderProgram* program) const
@@ -138,9 +141,9 @@ void ProgramManager::logProgramLinker(const ShaderProgram* program) const
 
 	glDeleteProgram(program->id);
 
-	LOG("PROGRAM LINKER LOG START");
+	LOG("Program Linker LOG Start");
 	LOG(&infoLog[0]);
-	LOG("PROGRAM LINKER LOG END");
+	LOG("Program Linker LOG End");
 }
 
 bool ProgramManager::compileAndAttachProgramShaders(const ShaderProgram* program) const

@@ -111,6 +111,7 @@ bool ModuleRender::Start()
 		////////////
 
 		/////////// SHADER TEST
+		/*
 		ProgramManager* pManager = App->programManager;
 		ShaderProgram* program = pManager->CreateProgram("shaderTest");
 
@@ -121,7 +122,7 @@ bool ModuleRender::Start()
 		{
 			LOG("Error using program.");
 		}
-
+		*/
 		/////////// 
 
 		objects.push_back(new CoordinateArrows());
