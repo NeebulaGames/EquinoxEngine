@@ -88,6 +88,8 @@ void ParticleEmitter::CleanUp()
 	{
 		RELEASE(particle);
 	}
+
+	ParticlePool.clear();
 }
 
 void ParticleEmitter::SetTexture(unsigned textureId)
