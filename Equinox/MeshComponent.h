@@ -20,6 +20,8 @@ struct Mesh
 	AABB boundingBox;
 };
 
+class ShaderProgram;
+
 class MeshComponent :
 	public BaseComponent
 {
@@ -40,6 +42,10 @@ public:
 	const GLfloat DEFAULT_GL_DIFFUSE[4] = { 0.8f, 0.8f, 0.8f, 1.f };
 	const GLfloat DEFAULT_GL_SPECULAR[4] = { 0.f, 0.f, 0.f, 1.f };
 	const GLfloat DEFAULT_GL_SHININESS = 0.f;	
+
+private:
+	ShaderProgram* _shaderTexture;
+	ShaderProgram* _shaderColor;
 };
 
 #endif

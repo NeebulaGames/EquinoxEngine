@@ -90,6 +90,24 @@ bool ModuleRender::Start()
 
 		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
+
+		/////////// SHADER TEST
+
+		ProgramManager* pManager = App->programManager;
+		ShaderProgram* texture_program = pManager->CreateProgram("StandardTextureDiffuse");
+		ShaderProgram* notexture_program = pManager->CreateProgram("StandardColorDiffuse");
+
+		pManager->AddShaderToProgram(texture_program, "Shaders/SimpleVertexShader.ver", GL_VERTEX_SHADER);
+		pManager->AddShaderToProgram(texture_program, "Shaders/SimpleFragmentShader.frag", GL_FRAGMENT_SHADER, { "#define TEXTURE\n" });
+
+		pManager->CompileAndAttachProgramShaders(texture_program);
+
+		pManager->AddShaderToProgram(notexture_program, "Shaders/SimpleVertexShader.ver", GL_VERTEX_SHADER);
+		pManager->AddShaderToProgram(notexture_program, "Shaders/SimpleFragmentShader.frag", GL_FRAGMENT_SHADER);
+
+		pManager->CompileAndAttachProgramShaders(notexture_program);
+
+		/////////// 
     
 		_scene = new Level();
 		_scene->Load("Models/street/", "Street.obj");
@@ -109,21 +127,6 @@ bool ModuleRender::Start()
 		_scene->AddToScene(goPS);
 
 		////////////
-
-		/////////// SHADER TEST
-		/*
-		ProgramManager* pManager = App->programManager;
-		ShaderProgram* program = pManager->CreateProgram("shaderTest");
-
-		pManager->AddShaderToProgram(program, "Shaders/SimpleFragmentShader.frag", GL_FRAGMENT_SHADER);
-		pManager->AddShaderToProgram(program, "Shaders/SimpleVertexShader.ver", GL_VERTEX_SHADER);
-
-		if(!pManager->UseProgram("shaderTest"))
-		{
-			LOG("Error using program.");
-		}
-		*/
-		/////////// 
 
 		objects.push_back(new CoordinateArrows());
 	}

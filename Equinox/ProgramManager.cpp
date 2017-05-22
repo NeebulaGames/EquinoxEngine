@@ -51,7 +51,7 @@ ShaderProgram* ProgramManager::CreateProgram(const std::string& name)
 	return nullptr;
 }
 
-void ProgramManager::AddShaderToProgram(ShaderProgram* program, const char* filepath, const GLenum shaderType) const
+void ProgramManager::AddShaderToProgram(ShaderProgram* program, const char* filepath, const GLenum shaderType, const std::vector<char*>& preprocessor) const
 {
 	if (program != nullptr)
 	{
@@ -69,12 +69,20 @@ void ProgramManager::AddShaderToProgram(ShaderProgram* program, const char* file
 		shaderSource[fileSize] = '\0';
 		fclose(shaderFile);
 
+		char** source = new char*[preprocessor.size() + 1];
+
+		for (int i = 0; i < preprocessor.size(); ++i)
+			source[i] = preprocessor[i];
+
+		source[preprocessor.size()] = shaderSource;
+
 		unsigned int shader = glCreateShader(shaderType);
-		glShaderSource(shader, 1, const_cast<const GLchar**>(&shaderSource), nullptr);
+		glShaderSource(shader, preprocessor.size() + 1, const_cast<const GLchar**>(source), nullptr);
 
 		program->shaders.push_back(shader);
 
 		delete[] shaderSource;
+		delete[] source;
 	}
 }
 
@@ -84,29 +92,24 @@ ShaderProgram* ProgramManager::GetProgramByName(const std::string &name) const
 	return it != programs.end() ? it->second : nullptr;
 }
 
+bool ProgramManager::UseProgram(ShaderProgram* program) const
+{
+	if (program != nullptr)
+	{
+		glUseProgram(program->id);
+		return true;
+	}
+	return false;
+}
+
 bool ProgramManager::UseProgram(const std::string &name) const
 {
 	ShaderProgram* itShader = GetProgramByName(name);
 	if (itShader != nullptr)
 	{
-		compileAndAttachProgramShaders(itShader);
-
-		glLinkProgram(itShader->id);
-
-		GLint isLinked = 0;
-		glGetProgramiv(itShader->id, GL_LINK_STATUS, &isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			logProgramLinker(itShader);
-			return false;
-		}
-		else
-		{
-			LOG("PROGRAM COMPILED: OK");
-			glUseProgram(GetProgramByName(name)->id);
-			return true;
-		}
+		return UseProgram(itShader);
 	}
+	return false;
 }
 
 void ProgramManager::logShaderCompiler(const GLuint shader) const
@@ -146,7 +149,7 @@ void ProgramManager::logProgramLinker(const ShaderProgram* program) const
 	LOG("Program Linker LOG End");
 }
 
-bool ProgramManager::compileAndAttachProgramShaders(const ShaderProgram* program) const
+bool ProgramManager::CompileAndAttachProgramShaders(ShaderProgram* program) const
 {
 	for (GLuint shader : program->shaders) {
 		glCompileShader(shader);
@@ -161,7 +164,22 @@ bool ProgramManager::compileAndAttachProgramShaders(const ShaderProgram* program
 		else {
 			LOG("SHADER COMPILED: OK");
 			glAttachShader(program->id, shader);
-			return true;
 		}
 	}
+
+	glLinkProgram(program->id);
+
+	GLint isLinked = 0;
+	glGetProgramiv(program->id, GL_LINK_STATUS, &isLinked);
+	if (isLinked == GL_FALSE)
+	{
+		logProgramLinker(program);
+		return false;
+	}
+	else
+	{
+		LOG("PROGRAM LINKED: OK");
+		return true;
+	}
+	return true;
 }
