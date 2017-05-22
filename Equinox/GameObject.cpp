@@ -168,7 +168,6 @@ void GameObject::Update(float dt)
 					baseComponent->Update(dt);
 				else // TODO: When serialization is available, back up gameobject tree to disk
 				{
-					_isPlaying = true;
 					BaseComponent::CreateBackup(baseComponent);
 					baseComponent->BeginPlay();
 				}
@@ -177,15 +176,18 @@ void GameObject::Update(float dt)
 			{
 				if (_isPlaying) // TODO: When serialization is available, restore gameobject tree from disk
 				{
-					_isPlaying = false;
 					baseComponent->EndPlay();
 					BaseComponent::RestoreBackup(baseComponent);
 				}
 				else
 					baseComponent->EditorUpdate(App->editor->IsPaused() ? 0 : dt);
 			}
+		
+		
 		}
 	}
+
+	_isPlaying = App->editor->IsPlaying();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
