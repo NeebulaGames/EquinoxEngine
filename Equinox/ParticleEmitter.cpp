@@ -31,37 +31,38 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::Update(float dt)
 {
-	if (_editorSimulation || App->editor->IsPlaying())
+	checkValues();
+
+	generateParticles();
+
+	for (Particle* particle : ParticlePool)
 	{
-		checkValues();
-
-		generateParticles();
-
-		for (Particle* particle : ParticlePool)
+		if (particle->IsAlive)
 		{
-			if (particle->IsAlive)
+			drawParticle(particle);
+
+			// Update particle position & time;
+			particle->Position = particle->Position + particle->Velocity * dt;
+			particle->LifeTime -= dt;
+
+			// When lifetime finish, kill particle
+			if (particle->LifeTime < dt)
 			{
-				drawParticle(particle);
-
-				// Update particle position & time;
-				particle->Position = particle->Position + particle->Velocity * dt;
-				particle->LifeTime -= dt;
-
-				// When lifetime finish, kill particle
-				if (particle->LifeTime < dt)
-				{
-					particle->IsAlive = false;
-				}
+				particle->IsAlive = false;
 			}
 		}
 	}
-	else
-		restart();
 }
 
 void ParticleEmitter::EditorUpdate(float dt)
 {
-	Update(dt);
+	if (_editorSimulation)
+		Update(dt);
+}
+
+void ParticleEmitter::EndPlay()
+{
+	CleanUp();
 }
 
 void ParticleEmitter::DrawUI()
@@ -72,7 +73,7 @@ void ParticleEmitter::DrawUI()
 
 	if (ImGui::Button("Restart"))
 	{
-		restart();
+		CleanUp();
 	}
 
 	ImGui::InputFloat2("Emit Area", &EmitArea[0], -1, ImGuiInputTextFlags_CharsDecimal);
@@ -80,16 +81,6 @@ void ParticleEmitter::DrawUI()
 	ImGui::InputFloat("Fall Height", &FallHeight, -1, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::InputFloat("Fall Speed", &FallSpeed, -1, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::InputFloat("Particle's LifeTime", &LifeTime, -1, ImGuiInputTextFlags_CharsDecimal);
-}
-
-void ParticleEmitter::CleanUp()
-{
-	for (Particle* particle : ParticlePool)
-	{
-		RELEASE(particle);
-	}
-
-	ParticlePool.clear();
 }
 
 void ParticleEmitter::SetTexture(unsigned textureId)
@@ -177,7 +168,7 @@ void ParticleEmitter::generateParticles()
 
 }
 
-void ParticleEmitter::restart()
+void ParticleEmitter::CleanUp()
 {
 	for (Particle* particle : ParticlePool)
 	{
@@ -202,7 +193,7 @@ void ParticleEmitter::checkValues()
 		_controlFallSpeed = FallSpeed;
 		_controlLifeTime = LifeTime;
 
-		restart();
+		CleanUp();
 	}
 
 }
