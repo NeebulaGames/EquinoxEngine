@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "Brofiler.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
@@ -58,7 +59,7 @@ int Engine::Loop()
 {
 	int ret = EXIT_FAILURE;
 	while (state != EXIT)
-	{
+	{ BROFILER_FRAME("YourThreadName")
 		switch (state)
 		{
 		case CREATION:

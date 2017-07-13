@@ -7,6 +7,7 @@
 #include <iterator>
 #include "BaseComponent.h"
 #include "ModuleLighting.h"
+#include <Brofiler.h>
 
 ModuleEditor::ModuleEditor() : Module()
 {
@@ -24,14 +25,14 @@ bool ModuleEditor::Start()
 }
 
 update_status ModuleEditor::PreUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PreUpdateEditor", Profiler::Color::AliceBlue)
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleEditor::Update(float DeltaTime)
-{
+{ BROFILER_CATEGORY("UpdateEditor", Profiler::Color::AntiqueWhite)
 	int w, h;
 	SDL_GetWindowSize(App->window->window, &w, &h);
 
@@ -174,7 +175,7 @@ update_status ModuleEditor::Update(float DeltaTime)
 }
 
 update_status ModuleEditor::PostUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PostUpdateEditor", Profiler::Color::Aqua)
 	ImGui::Render();
 
 	return UPDATE_CONTINUE;

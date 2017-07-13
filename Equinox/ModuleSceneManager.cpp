@@ -1,6 +1,7 @@
 #include "ModuleSceneManager.h"
 #include "Scene.h"
 #include <cassert>
+#include <Brofiler.h>
 
 
 ModuleSceneManager::ModuleSceneManager()
@@ -53,17 +54,17 @@ bool ModuleSceneManager::Start()
 }
 
 update_status ModuleSceneManager::PreUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PreUpdateSceneManager", Profiler::Color::Brown)
 	return _currentScene ? _currentScene->PreUpdate(0) : UPDATE_CONTINUE;
 }
 
 update_status ModuleSceneManager::Update(float DeltaTime)
-{
+{ BROFILER_CATEGORY("UpdateSceneManager", Profiler::Color::BurlyWood)
 	return _currentScene ? _currentScene->Update(0) : UPDATE_CONTINUE;
 }
 
 update_status ModuleSceneManager::PostUpdate(float DeltaTime)
-{
+{ BROFILER_CATEGORY("PostUpdateSceneManager", Profiler::Color::CadetBlue)
 	return _currentScene ? _currentScene->PostUpdate(0) : UPDATE_CONTINUE;
 }
 

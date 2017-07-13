@@ -41,7 +41,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\SDL\include;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\SDL\include;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\DevIL\include;$(SolutionDir)External\Brofiler\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)External;$(SolutionDir)External\DevIL\include;$(IncludePath)</IncludePath>
@@ -58,7 +58,7 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)External\MathGeoLib\$(PlatformTarget)\$(ConfigurationName)\MathGeoLib.lib;opengl32.lib;$(SolutionDir)External\glew-2.0.0\$(PlatformTarget)\glew32.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\DevIL.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILU.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILUT.lib;$(SolutionDir)External\Assimp\$(PlatformTarget)\assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)External\MathGeoLib\$(PlatformTarget)\$(ConfigurationName)\MathGeoLib.lib;opengl32.lib;$(SolutionDir)External\glew-2.0.0\$(PlatformTarget)\glew32.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\DevIL.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILU.lib;$(SolutionDir)External\DevIL\$(PlatformTarget)\Release\ILUT.lib;$(SolutionDir)External\Assimp\$(PlatformTarget)\assimp-vc140-mt.lib;$(SolutionDir)External\Brofiler\$(PlatformTarget)\ProfilerCore32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <CustomBuildStep>
       <Command>
