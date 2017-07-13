@@ -175,11 +175,11 @@
     <ClInclude Include="ModuleAnimation.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationSDL.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Utils</Filter>
+	</ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="ModuleStats.h">
       <Filter>Core Modules</Filter>
@@ -283,6 +283,9 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
       <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -51,6 +51,8 @@ private:
 	void drawHierachy(GameObject* node);
 
 	void cleanUpNodes(GameObject* node);
+
+	GameObject* FindNodes(GameObject* node, const char* name);
 };
 
 #endif // __LEVEL_H__

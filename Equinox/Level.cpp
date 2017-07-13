@@ -9,6 +9,8 @@
 #include "ModuleWindow.h"
 #include "IMGUI/imgui.h"
 #include "ModuleEditor.h"
+#include "ModuleAnimation.h"
+#include "AnimationComponent.h"
 #include "Quadtree.h"
 #include "ModuleEditorCamera.h"
 
@@ -105,7 +107,7 @@ void Level::DrawUI()
 
 GameObject* Level::FindGameObject(const char* name)
 {
-	return nullptr;
+	return FindNodes(root, name);
 }
 
 void Level::LinkGameObject(GameObject* node, GameObject* destination)
@@ -301,4 +303,20 @@ void Level::cleanUpNodes(GameObject* node)
 		cleanUpNodes(child);
 		RELEASE(child);
 	}
+}
+
+GameObject * Level::FindNodes(GameObject * node, const char * name)
+{
+	for (GameObject* child : node->GetChilds())
+	{
+		if (child->Name == name)
+			return child;
+
+		GameObject* found = FindNodes(child, name);
+
+		if (found)
+			return found;
+	}
+
+	return nullptr;
 }
