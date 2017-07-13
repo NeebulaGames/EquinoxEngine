@@ -18,7 +18,7 @@ BillboardGridComponent::~BillboardGridComponent()
 
 void BillboardGridComponent::Update(float dt)
 {
-	float3 objPosition = Parent->GetTransform()->Position;
+	float3 objPosition = Parent->GetTransform()->GetPosition();
 	for (int i = 0; i < n; ++i)
 	{
 		for (int j = 0; j < m; ++j)

@@ -92,7 +92,7 @@ bool ModuleRender::Start()
 
 		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
-    
+	
 		_scene = new Level();
 		_scene->Load("Models/street/", "Street.obj");
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
@@ -109,7 +109,7 @@ bool ModuleRender::Start()
 		goPS->AddComponent(peComponent);
 		GameObject* grass = new GameObject;
 		grass->AddComponent(new TransformComponent);
-		grass->GetTransform()->Position = float3(0.f, 0.3f, 0.f);
+		grass->GetTransform()->SetLocalPosition(float3(0.f, 0.3f, 0.f));
 		unsigned grassTex = App->textures->Load("Models/billboardgrass.png");
 		BillboardGridComponent* grassBill = new BillboardGridComponent;
 		grassBill->SetTexture(grassTex);
@@ -119,6 +119,7 @@ bool ModuleRender::Start()
 		_scene->LinkGameObject(grass, _scene->GetRootNode());
 
 		GameObject* house = _scene->FindGameObject("g City_building_004");
+		house->GetTransform()->SetPosition(float3(0, 10, 0));
 		house->AddComponent(new RigidBodyComponent);
 
 		GameObject* building = _scene->FindGameObject("g City_building_038");

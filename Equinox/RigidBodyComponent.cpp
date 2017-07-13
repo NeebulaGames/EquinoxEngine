@@ -25,6 +25,7 @@ void RigidBodyComponent::Attached()
 	AABB boundingBox = Parent->BoundingBox;
 	vec size = boundingBox.HalfSize();
 	_gravity = App->physics->GetGravity();
+	_center = boundingBox.CenterPoint();
 	SetSize(size);
 }
 
@@ -72,6 +73,7 @@ void RigidBodyComponent::DrawUI()
 
 	float3 gravity = _gravity;
 	ImGui::InputFloat3("Gravity", &gravity[0], -1, ImGuiInputTextFlags_CharsDecimal);
+	ImGui::InputFloat3("Center", &_center[0], -1, ImGuiInputTextFlags_CharsDecimal);
 
 	if (!gravity.Equals(_gravity))
 		SetGravity(gravity);
@@ -80,7 +82,7 @@ void RigidBodyComponent::DrawUI()
 void RigidBodyComponent::getWorldTransform(btTransform& worldTrans) const
 {
 	float4x4 transform = Parent->GetTransform()->GetTransformMatrix();
-	float3 translate = transform.TranslatePart();
+	float3 translate = transform.TranslatePart() + _center;
 	Quat rot = transform.RotatePart().ToQuat();
 	worldTrans.setOrigin(btVector3(translate.x, translate.y, translate.z));
 	worldTrans.setRotation(btQuaternion(rot.x, rot.y, rot.z, rot.w));
@@ -91,17 +93,9 @@ void RigidBodyComponent::setWorldTransform(const btTransform& worldTrans)
 	btQuaternion rot = worldTrans.getRotation();
 	btVector3 pos = worldTrans.getOrigin();
 
-	float4x4 new_global(Quat(rot.x(), rot.y(), rot.z(), rot.w()), float3(pos.x(), pos.y(), pos.z()));
-
-	// now find out our new local transformation in order to meet the global one from physics
-	float4x4 new_local = new_global * Parent->GetParent()->GetTransform()->GetTransformMatrix().Inverted();
-	float3 translation, scale;
-	Quat rotation;
-
-	new_local.Decompose(translation, rotation, scale);
-	Parent->GetTransform()->Position = translation;
-	Parent->GetTransform()->Rotation = rotation;
-	Parent->GetTransform()->Scale = scale;
+	Quat rotation = Quat(rot.x(), rot.y(), rot.z(), rot.w());
+	float4x4 new_global(rotation, float3(pos.x(), pos.y(), pos.z()) - rotation.Mul(_center));
+	Parent->GetTransform()->SetTransformMatrix(new_global);
 }
 
 void RigidBodyComponent::createBody()

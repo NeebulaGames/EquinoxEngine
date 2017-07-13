@@ -184,10 +184,12 @@ void GameObject::Update(float dt)
 				else
 					baseComponent->EditorUpdate(App->editor->IsPaused() ? 0 : dt);
 			}
-		
-		
+
+
 		}
 	}
+
+	glPopMatrix();
 
 	_isPlaying = App->editor->IsPlaying();
 
@@ -200,7 +202,7 @@ void GameObject::Update(float dt)
 		child->Update(dt);
 	}
 
-	glPopMatrix();
+	//glPopMatrix();
 }
 
 bool GameObject::CleanUp()

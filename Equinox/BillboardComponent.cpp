@@ -20,7 +20,7 @@ void BillboardComponent::Update(float dt)
 {
 	float3 up, right;
 	ComputeQuad(*App->editorCamera->GetCamera(), up, right);
-	_billboard->Draw(Parent->GetTransform()->Position, up, right);
+	_billboard->Draw(Parent->GetTransform()->GetPosition(), up, right);
 }
 
 void BillboardComponent::EditorUpdate(float dt)
@@ -43,7 +43,7 @@ void BillboardComponent::ComputeQuad(const CameraComponent& camera, float3& up, 
 
 	if (transform)
 	{
-		float3 position = transform->Position;
+		float3 position = transform->GetPosition();
 		up = float3::unitY;
 		right = (position - camera.Position()).Normalized().Cross(up);
 		right.Normalize();

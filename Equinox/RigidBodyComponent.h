@@ -46,6 +46,7 @@ private:
 	float3 _colliderConfig;
 
 	float3 _gravity;
+	float3 _center;
 	class btRigidBody* _rigidBody = nullptr;
 };
 

@@ -153,11 +153,13 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	originalNode->mTransformation.Decompose(scale, rotation, position);
 	TransformComponent* transform = new TransformComponent;
-	transform->Position = float3(position.x, position.y, position.z);
-	transform->Scale = float3(scale.x, scale.y, scale.z);
-	transform->Rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
-
 	children->AddComponent(transform);
+
+	transform->SetLocalTransformMatrix(float4x4::FromTRS(
+		float3(position.x, position.y, position.z),
+		Quat(rotation.x, rotation.y, rotation.z, rotation.w),
+		float3(scale.x, scale.y, scale.z)
+	));
 
 	std::vector<vec> vertex_boundingbox;
 
