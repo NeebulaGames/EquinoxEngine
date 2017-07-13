@@ -14,6 +14,7 @@
 #include "ModuleSettings.h"
 #include "ModuleAnimation.h"
 #include "ModuleStats.h"
+#include "ProgramManager.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ Engine::Engine()
 	modules.push_back(settings = new ModuleSettings());
 	modules.push_back(animator = new ModuleAnimation());
 	modules.push_back(stats = new ModuleStats);
+	modules.push_back(programManager = new ProgramManager());
 
 	// Game Modules
 	modules.push_back(scene_manager = new ModuleSceneManager());
