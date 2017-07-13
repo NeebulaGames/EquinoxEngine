@@ -23,6 +23,8 @@ public:
 	
 	void Update(float dt) override;
 	void EditorUpdate(float dt) override;
+
+	void EndPlay() override;
 	void DrawUI() override;
 	void CleanUp() override;
 
@@ -45,7 +47,6 @@ private:
 
 	void drawParticle(Particle* particle);
 	void generateParticles();
-	void restart();
 	void checkValues();
 
 	void ComputeQuad(const CameraComponent& camera, float3& up, float3& right, Particle* particle) const;

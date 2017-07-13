@@ -56,8 +56,13 @@ void ParticleEmitter::Update(float dt)
 
 void ParticleEmitter::EditorUpdate(float dt)
 {
-	if (_editorSimulation && !App->editor->IsPlaying())
+	if (_editorSimulation)
 		Update(dt);
+}
+
+void ParticleEmitter::EndPlay()
+{
+	CleanUp();
 }
 
 void ParticleEmitter::DrawUI()
@@ -68,7 +73,7 @@ void ParticleEmitter::DrawUI()
 
 	if (ImGui::Button("Restart"))
 	{
-		restart();
+		CleanUp();
 	}
 
 	ImGui::InputFloat2("Emit Area", &EmitArea[0], -1, ImGuiInputTextFlags_CharsDecimal);
@@ -76,14 +81,6 @@ void ParticleEmitter::DrawUI()
 	ImGui::InputFloat("Fall Height", &FallHeight, -1, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::InputFloat("Fall Speed", &FallSpeed, -1, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::InputFloat("Particle's LifeTime", &LifeTime, -1, ImGuiInputTextFlags_CharsDecimal);
-}
-
-void ParticleEmitter::CleanUp()
-{
-	for (Particle* particle : ParticlePool)
-	{
-		RELEASE(particle);
-	}
 }
 
 void ParticleEmitter::SetTexture(unsigned textureId)
@@ -171,7 +168,7 @@ void ParticleEmitter::generateParticles()
 
 }
 
-void ParticleEmitter::restart()
+void ParticleEmitter::CleanUp()
 {
 	for (Particle* particle : ParticlePool)
 	{
@@ -196,7 +193,7 @@ void ParticleEmitter::checkValues()
 		_controlFallSpeed = FallSpeed;
 		_controlLifeTime = LifeTime;
 
-		restart();
+		CleanUp();
 	}
 
 }
