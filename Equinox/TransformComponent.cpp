@@ -64,8 +64,12 @@ void TransformComponent::DrawUI()
 	{
 		SetLocalPosition(position);
 	}
-	float3 rot = GetLocalRotation().ToEulerXYZ() * RadToDeg(GetLocalRotation().Angle());
-	ImGui::SliderFloat3("Rotation", &rot[0], -360, 360, "%.2f deg");
+	float3 rot = RadToDeg(GetLocalRotation().ToEulerXYZ());
+	if (ImGui::SliderFloat3("Rotation", &rot[0], 0, 360, "%.2f deg"))
+	{
+		rot = DegToRad(rot);
+		SetLocalRotation(Quat::FromEulerXYZ(rot.x, rot.y, rot.z));
+	}
 	float3 scale = GetLocalScale();
 	if (ImGui::InputFloat3("Scale", &scale[0], -1, ImGuiInputTextFlags_CharsDecimal))
 	{
@@ -97,7 +101,7 @@ void TransformComponent::SetPosition(const float3& position)
 
 float3 TransformComponent::GetLocalPosition() const
 {
-	return _localTransformMatrix.TranslatePart();
+	return _localPosition;
 }
 
 void TransformComponent::SetLocalPosition(const float3& position)
@@ -105,7 +109,8 @@ void TransformComponent::SetLocalPosition(const float3& position)
 	if (!position.Equals(GetLocalPosition()))
 	{
 		markChildrenDirty();
-		_localTransformMatrix.SetTranslatePart(position);
+		_localPosition = position;
+		regenerateLocalTransform();
 		_dirty = false;
 		recalculateTransform();
 	}
@@ -135,7 +140,7 @@ void TransformComponent::SetRotation(const Quat& rotation)
 
 Quat TransformComponent::GetLocalRotation() const
 {
-	return Quat(_localTransformMatrix.RotatePart());
+	return _localRotation;
 }
 
 void TransformComponent::SetLocalRotation(const Quat& rotation)
@@ -143,37 +148,16 @@ void TransformComponent::SetLocalRotation(const Quat& rotation)
 	if (!rotation.Equals(GetLocalRotation()))
 	{
 		markChildrenDirty();
-		_localTransformMatrix.SetRotatePart(rotation);
+		_localRotation = rotation;
+		regenerateLocalTransform();
 		_dirty = false;
 		recalculateTransform();
-	}
-}
-
-float3 TransformComponent::GetScale()
-{
-	if (_dirty)
-	{
-		recalculateTransform();
-		_dirty = false;
-	}
-	return _transformMatrix.ExtractScale();
-}
-
-void TransformComponent::SetScale(const float3& scale)
-{
-	if (!scale.Equals(GetScale()))
-	{
-		markChildrenDirty();
-		_transformMatrix = float4x4::FromTRS(_transformMatrix.TranslatePart(), 
-			_transformMatrix.RotatePart(), scale);
-		_dirty = false;
-		recalculateLocalTransform();
 	}
 }
 
 float3 TransformComponent::GetLocalScale() const
 {
-	return _localTransformMatrix.ExtractScale();
+	return _localScale;
 }
 
 void TransformComponent::SetLocalScale(const float3& scale)
@@ -181,8 +165,8 @@ void TransformComponent::SetLocalScale(const float3& scale)
 	if (!scale.Equals(GetLocalScale()))
 	{
 		markChildrenDirty();
-		_localTransformMatrix = float4x4::FromTRS(_localTransformMatrix.TranslatePart(), 
-			_localTransformMatrix.RotatePart(), scale);
+		_localScale = scale;
+		regenerateLocalTransform();
 		_dirty = false;
 		recalculateTransform();
 	}
@@ -198,13 +182,18 @@ void TransformComponent::markChildrenDirty()
 	}
 }
 
+void TransformComponent::regenerateLocalTransform()
+{
+	_localTransformMatrix = float4x4::FromTRS(_localPosition, _localRotation, _localScale);
+}
+
 void TransformComponent::recalculateTransform()
 {	
 	_transformMatrix = _localTransformMatrix;
 
 	GameObject* parent = Parent->GetParent();
 	if (parent && parent->GetTransform())
-		_transformMatrix += parent->GetTransform()->GetTransformMatrix();
+		_transformMatrix = _localTransformMatrix * parent->GetTransform()->GetTransformMatrix();
 }
 
 void TransformComponent::recalculateLocalTransform()
@@ -213,5 +202,8 @@ void TransformComponent::recalculateLocalTransform()
 	
 	GameObject* parent = Parent->GetParent();
 	if (parent && parent->GetTransform())
-		_localTransformMatrix -= parent->GetTransform()->GetTransformMatrix();
+		_localTransformMatrix = _transformMatrix * parent->GetTransform()->GetTransformMatrix().Inverted();
+
+	_localPosition = _localTransformMatrix.TranslatePart();
+	_localRotation = _localTransformMatrix.RotatePart().ToQuat();
 }
