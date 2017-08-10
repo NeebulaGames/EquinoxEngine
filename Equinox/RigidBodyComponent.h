@@ -28,6 +28,8 @@ public:
 	void SetSize(const float3& halfSize);
 	float3 GetGravity() const;
 	void SetGravity(const float3& gravity);
+	void SetKinematic(bool kinematic);
+	bool IsKinematic() const;
 
 	void Attached() override;
 	void BeginPlay() override;
@@ -44,6 +46,7 @@ private:
 
 	ColliderShape _shape = BOX;
 	float3 _colliderConfig;
+	bool _isKinematic = false;
 
 	float3 _gravity;
 	float3 _center;

@@ -71,6 +71,12 @@ void RigidBodyComponent::DrawUI()
 		break;
 	}
 
+	bool kinematic = _isKinematic;
+	if (ImGui::Checkbox("Kinematic", &kinematic))
+	{
+		SetKinematic(kinematic);
+	}
+
 	float3 gravity = _gravity;
 	ImGui::InputFloat3("Gravity", &gravity[0], -1, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::InputFloat3("Center", &_center[0], -1, ImGuiInputTextFlags_CharsDecimal);
@@ -117,6 +123,8 @@ void RigidBodyComponent::createBody()
 	}
 	
 	_rigidBody->setGravity(btVector3(_gravity.x, _gravity.y, _gravity.z));
+
+	SetKinematic(_isKinematic);
 }
 
 void RigidBodyComponent::SetSize(float x, float y, float z)
@@ -140,4 +148,26 @@ void RigidBodyComponent::SetGravity(const float3& gravity)
 
 	if (_rigidBody)
 		_rigidBody->setGravity(btVector3(_gravity.x, _gravity.y, _gravity.z));
+}
+
+void RigidBodyComponent::SetKinematic(bool kinematic)
+{
+	if (_rigidBody)
+	{
+		if (kinematic)
+		{
+			_rigidBody->setCollisionFlags(_rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		}
+		else if (_rigidBody->isKinematicObject())
+		{
+			_rigidBody->setCollisionFlags(_rigidBody->getCollisionFlags() ^ btCollisionObject::CF_KINEMATIC_OBJECT);
+		}
+	}
+
+	_isKinematic = kinematic;
+}
+
+bool RigidBodyComponent::IsKinematic() const
+{
+	return _isKinematic;
 }
