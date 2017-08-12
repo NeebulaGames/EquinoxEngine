@@ -20,6 +20,21 @@ RigidBodyComponent::~RigidBodyComponent()
 {
 }
 
+float RigidBodyComponent::GetMass() const
+{
+	return _mass;
+}
+
+void RigidBodyComponent::SetMass(float mass)
+{
+	_mass = mass;
+
+	if (_rigidBody)
+	{
+		_rigidBody->setMassProps(_mass, btVector3());
+	}
+}
+
 void RigidBodyComponent::Attached()
 {
 	AABB boundingBox = Parent->BoundingBox;
@@ -77,6 +92,21 @@ void RigidBodyComponent::DrawUI()
 		SetKinematic(kinematic);
 	}
 
+	if (ImGui::DragFloat3("Linear factor", &_linearFactor[0], 0.05f, 0.f, 1.f))
+	{
+		SetLinearFactor(_linearFactor);
+	}
+
+	if (ImGui::DragFloat3("Angular factor", &_angularFactor[0], 0.05f, 0.f, 1.f))
+	{
+		SetAngularFactor(_angularFactor);
+	}
+
+	if (ImGui::DragFloat("Mass", &_mass, 0.1f, 0.1f, 100000.f))
+	{
+		SetMass(_mass);
+	}
+
 	float3 gravity = _gravity;
 	ImGui::InputFloat3("Gravity", &gravity[0], -1, ImGuiInputTextFlags_CharsDecimal);
 	ImGui::InputFloat3("Center", &_center[0], -1, ImGuiInputTextFlags_CharsDecimal);
@@ -125,6 +155,9 @@ void RigidBodyComponent::createBody()
 	_rigidBody->setGravity(btVector3(_gravity.x, _gravity.y, _gravity.z));
 
 	SetKinematic(_isKinematic);
+	SetLinearFactor(_linearFactor);
+	SetAngularFactor(_angularFactor);
+	SetMass(_mass);
 }
 
 void RigidBodyComponent::SetSize(float x, float y, float z)
@@ -170,4 +203,34 @@ void RigidBodyComponent::SetKinematic(bool kinematic)
 bool RigidBodyComponent::IsKinematic() const
 {
 	return _isKinematic;
+}
+
+float3 RigidBodyComponent::GetLinearFactor() const
+{
+	return _linearFactor;
+}
+
+void RigidBodyComponent::SetLinearFactor(const float3& factor)
+{
+	_linearFactor = factor;
+
+	if (_rigidBody)
+	{
+		_rigidBody->setLinearFactor(btVector3(_linearFactor.x, _linearFactor.y, _linearFactor.z));
+	}
+}
+
+float3 RigidBodyComponent::GetAngularFactor() const
+{
+	return _angularFactor;
+}
+
+void RigidBodyComponent::SetAngularFactor(const float3& factor)
+{
+	_angularFactor = factor;
+
+	if (_rigidBody)
+	{
+		_rigidBody->setAngularFactor(btVector3(_angularFactor.x, _angularFactor.y, _angularFactor.z));
+	}
 }
