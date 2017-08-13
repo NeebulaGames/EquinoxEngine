@@ -46,6 +46,8 @@ void RigidBodyComponent::EndPlay()
 
 void RigidBodyComponent::CleanUp()
 {
+	BaseComponent::CleanUp();
+
 	if (_rigidBody != nullptr)
 		App->physics->RemoveBody(_rigidBody);
 	_rigidBody = nullptr;
