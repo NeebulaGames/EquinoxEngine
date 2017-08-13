@@ -20,21 +20,6 @@ RigidBodyComponent::~RigidBodyComponent()
 {
 }
 
-float RigidBodyComponent::GetMass() const
-{
-	return _mass;
-}
-
-void RigidBodyComponent::SetMass(float mass)
-{
-	_mass = mass;
-
-	if (_rigidBody)
-	{
-		_rigidBody->setMassProps(_mass, btVector3());
-	}
-}
-
 void RigidBodyComponent::Attached()
 {
 	AABB boundingBox = Parent->BoundingBox;
@@ -68,51 +53,74 @@ void RigidBodyComponent::CleanUp()
 
 void RigidBodyComponent::DrawUI()
 {
-	int colliderShape = _shape;
-	ImGui::Combo("Collider shape", &colliderShape, "Box\0Sphere\0Capsule\0Cylinder\0");
-	_shape = static_cast<ColliderShape>(colliderShape);
-
-	switch (_shape)
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowOverlapMode;
+	if (ImGui::TreeNodeEx("Collider shape", flags))
 	{
-	case BOX:
-	case CYLINDER:
-		ImGui::InputFloat3("Size", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
-		break;
-	case SPHERE:
-		ImGui::InputFloat("Radius", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
-		break;
-	case CAPSULE:
-		ImGui::InputFloat2("Extents", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
-		break;
+		int colliderShape = _shape;
+		ImGui::Combo("Collider shape", &colliderShape, "Box\0Sphere\0Capsule\0Cylinder\0");
+		_shape = static_cast<ColliderShape>(colliderShape);
+
+		switch (_shape)
+		{
+		case BOX:
+		case CYLINDER:
+			ImGui::InputFloat3("Size", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
+			break;
+		case SPHERE:
+			ImGui::InputFloat("Radius", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
+			break;
+		case CAPSULE:
+			ImGui::InputFloat2("Extents", &_colliderConfig[0], -1, ImGuiInputTextFlags_CharsDecimal);
+			break;
+		}
+		ImGui::InputFloat3("Center", &_center[0], -1, ImGuiInputTextFlags_CharsDecimal);
+
+		if (_rigidBody && ImGui::Button("Commit to physics engine"))
+			createBody();
+
+		ImGui::TreePop();
 	}
 
-	bool kinematic = _isKinematic;
-	if (ImGui::Checkbox("Kinematic", &kinematic))
+	if (ImGui::TreeNodeEx("Physic configuration", flags))
 	{
-		SetKinematic(kinematic);
+		bool kinematic = _isKinematic;
+		if (ImGui::Checkbox("Kinematic", &kinematic))
+		{
+			SetKinematic(kinematic);
+		}
+
+		if (ImGui::DragFloat3("Linear factor", &_linearFactor[0], 0.05f, 0.f, 1.f))
+		{
+			SetLinearFactor(_linearFactor);
+		}
+
+		if (ImGui::DragFloat3("Angular factor", &_angularFactor[0], 0.05f, 0.f, 1.f))
+		{
+			SetAngularFactor(_angularFactor);
+		}
+
+		if (ImGui::InputFloat3("Gravity", &_gravity[0], -1, ImGuiInputTextFlags_CharsDecimal))
+		{
+			SetGravity(_gravity);
+		}
+
+		ImGui::TreePop();
 	}
 
-	if (ImGui::DragFloat3("Linear factor", &_linearFactor[0], 0.05f, 0.f, 1.f))
+	if (ImGui::TreeNodeEx("Physic properties", flags))
 	{
-		SetLinearFactor(_linearFactor);
+		if (ImGui::DragFloat("Mass", &_mass, 0.1f, 0.1f, 100000.f))
+		{
+			SetMass(_mass);
+		}
+
+		if (ImGui::DragFloat("Restitution", &_restitution, 0.1f))
+		{
+			SetRestitution(_restitution);
+		}
+
+		ImGui::TreePop();
 	}
-
-	if (ImGui::DragFloat3("Angular factor", &_angularFactor[0], 0.05f, 0.f, 1.f))
-	{
-		SetAngularFactor(_angularFactor);
-	}
-
-	if (ImGui::DragFloat("Mass", &_mass, 0.1f, 0.1f, 100000.f))
-	{
-		SetMass(_mass);
-	}
-
-	float3 gravity = _gravity;
-	ImGui::InputFloat3("Gravity", &gravity[0], -1, ImGuiInputTextFlags_CharsDecimal);
-	ImGui::InputFloat3("Center", &_center[0], -1, ImGuiInputTextFlags_CharsDecimal);
-
-	if (!gravity.Equals(_gravity))
-		SetGravity(gravity);
 }
 
 void RigidBodyComponent::getWorldTransform(btTransform& worldTrans) const
@@ -136,6 +144,9 @@ void RigidBodyComponent::setWorldTransform(const btTransform& worldTrans)
 
 void RigidBodyComponent::createBody()
 {
+	if (_rigidBody)
+		App->physics->RemoveBody(_rigidBody);
+
 	switch (_shape)
 	{
 	case BOX:
@@ -158,6 +169,37 @@ void RigidBodyComponent::createBody()
 	SetLinearFactor(_linearFactor);
 	SetAngularFactor(_angularFactor);
 	SetMass(_mass);
+	SetRestitution(_restitution);
+}
+
+float RigidBodyComponent::GetMass() const
+{
+	return _mass;
+}
+
+void RigidBodyComponent::SetMass(float mass)
+{
+	_mass = mass;
+
+	if (_rigidBody)
+	{
+		_rigidBody->setMassProps(_mass, btVector3());
+	}
+}
+
+float RigidBodyComponent::GetRestitution() const
+{
+	return _restitution;
+}
+
+void RigidBodyComponent::SetRestitution(float restitution)
+{
+	_restitution = restitution;
+
+	if (_rigidBody)
+	{
+		_rigidBody->setRestitution(restitution);
+	}
 }
 
 void RigidBodyComponent::SetSize(float x, float y, float z)

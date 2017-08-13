@@ -27,6 +27,8 @@ public:
 
 	float GetMass() const;
 	void SetMass(float size);
+	float GetRestitution() const;
+	void SetRestitution(float restitution);
 	void SetSize(float x, float y, float z);
 	void SetSize(const float3& halfSize);
 	float3 GetGravity() const;
@@ -58,6 +60,7 @@ private:
 	float3 _angularFactor = float3::one;
 
 	float _mass = 1.f;
+	float _restitution = 1.f;
 	float3 _gravity;
 	float3 _center;
 	class btRigidBody* _rigidBody = nullptr;
