@@ -19,7 +19,7 @@ class ModuleTextures;
 class ModuleInput;
 class ModuleAudio;
 class ModuleCollision;
-class ModuleSceneManager;
+class ModuleLevelManager;
 class ModuleTimer;
 class ModuleEditorCamera;
 class ModuleEditor;
@@ -67,7 +67,7 @@ public:
 	ModuleStats* stats;
 
 	// Game modules ---
-	ModuleSceneManager* scene_manager;
+	ModuleLevelManager* level_manager;
 
 	float DeltaTime;
 

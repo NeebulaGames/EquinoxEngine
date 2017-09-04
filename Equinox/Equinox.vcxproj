@@ -116,6 +116,7 @@
     <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="ModuleEditorCamera.h" />
     <ClInclude Include="ModuleInput.h" />
+    <ClInclude Include="ModuleLevelManager.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleSettings.h" />
@@ -126,7 +127,6 @@
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="ModuleSceneManager.h" />
     <ClInclude Include="Point3.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Quadtree.h" />
@@ -160,12 +160,12 @@
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="ModuleEditorCamera.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
+    <ClCompile Include="ModuleLevelManager.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleSettings.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
-    <ClCompile Include="ModuleSceneManager.cpp" />
     <ClCompile Include="ModuleTimer.cpp" />
     <ClCompile Include="parson.c" />
     <ClCompile Include="ParticleEmitter.cpp" />

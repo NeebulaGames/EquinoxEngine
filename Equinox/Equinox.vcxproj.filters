@@ -64,9 +64,6 @@
     <ClInclude Include="Engine.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneManager.h">
-      <Filter>Core Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
@@ -187,6 +184,9 @@
     <ClInclude Include="ParticleEmitter.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleLevelManager.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleRender.cpp">
@@ -212,9 +212,6 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleSceneManager.cpp">
-      <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleTimer.cpp">
       <Filter>Core Modules</Filter>
@@ -284,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="ParticleEmitter.cpp">
       <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleLevelManager.cpp">
+      <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -87,25 +87,6 @@ bool ModuleRender::Start()
 
 		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
-    
-		_scene = new Level();
-		_scene->Load("Models/street/", "Street.obj");
-		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
-		
-		////////////
-		GameObject* goPS = new GameObject;
-		TransformComponent* transform = new TransformComponent;
-		ParticleEmitter* peComponent = new ParticleEmitter(200, float2(50.f, 50.f), 20.f, 1.2f, 15.f);
-		unsigned rainTex = App->textures->Load("Models/rainSprite.tga");
-		//unsigned snowTex = App->textures->Load("Models/simpleflake.tga");
-		peComponent->SetTexture(rainTex);
-		goPS->Name = "ParticleSystem";
-		goPS->AddComponent(transform);
-		goPS->AddComponent(peComponent);
-
-		_scene->AddToScene(goPS);
-
-		////////////
 
 		objects.push_back(new CoordinateArrows());
 	}
@@ -143,12 +124,8 @@ update_status ModuleRender::Update(float DeltaTime)
 {
 	bool ret = true;
 
-	_scene->Update(DeltaTime);
-
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 		(*it)->Draw();
-
-	_scene->DrawUI();
 
 	return ret ? UPDATE_CONTINUE : UPDATE_ERROR;
 }
@@ -170,9 +147,6 @@ bool ModuleRender::CleanUp()
 	{
 		SDL_GL_DeleteContext(context);
 	}
-
-	_scene->CleanUp();
-	RELEASE(_scene);
 
 	for (std::list<Primitive*>::iterator it = objects.begin(); it != objects.end(); ++it)
 	{
