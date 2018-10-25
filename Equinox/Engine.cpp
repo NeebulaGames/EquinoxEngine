@@ -5,7 +5,6 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModuleSceneManager.h"
-#include "ModuleCollision.h"
 #include "ModuleTimer.h"
 #include "ComplexTimer.h"
 #include "ModuleEditorCamera.h"
@@ -14,6 +13,7 @@
 #include "ModuleSettings.h"
 #include "ModuleAnimation.h"
 #include "ModuleStats.h"
+#include "ModulePhysics.h"
 
 using namespace std;
 
@@ -30,6 +30,7 @@ Engine::Engine()
 	modules.push_back(editorCamera = new ModuleEditorCamera());
 
 	modules.push_back(editor = new ModuleEditor());
+	modules.push_back(physics = new ModulePhysics);
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(lighting = new ModuleLighting());
@@ -42,7 +43,6 @@ Engine::Engine()
 	modules.push_back(scene_manager = new ModuleSceneManager());
 
 	// Modules to draw on top of game logic
-	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(timer = new ModuleTimer());
 
 	App = this;

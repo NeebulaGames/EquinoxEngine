@@ -22,6 +22,8 @@ public:
 	
 	virtual ~BaseComponent() {};
 
+	virtual void Attached() {};
+
 	virtual void BeginPlay() {}
 
 	virtual void Update(float dt) {};

@@ -38,12 +38,14 @@ public:
 	GameObject* GetRootNode() { return root; }
 	const GameObject* GetRootNode() const { return root; }
 
-	GameObject* FindGameObject(const char* name);
+	GameObject* FindGameObject(const char* name) const;
 	void LinkGameObject(GameObject* node, GameObject* destination);
 
 	void AddToScene(GameObject* go);
 
 private:
+	GameObject* findGameObject(const char* name, GameObject* node) const;
+
 	void loadNodes(aiNode* originalNode, GameObject* node);
 
 	void loadMeshes(const aiScene* scene, const char* path);

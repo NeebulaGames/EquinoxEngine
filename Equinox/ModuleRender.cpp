@@ -24,6 +24,9 @@
 #include "Level.h"
 #include "ParticleEmitter.h"
 #include "TransformComponent.h"
+#include "BillboardComponent.h"
+#include "BillboardGridComponent.h"
+#include "RigidBodyComponent.h"
 
 ModuleRender::ModuleRender()
 {
@@ -75,6 +78,8 @@ bool ModuleRender::Start()
 		glClearDepth(1.0f);
 		glClearColor(0, 0, 0, 1.f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1f);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_COLOR_MATERIAL);
@@ -87,7 +92,7 @@ bool ModuleRender::Start()
 
 		Quat rotation_plane = Quat::FromEulerXYZ(DEG2RAD(0.f), DEG2RAD(0.f), DEG2RAD(0.f));
 		objects.push_back(new ::Plane(float3(0, 0.f, -5.f), rotation_plane, 60));
-    
+	
 		_scene = new Level();
 		_scene->Load("Models/street/", "Street.obj");
 		App->animator->Load("Idle", "Models/ArmyPilot/Animations/ArmyPilot_Idle.fbx");
@@ -102,6 +107,26 @@ bool ModuleRender::Start()
 		goPS->Name = "ParticleSystem";
 		goPS->AddComponent(transform);
 		goPS->AddComponent(peComponent);
+		GameObject* grass = new GameObject;
+		grass->AddComponent(new TransformComponent);
+		grass->GetTransform()->SetLocalPosition(float3(0.f, 0.3f, 0.f));
+		unsigned grassTex = App->textures->Load("Models/billboardgrass.png");
+		BillboardGridComponent* grassBill = new BillboardGridComponent;
+		grassBill->SetTexture(grassTex);
+		grassBill->m = 10;
+		grassBill->n = 10;
+		grass->AddComponent(grassBill);
+		_scene->LinkGameObject(grass, _scene->GetRootNode());
+
+		GameObject* house = _scene->FindGameObject("g City_building_004");
+		house->GetTransform()->SetPosition(float3(0, 10, 0));
+		house->AddComponent(new RigidBodyComponent);
+
+		GameObject* building = _scene->FindGameObject("g City_building_038");
+		building->AddComponent(new RigidBodyComponent);
+
+		GameObject* plane = _scene->FindGameObject("g Plane001");
+		plane->AddComponent(new RigidBodyComponent);
 
 		_scene->AddToScene(goPS);
 

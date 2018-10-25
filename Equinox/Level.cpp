@@ -11,6 +11,7 @@
 #include "ModuleEditor.h"
 #include "Quadtree.h"
 #include "ModuleEditorCamera.h"
+#include "Engine.h"
 
 Level::Level()
 {
@@ -103,9 +104,9 @@ void Level::DrawUI()
 	ImGui::End();
 }
 
-GameObject* Level::FindGameObject(const char* name)
+GameObject* Level::FindGameObject(const char* name) const
 {
-	return nullptr;
+	return findGameObject(name, root);
 }
 
 void Level::LinkGameObject(GameObject* node, GameObject* destination)
@@ -119,6 +120,21 @@ void Level::AddToScene(GameObject* go)
 	{
 		LinkGameObject(go, root);
 	}
+}
+
+GameObject* Level::findGameObject(const char* name, GameObject* node) const
+{
+	if (node->Name == name)
+		return node;
+
+	for(GameObject* child : node->GetChilds())
+	{
+		GameObject* res = findGameObject(name, child);
+		if (res) 
+			return res;
+	}
+
+	return nullptr;
 }
 
 void Level::loadNodes(aiNode* originalNode, GameObject* node)
@@ -137,11 +153,13 @@ void Level::loadNodes(aiNode* originalNode, GameObject* node)
 
 	originalNode->mTransformation.Decompose(scale, rotation, position);
 	TransformComponent* transform = new TransformComponent;
-	transform->Position = float3(position.x, position.y, position.z);
-	transform->Scale = float3(scale.x, scale.y, scale.z);
-	transform->Rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
-
 	children->AddComponent(transform);
+
+	transform->SetLocalTransformMatrix(float4x4::FromTRS(
+		float3(position.x, position.y, position.z),
+		Quat(rotation.x, rotation.y, rotation.z, rotation.w),
+		float3(scale.x, scale.y, scale.z)
+	));
 
 	std::vector<vec> vertex_boundingbox;
 

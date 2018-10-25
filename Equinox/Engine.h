@@ -18,7 +18,6 @@ class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
 class ModuleAudio;
-class ModuleCollision;
 class ModuleSceneManager;
 class ModuleTimer;
 class ModuleEditorCamera;
@@ -26,6 +25,7 @@ class ModuleEditor;
 class ModuleSettings;
 class ModuleLighting;
 class ModuleAnimation;
+class ModulePhysics;
 
 // Game modules ---
 
@@ -57,13 +57,13 @@ public:
 	ModuleTextures* textures;
 	ModuleInput* input;
 	ModuleAudio* audio;
-	ModuleCollision* collision;
 	ModuleTimer* timer;
 	ModuleEditorCamera* editorCamera;
 	ModuleEditor* editor;
 	ModuleSettings* settings;
 	ModuleLighting* lighting;
 	ModuleAnimation* animator;
+	ModulePhysics* physics;
 	ModuleStats* stats;
 
 	// Game modules ---

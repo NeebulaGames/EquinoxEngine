@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <IL/ilut.h>
 #include "ModuleTextures.h"
+#include "Engine.h"
 
 typedef std::vector<std::vector<int>> VII;
 

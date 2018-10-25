@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Entity.h"
 #include <memory>
+#include <list>
 
 class Scene : public Module
 {
